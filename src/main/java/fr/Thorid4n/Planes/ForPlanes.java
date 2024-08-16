@@ -2,6 +2,7 @@ package fr.Thorid4n.Planes;
 
 import com.mojang.logging.LogUtils;
 
+import fr.Thorid4n.Planes.block.ModBlocks;
 import fr.Thorid4n.Planes.item.ModCreativeModTabs;
 import fr.Thorid4n.Planes.item.ModItems;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -26,9 +27,9 @@ public class ForPlanes {
     public ForPlanes() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		ModCreativeModTabs.register(modEventBus);
-
-		ModItems.register(modEventBus);
+		ModCreativeModTabs.register(modEventBus);		// Register the creative tab
+		ModItems.register(modEventBus);					// Register the items
+		ModBlocks.register(modEventBus);				// Register the blocks
 
 
 

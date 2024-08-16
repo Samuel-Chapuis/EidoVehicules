@@ -1,6 +1,7 @@
 package fr.Thorid4n.Planes.item;
 
 import fr.Thorid4n.Planes.ForPlanes;
+import fr.Thorid4n.Planes.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -22,6 +23,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.RAW_SAPPHIRE.get());
 
                         pOutput.accept(Items.DIAMOND);
+						pOutput.accept(ModBlocks.SAPPHIRE_BLOCK.get());
 
 
                     })
