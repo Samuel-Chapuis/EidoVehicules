@@ -3,11 +3,11 @@
 	"categorie": "misc",
 	"ingredients": [
 		{
-			"item": "forplanes:sapphire_block"
+			"item": "forplanes:titanium_block"
 		}
 	],
 	"result": {
-		"item": "forplanes:sapphire",
+		"item": "forplanes:titanium",
 		"count": 9
 	}
 }

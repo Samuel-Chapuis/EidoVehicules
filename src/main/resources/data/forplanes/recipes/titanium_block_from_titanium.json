@@ -8,10 +8,10 @@
 	],
 	"key": {
 		"#":{
-			"item": "forplanes:sapphire"
+			"item": "forplanes:titanium"
 		}
 	},
 	"result": {
-		"item": "forplanes:sapphire_block"
+		"item": "forplanes:titanium_block"
 	}
 }

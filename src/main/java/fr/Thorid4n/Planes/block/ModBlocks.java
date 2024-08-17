@@ -21,7 +21,7 @@ public class ModBlocks {
 		DeferredRegister.create(ForgeRegistries.BLOCKS, ForPlanes.MOD_ID); // This is a long list of blocks
 
 	
-	public static final RegistryObject<Block> SAPPHIRE_BLOCK = registerBlock("sapphire_block",
+	public static final RegistryObject<Block> TITANIUM_BLOCK = registerBlock("titanium_block",
 		() -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.AMETHYST)));
 
 	

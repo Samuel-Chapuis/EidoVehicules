@@ -1,8 +1,8 @@
 {
-	"item.forplanes.sapphire": "Sapphire",
-	"item.forplanes.raw_sapphire": "Raw Sapphire",
+	"item.forplanes.titanium": "Titanium",
+	"item.forplanes.raw_titanium": "Raw Titanium",
 
-	"block.forplanes.sapphire_block": "Sapphire Block",
+	"block.forplanes.titanium_block": "Titanium Block",
 
 	"creativetab.forplanes_tab": "Forplanes"
 }

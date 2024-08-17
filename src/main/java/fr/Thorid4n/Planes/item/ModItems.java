@@ -11,10 +11,10 @@ public class ModItems {
 	public static final DeferredRegister<Item> ITEMS = 
 		DeferredRegister.create(ForgeRegistries.ITEMS, ForPlanes.MOD_ID); // This is a long list of items
 
-	public static final RegistryObject<Item> SAPPHIRE = ITEMS.register("sapphire",
+	public static final RegistryObject<Item> TITANIUM = ITEMS.register("titanium",
 		() -> new Item(new Item.Properties()));
 
-	public static final RegistryObject<Item> RAW_SAPPHIRE = ITEMS.register("raw_sapphire",
+	public static final RegistryObject<Item> RAW_TITANIUM = ITEMS.register("raw_titanium",
 		() -> new Item(new Item.Properties()));
 
 	
