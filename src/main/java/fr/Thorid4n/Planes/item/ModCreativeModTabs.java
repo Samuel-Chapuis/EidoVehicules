@@ -21,6 +21,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.TITANIUM.get());
                         pOutput.accept(ModItems.RAW_TITANIUM.get());
 						pOutput.accept(ModBlocks.TITANIUM_BLOCK.get());
+						pOutput.accept(ModBlocks.TITANIUM_ORE.get());
 
 
                     })
