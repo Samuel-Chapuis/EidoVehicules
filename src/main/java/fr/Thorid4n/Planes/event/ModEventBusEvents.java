@@ -16,11 +16,5 @@ public class ModEventBusEvents {
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.RHINO.get(), RhinoEntity.createAttributes().build());
-        event.put(ModEntities.YELLOW_PLANE.get(), YellowPlaneEntity.createAttributes().build());
     }
-
-    // @SubscribeEvent
-    // public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-    //     event.registerLayerDefinition(ModModelLayers.YELLOW_PLANE, YellowPlaneModel::createBodyLayer);
-    // }
 }
