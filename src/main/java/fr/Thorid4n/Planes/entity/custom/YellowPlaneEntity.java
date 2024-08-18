@@ -1,17 +1,27 @@
 package fr.Thorid4n.Planes.entity.custom;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 
 public class YellowPlaneEntity extends Entity {
+
+    private float health = 20.0f; // Points de vie de l’avion
+
     public YellowPlaneEntity(EntityType<? extends Entity> type, Level world) {
         super(type, world);
     }
@@ -21,18 +31,126 @@ public class YellowPlaneEntity extends Entity {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-	@Override
+    @Override
     protected void defineSynchedData() {
         // Méthode obligatoire pour les entités ; à implémenter selon tes besoins
     }
 
-	    @Override
+    @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
-        // Gérer la sauvegarde de l'état de l'entité ici
+        this.health = compound.getFloat("Health"); // Charge la santé lors de la sauvegarde
     }
 
-	@Override
+    @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
-        // Gérer la sauvegarde de l'état de l'entité ici
+        compound.putFloat("Health", this.health); // Sauvegarde la santé
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (!this.getCommandSenderWorld().isClientSide && this.isAlive()) {
+            this.health -= amount;
+            System.out.println("Santé de l'avion : " + this.health);
+
+            if (this.health <= 0.0f) {
+                this.dropItem();
+                this.remove(RemovalReason.KILLED);
+            }
+        }
+        return super.hurt(source, amount);
+    }
+
+    private void dropItem() {
+        // Remplace Blocks.DIRT par l'item que tu veux faire tomber (par exemple, un item spécifique à l'avion)
+        ItemStack itemStack = new ItemStack(Blocks.DIRT);
+        ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
+        this.getCommandSenderWorld().addFreshEntity(itemEntity);
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return false; // Assure-toi que l'entité n'est pas invulnérable
+    }
+
+    @Override
+    public boolean isPickable() {
+        return true; // Rend l'entité "attrapable"
+    }
+
+    @Override
+    public boolean isPushable() {
+        return true; // Rend l'entité "poussable"
+    }
+
+    @Override
+    public AABB getBoundingBoxForCulling() {
+        return this.getBoundingBox();
+    }
+
+    // Gérer l'ajout des passagers
+	@Override
+	public void addPassenger(Entity passenger) {
+		super.addPassenger(passenger);
+		if (passenger instanceof Player) {
+			this.customPositionRider(passenger); // Appel à la méthode renommée
+		}
+	}
+	
+	// Positionner le passager dans l'avion (méthode renommée)
+	protected void customPositionRider(Entity passenger) {
+		if (this.hasPassenger(passenger)) {
+			double xOffset = 20D;
+			double yOffset = 0.5D; // Ajuste la hauteur pour que le joueur soit assis correctement
+			double zOffset = 0.0D;
+	
+			passenger.setPos(this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
+		}
+	}
+
+    @Override
+    public boolean canAddPassenger(Entity passenger) {
+        // Limite à un seul passager pour cet avion
+        return this.getPassengers().size() < 1;
+    }
+
+    // Permettre au joueur de monter dans l'avion
+    @Override
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        if (!this.getCommandSenderWorld().isClientSide) {
+            player.startRiding(this); // Le joueur monte dans l'avion
+            return InteractionResult.SUCCESS;
+        }
+        return InteractionResult.CONSUME;
+    }
+
+    // Gérer le déplacement de l'avion
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
+            Player player = (Player) this.getControllingPassenger();
+
+            this.setYRot(player.getYRot());
+            this.yRotO = this.getYRot();
+            this.setXRot(player.getXRot() * 0.5F);
+            this.setRot(this.getYRot(), this.getXRot());
+
+            // Logique pour déplacer l'avion
+            float speed = 0.1f; // Ajuste la vitesse
+            double motionX = -Math.sin(Math.toRadians(this.getYRot())) * speed;
+            double motionZ = Math.cos(Math.toRadians(this.getYRot())) * speed;
+
+            this.setDeltaMovement(motionX, this.getDeltaMovement().y, motionZ);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+        }
+    }
+
+    @Override
+    protected void removePassenger(Entity passenger) {
+        super.removePassenger(passenger);
+        if (passenger instanceof Player) {
+            // Code pour gérer la descente, si nécessaire
+        }
     }
 }
