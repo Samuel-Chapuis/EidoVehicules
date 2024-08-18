@@ -1,0 +1,102 @@
+Structure du dossier pour le volume Windows
+Le numéro de série du volume est 3A43-D485
+C:.
+¦   architecture.txt
+¦   
++---generated
+¦   +---resources
++---main
+¦   +---java
+¦   ¦   +---fr
+¦   ¦       +---Thorid4n
+¦   ¦           +---Planes
+¦   ¦               ¦   ForPlanes.java
+¦   ¦               ¦   
+¦   ¦               +---block
+¦   ¦               ¦       ModBlocks.java
+¦   ¦               ¦       
+¦   ¦               +---entity
+¦   ¦               ¦   ¦   ModEntities.java
+¦   ¦               ¦   ¦   
+¦   ¦               ¦   +---animations
+¦   ¦               ¦   ¦       ModAnimationDefinitions.java
+¦   ¦               ¦   ¦       
+¦   ¦               ¦   +---client
+¦   ¦               ¦   ¦       ModModelLayers.java
+¦   ¦               ¦   ¦       RhinoModel.java
+¦   ¦               ¦   ¦       RhinoRenderer.java
+¦   ¦               ¦   ¦       
+¦   ¦               ¦   +---custom
+¦   ¦               ¦           RhinoEntity.java
+¦   ¦               ¦           
+¦   ¦               +---event
+¦   ¦               ¦       ModEventBusClientEvents.java
+¦   ¦               ¦       ModEventBusEvents.java
+¦   ¦               ¦       ModEvents.java
+¦   ¦               ¦       
+¦   ¦               +---item
+¦   ¦                       ModCreativeModTabs.java
+¦   ¦                       ModItems.java
+¦   ¦                       
+¦   +---resources
+¦       ¦   pack.mcmeta
+¦       ¦   
+¦       +---assets
+¦       ¦   +---forplanes
+¦       ¦       +---blockstates
+¦       ¦       ¦       titanium_block.json
+¦       ¦       ¦       titanium_ore.json
+¦       ¦       ¦       
+¦       ¦       +---lang
+¦       ¦       ¦       en_us.json
+¦       ¦       ¦       
+¦       ¦       +---models
+¦       ¦       ¦   +---block
+¦       ¦       ¦   ¦       titanium_block.json
+¦       ¦       ¦   ¦       titanium_ore.json
+¦       ¦       ¦   ¦       
+¦       ¦       ¦   +---item
+¦       ¦       ¦           raw_titanium.json
+¦       ¦       ¦           titanium.json
+¦       ¦       ¦           titanium_block.json
+¦       ¦       ¦           titanium_ore.json
+¦       ¦       ¦           
+¦       ¦       +---textures
+¦       ¦           +---block
+¦       ¦           ¦       titanium_block.png
+¦       ¦           ¦       titanium_ore.png
+¦       ¦           ¦       
+¦       ¦           +---entity
+¦       ¦           ¦       rhino.png
+¦       ¦           ¦       
+¦       ¦           +---item
+¦       ¦                   raw_titanium.png
+¦       ¦                   titanium.png
+¦       ¦                   
+¦       +---data
+¦       ¦   +---forplanes
+¦       ¦   ¦   +---loot_tables
+¦       ¦   ¦   ¦   +---blocks
+¦       ¦   ¦   ¦           titanium_block.json
+¦       ¦   ¦   ¦           titanium_ore.json
+¦       ¦   ¦   ¦           
+¦       ¦   ¦   +---recipes
+¦       ¦   ¦           titanium_block_from_titanium.json
+¦       ¦   ¦           titanium_from_titanium_block.json
+¦       ¦   ¦           
+¦       ¦   +---minecraft
+¦       ¦       +---tags
+¦       ¦           +---blocks
+¦       ¦               ¦   needs_diamond_tool.json
+¦       ¦               ¦   needs_iron_tool.json
+¦       ¦               ¦   needs_stone_tool.json
+¦       ¦               ¦   
+¦       ¦               +---mineable
+¦       ¦                       pickaxe.json
+¦       ¦                       
+¦       +---META-INF
+¦               mods.toml
+¦               
++---test
+    +---java
+    +---resources

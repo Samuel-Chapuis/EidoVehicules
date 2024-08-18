@@ -21,6 +21,7 @@ public class RhinoRenderer extends MobRenderer<RhinoEntity, RhinoModel<RhinoEnti
     @Override
     public void render(RhinoEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack,
                        MultiBufferSource pBuffer, int pPackedLight) {
+		// pMatrixStack.scale(2f, 2f, 2f); // This allows you to scale the entity
         if(pEntity.isBaby()) {
             pMatrixStack.scale(0.5f, 0.5f, 0.5f);
         }
