@@ -16,14 +16,14 @@ public class ModEntities {
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ForPlanes.MOD_ID);
 
     public static final RegistryObject<EntityType<RhinoEntity>> RHINO =
-            ENTITY_TYPES.register("rhino", () -> EntityType.Builder.of(RhinoEntity::new, MobCategory.CREATURE)
-                    .sized(2.5f, 2.5f).build("rhino"));
+		ENTITY_TYPES.register("rhino", () -> EntityType.Builder.of(RhinoEntity::new, MobCategory.CREATURE)
+				.sized(2.5f, 2.5f).build("rhino"));
 
 	public static final RegistryObject<EntityType<YellowPlaneEntity>> YELLOW_PLANE =
-	ENTITY_TYPES.register("yellow_plane",
-		() -> EntityType.Builder.of(YellowPlaneEntity::new, MobCategory.CREATURE)
-				.sized(1.0f, 1.0f) // Taille de l'entité
-				.build(new ResourceLocation(ForPlanes.MOD_ID, "yellow_plane").toString()));
+		ENTITY_TYPES.register("yellow_plane",
+			() -> EntityType.Builder.of(YellowPlaneEntity::new, MobCategory.MISC)
+					.sized(3.0f, 2.0f) // Taille de l'entité
+					.build(new ResourceLocation(ForPlanes.MOD_ID, "yellow_plane").toString()));
 				
 
 

@@ -37,7 +37,6 @@ public class ForPlanes {
 		ModBlocks.register(modEventBus);				// Register the blocks
 		ModEntities.register(modEventBus);				// Register the entities
 
-
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
