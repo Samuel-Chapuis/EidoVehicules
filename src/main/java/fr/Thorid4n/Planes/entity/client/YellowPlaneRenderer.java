@@ -38,8 +38,8 @@ public class YellowPlaneRenderer extends EntityRenderer<YellowPlaneEntity> {
 		// Applique une rotation sur l'axe X pour redresser l'avion
 		poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
 	
-		// Interpolation fluide de la rotation
-		float interpolatedYaw = Mth.lerp(partialTicks, entity.yRotO, entity.getYRot());
+		// Gestion du passage de l'angle -180 à 180 pour une rotation fluide
+		float interpolatedYaw = interpolateAngle(entity.yRotO, entity.getYRot(), partialTicks);
 		poseStack.mulPose(Axis.YP.rotationDegrees(interpolatedYaw));
 	
 		// Rendu du modèle
@@ -49,5 +49,22 @@ public class YellowPlaneRenderer extends EntityRenderer<YellowPlaneEntity> {
 		poseStack.popPose();
 	
 		super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+	}
+	
+	/**
+	 * Interpole l'angle de rotation en tenant compte des sauts entre -180 et 180 degrés.
+	 */
+	private float interpolateAngle(float startYaw, float endYaw, float partialTicks) {
+		float deltaYaw = endYaw - startYaw;
+	
+		// Ajuste la différence d'angle pour éviter le saut
+		while (deltaYaw < -180.0F) {
+			deltaYaw += 360.0F;
+		}
+		while (deltaYaw >= 180.0F) {
+			deltaYaw -= 360.0F;
+		}
+	
+		return startYaw + partialTicks * deltaYaw;
 	}
 }
