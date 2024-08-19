@@ -29,42 +29,46 @@ public class YellowPlaneRenderer extends EntityRenderer<YellowPlaneEntity> {
 
 	@Override
 	public void render(YellowPlaneEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
-					   net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight) {
+					net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight) {
 		poseStack.pushPose();
-	
+
 		// Ajuste la position du modèle
 		poseStack.translate(0.0D, 1.5D, 0.0D);
-	
+
 		// Applique une rotation sur l'axe X pour redresser l'avion
 		poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
-	
-		// Gestion du passage de l'angle -180 à 180 pour une rotation fluide
+
+		// Interpole l'angle de Yaw (rotation horizontale)
 		float interpolatedYaw = interpolateAngle(entity.yRotO, entity.getYRot(), partialTicks);
 		poseStack.mulPose(Axis.YP.rotationDegrees(interpolatedYaw));
-	
+
+		// Interpole l'angle de Pitch (inclinaison verticale)
+		float interpolatedPitch = interpolateAngle(entity.xRotO, entity.getXRot(), partialTicks);
+		poseStack.mulPose(Axis.XP.rotationDegrees(interpolatedPitch)); // On applique ici la rotation sur l'axe X pour le tangage (pitch)
+
 		// Rendu du modèle
 		var vertexConsumer = buffer.getBuffer(this.model.renderType(this.getTextureLocation(entity)));
 		this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-	
+
 		poseStack.popPose();
-	
+
 		super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
 	}
-	
+
 	/**
 	 * Interpole l'angle de rotation en tenant compte des sauts entre -180 et 180 degrés.
 	 */
-	private float interpolateAngle(float startYaw, float endYaw, float partialTicks) {
-		float deltaYaw = endYaw - startYaw;
-	
+	private float interpolateAngle(float startAngle, float endAngle, float partialTicks) {
+		float deltaAngle = endAngle - startAngle;
+
 		// Ajuste la différence d'angle pour éviter le saut
-		while (deltaYaw < -180.0F) {
-			deltaYaw += 360.0F;
+		while (deltaAngle < -180.0F) {
+			deltaAngle += 360.0F;
 		}
-		while (deltaYaw >= 180.0F) {
-			deltaYaw -= 360.0F;
+		while (deltaAngle >= 180.0F) {
+			deltaAngle -= 360.0F;
 		}
-	
-		return startYaw + partialTicks * deltaYaw;
+
+		return startAngle + partialTicks * deltaAngle;
 	}
 }
