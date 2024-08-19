@@ -24,7 +24,7 @@ public class YellowPlaneEntity extends Entity {
 
     private float health = 20.0f; // Points de vie de l’avion
 	private float currentSpeed = 0.0f;
-	private final float maxSpeed = 0.5f; // Vitesse maximale de l'avion
+	private final float maxSpeed = 1.5f; // Vitesse maximale de l'avion
 	private final float acceleration = 0.02f; // Vitesse d'accélération
 	private final float deceleration = 0.01f; // Vitesse de décélération
 
