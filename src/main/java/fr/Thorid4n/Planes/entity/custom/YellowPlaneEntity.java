@@ -23,6 +23,10 @@ import org.jetbrains.annotations.Nullable;
 public class YellowPlaneEntity extends Entity {
 
     private float health = 20.0f; // Points de vie de l’avion
+	private float currentSpeed = 0.0f;
+	private final float maxSpeed = 0.5f; // Vitesse maximale de l'avion
+	private final float acceleration = 0.02f; // Vitesse d'accélération
+	private final float deceleration = 0.01f; // Vitesse de décélération
 
     public YellowPlaneEntity(EntityType<? extends Entity> type, Level world) {
         super(type, world);
@@ -140,6 +144,10 @@ public class YellowPlaneEntity extends Entity {
         return InteractionResult.CONSUME;
     }
 
+	private boolean isPlayerMovingForward(Player player) {
+		return player.zza > 0; // `zza` est le champ qui correspond au mouvement vers l'avant
+	}
+
 	@Override
 	public void tick() {
 		super.tick();
@@ -155,10 +163,22 @@ public class YellowPlaneEntity extends Entity {
 			this.setXRot(player.getXRot() * 0.5F);
 			this.setRot(this.getYRot(), this.getXRot());
 	
-			// Logique de déplacement
-			float speed = 0.1f;
-			double motionX = - Math.sin(Math.toRadians(this.getYRot())) * speed;
-			double motionZ = Math.cos(Math.toRadians(this.getYRot())) * speed;
+			// Gestion de l'accélération et de la décélération
+			if (isPlayerMovingForward(player)) { // Vérifie si le joueur avance
+				this.currentSpeed += this.acceleration;
+				if (this.currentSpeed > this.maxSpeed) {
+					this.currentSpeed = this.maxSpeed;
+				}
+			} else { // Le joueur ne maintient pas la touche pour avancer
+				this.currentSpeed -= this.deceleration;
+				if (this.currentSpeed < 0) {
+					this.currentSpeed = 0;
+				}
+			}
+	
+			// Logique de déplacement en fonction de la vitesse actuelle
+			double motionX = -Math.sin(Math.toRadians(this.getYRot())) * this.currentSpeed;
+			double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
 	
 			this.setDeltaMovement(motionX, this.getDeltaMovement().y, motionZ);
 			this.move(MoverType.SELF, this.getDeltaMovement());
