@@ -103,14 +103,14 @@ public class YellowPlaneEntity extends Entity {
     // Positionner le conducteur dans l'avion
     protected void customPositionRider(Entity passenger) {
         if (this.hasPassenger(passenger)) {
-            System.out.println("Le joueur est bien reconnu comme conducteur.");
+            // System.out.println("Le joueur est bien reconnu comme conducteur.");
             double xOffset = 0.0D;
             double yOffset = 0.6D; // Ajuste la hauteur pour que le joueur soit assis correctement
             double zOffset = 0.0D;
 
             passenger.setPos(this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
         } else {
-            System.out.println("Le joueur n'est pas reconnu comme conducteur.");
+            // System.out.println("Le joueur n'est pas reconnu comme conducteur.");
         }
     }
 
@@ -140,33 +140,30 @@ public class YellowPlaneEntity extends Entity {
         return InteractionResult.CONSUME;
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-
-        if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
-            System.out.println("L'avion est contrôlé par un joueur !");
-
-            Player player = (Player) this.getControllingPassenger();
-
-            this.setYRot(player.getYRot());
-            this.yRotO = this.getYRot();
-
-            // Synchroniser l'inclinaison X (verticale) de l'avion avec celle du joueur
-            this.setXRot(player.getXRot() * 0.5F);
-            this.setRot(this.getYRot(), this.getXRot());
-
-            // Logique pour déplacer l'avion en fonction de l’orientation
-            float speed = 0.1f; // Ajuste la vitesse de l'avion
-            double motionX = - Math.sin(Math.toRadians(this.getYRot())) * speed;
-            double motionZ = Math.cos(Math.toRadians(this.getYRot())) * speed;
-
-            this.setDeltaMovement(motionX, this.getDeltaMovement().y, motionZ);
-            this.move(MoverType.SELF, this.getDeltaMovement());
-        } else {
-            System.out.println("L'avion n'est pas contrôlé ou le passager n'est pas un joueur."); // Message de débogage
-        }
-    }
+	@Override
+	public void tick() {
+		super.tick();
+	
+		if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
+			Player player = (Player) this.getControllingPassenger();
+	
+			// Mise à jour des valeurs de rotation pour une interpolation fluide
+			this.yRotO = this.getYRot(); // Ancien angle
+			this.setYRot(player.getYRot()); // Nouvel angle
+	
+			// Synchroniser l'inclinaison X (verticale) de l'avion avec celle du joueur
+			this.setXRot(player.getXRot() * 0.5F);
+			this.setRot(this.getYRot(), this.getXRot());
+	
+			// Logique de déplacement
+			float speed = 0.1f;
+			double motionX = - Math.sin(Math.toRadians(this.getYRot())) * speed;
+			double motionZ = Math.cos(Math.toRadians(this.getYRot())) * speed;
+	
+			this.setDeltaMovement(motionX, this.getDeltaMovement().y, motionZ);
+			this.move(MoverType.SELF, this.getDeltaMovement());
+		}
+	}
 
     @Override
     protected void removePassenger(Entity passenger) {
