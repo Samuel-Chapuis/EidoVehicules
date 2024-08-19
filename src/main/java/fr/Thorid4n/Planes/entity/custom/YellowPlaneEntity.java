@@ -156,11 +156,11 @@ public class YellowPlaneEntity extends Entity {
 			Player player = (Player) this.getControllingPassenger();
 	
 			// Mise à jour des valeurs de rotation pour une interpolation fluide
-			this.yRotO = this.getYRot(); // Ancien angle
-			this.setYRot(player.getYRot()); // Nouvel angle
+			this.yRotO = this.getYRot(); // Ancien angle Yaw (gauche/droite)
+			this.setYRot(player.getYRot()); // Nouvel angle Yaw (gauche/droite)
 	
-			// Synchroniser l'inclinaison X (verticale) de l'avion avec celle du joueur
-			this.setXRot(player.getXRot() * 0.5F);
+			// Synchroniser l'inclinaison X (pitch, verticale) de l'avion avec celle du joueur
+			this.setXRot(player.getXRot()); // Le pitch est directement lié à l'inclinaison avant/arrière
 			this.setRot(this.getYRot(), this.getXRot());
 	
 			// Gestion de l'accélération et de la décélération
@@ -176,11 +176,12 @@ public class YellowPlaneEntity extends Entity {
 				}
 			}
 	
-			// Logique de déplacement en fonction de la vitesse actuelle
+			// Calcul du mouvement en fonction de la rotation actuelle de l'avion
 			double motionX = -Math.sin(Math.toRadians(this.getYRot())) * this.currentSpeed;
 			double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
+			double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed; // Utilise l'inclinaison (pitch) pour déterminer la montée ou la descente
 	
-			this.setDeltaMovement(motionX, this.getDeltaMovement().y, motionZ);
+			this.setDeltaMovement(motionX, motionY, motionZ);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 		}
 	}
