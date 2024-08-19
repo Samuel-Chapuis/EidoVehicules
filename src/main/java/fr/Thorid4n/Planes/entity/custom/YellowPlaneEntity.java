@@ -157,8 +157,8 @@ public class YellowPlaneEntity extends Entity {
             this.setRot(this.getYRot(), this.getXRot());
 
             // Logique pour déplacer l'avion en fonction de l’orientation
-            float speed = -0.1f; // Ajuste la vitesse de l'avion
-            double motionX = Math.sin(Math.toRadians(this.getYRot())) * speed;
+            float speed = 0.1f; // Ajuste la vitesse de l'avion
+            double motionX = -Math.sin(Math.toRadians(this.getYRot())) * speed;
             double motionZ = Math.cos(Math.toRadians(this.getYRot())) * speed;
 
             this.setDeltaMovement(motionX, this.getDeltaMovement().y, motionZ);
