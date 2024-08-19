@@ -38,7 +38,7 @@ public class YellowPlaneRenderer extends EntityRenderer<YellowPlaneEntity> {
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
 
         // Applique la rotation en fonction de l'orientation de l'entité
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
+        poseStack.mulPose(Axis.YP.rotationDegrees(entityYaw));
 
         // Rendu du modèle
         var vertexConsumer = buffer.getBuffer(this.model.renderType(this.getTextureLocation(entity)));
