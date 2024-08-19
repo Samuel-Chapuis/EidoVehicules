@@ -4,10 +4,9 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -19,26 +18,14 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.HumanoidArm;
-import java.util.Collections;
+import org.jetbrains.annotations.Nullable;
 
-public class YellowPlaneEntity extends LivingEntity {
+public class YellowPlaneEntity extends Entity {
 
     private float health = 20.0f; // Points de vie de l’avion
 
-    public YellowPlaneEntity(EntityType<? extends LivingEntity> type, Level world) {
+    public YellowPlaneEntity(EntityType<? extends Entity> type, Level world) {
         super(type, world);
-    }
-
-    // Enregistrement des attributs
-    public static AttributeSupplier.Builder createAttributes() {
-        return LivingEntity.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.0D);
     }
 
     @Override
@@ -48,17 +35,22 @@ public class YellowPlaneEntity extends LivingEntity {
 
     @Override
     protected void defineSynchedData() {
-        // Pas besoin de définir la bounding box ici
+        // Méthode obligatoire pour les entités ; à implémenter selon tes besoins
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pose) {
-        return EntityDimensions.scalable(3.0F, 2.0F); // Taille de l'avion
+    protected void readAdditionalSaveData(CompoundTag compound) {
+        this.health = compound.getFloat("Health"); // Charge la santé lors de la sauvegarde
+    }
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag compound) {
+        compound.putFloat("Health", this.health); // Sauvegarde la santé
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!this.level().isClientSide && this.isAlive()) {
+        if (!this.getCommandSenderWorld().isClientSide && this.isAlive()) {
             this.health -= amount;
             System.out.println("Santé de l'avion : " + this.health);
 
@@ -71,24 +63,25 @@ public class YellowPlaneEntity extends LivingEntity {
     }
 
     private void dropItem() {
+        // Remplace Blocks.DIRT par l'item que tu veux faire tomber (par exemple, un item spécifique à l'avion)
         ItemStack itemStack = new ItemStack(Blocks.DIRT);
-        ItemEntity itemEntity = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), itemStack);
-        this.level().addFreshEntity(itemEntity);
+        ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
+        this.getCommandSenderWorld().addFreshEntity(itemEntity);
     }
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return false;
+        return false; // Assure-toi que l'entité n'est pas invulnérable
     }
 
     @Override
     public boolean isPickable() {
-        return true;
+        return true; // Rend l'entité "attrapable"
     }
 
     @Override
     public boolean isPushable() {
-        return true;
+        return true; // Rend l'entité "poussable"
     }
 
     @Override
@@ -96,64 +89,97 @@ public class YellowPlaneEntity extends LivingEntity {
         return this.getBoundingBox();
     }
 
+    // Gérer l'ajout du conducteur uniquement
     @Override
-    public boolean canAddPassenger(Entity passenger) {
-        return this.getPassengers().size() < 1;
+    public void addPassenger(Entity passenger) {
+        // Si le passager est un joueur et que l'avion n'a pas encore de conducteur
+        if (passenger instanceof Player && this.getPassengers().isEmpty()) {
+            super.addPassenger(passenger);
+            System.out.println("Un joueur a été ajouté comme conducteur.");
+            this.customPositionRider(passenger);
+        }
+    }
+
+    // Positionner le conducteur dans l'avion
+    protected void customPositionRider(Entity passenger) {
+        if (this.hasPassenger(passenger)) {
+            System.out.println("Le joueur est bien reconnu comme conducteur.");
+            double xOffset = 0.0D;
+            double yOffset = 0.6D; // Ajuste la hauteur pour que le joueur soit assis correctement
+            double zOffset = 0.0D;
+
+            passenger.setPos(this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
+        } else {
+            System.out.println("Le joueur n'est pas reconnu comme conducteur.");
+        }
     }
 
     @Override
+    public boolean canAddPassenger(Entity passenger) {
+        // Limite à un seul passager pour cet avion (le conducteur)
+        return this.getPassengers().isEmpty();
+    }
+
+    @Override
+    public double getPassengersRidingOffset() {
+        return 0.6D; // Ajuste la hauteur à laquelle le joueur est assis
+    }
+
+    // Permettre au joueur de monter dans l'avion
+    @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        if (!this.level().isClientSide) {
-            player.startRiding(this);
-            return InteractionResult.SUCCESS;
+        if (!this.getCommandSenderWorld().isClientSide) {
+            if (this.getPassengers().isEmpty()) {
+                System.out.println("Le joueur tente de monter dans l'avion.");
+                player.startRiding(this); // Le joueur monte dans l'avion
+                return InteractionResult.SUCCESS;
+            } else {
+                System.out.println("L'avion a déjà un conducteur.");
+            }
         }
         return InteractionResult.CONSUME;
     }
 
     @Override
-    public void travel(Vec3 travelVector) {
+    public void tick() {
+        super.tick();
+
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
+            System.out.println("L'avion est contrôlé par un joueur !");
+
             Player player = (Player) this.getControllingPassenger();
 
             this.setYRot(player.getYRot());
             this.yRotO = this.getYRot();
+
+            // Synchroniser l'inclinaison X (verticale) de l'avion avec celle du joueur
             this.setXRot(player.getXRot() * 0.5F);
             this.setRot(this.getYRot(), this.getXRot());
 
-            float speed = 0.1f;
-            double motionX = -Math.sin(Math.toRadians(this.getYRot())) * speed;
+            // Logique pour déplacer l'avion en fonction de l’orientation
+            float speed = -0.1f; // Ajuste la vitesse de l'avion
+            double motionX = Math.sin(Math.toRadians(this.getYRot())) * speed;
             double motionZ = Math.cos(Math.toRadians(this.getYRot())) * speed;
 
             this.setDeltaMovement(motionX, this.getDeltaMovement().y, motionZ);
             this.move(MoverType.SELF, this.getDeltaMovement());
         } else {
-            super.travel(travelVector);
+            System.out.println("L'avion n'est pas contrôlé ou le passager n'est pas un joueur."); // Message de débogage
         }
     }
 
     @Override
     protected void removePassenger(Entity passenger) {
         super.removePassenger(passenger);
-    }
-
-    // Méthodes abstraites de LivingEntity à implémenter
-    @Override
-    public Iterable<ItemStack> getArmorSlots() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public ItemStack getItemBySlot(EquipmentSlot slot) {
-        return ItemStack.EMPTY;
+        if (passenger instanceof Player) {
+            System.out.println("Le joueur a quitté l'avion.");
+            // Code pour gérer la descente, si nécessaire
+        }
     }
 
     @Override
-    public void setItemSlot(EquipmentSlot slot, ItemStack stack) {
-        // Rien à faire ici, l'avion ne porte pas d'équipement
-    }
-
-    @Override
-    public HumanoidArm getMainArm() {
-        return HumanoidArm.RIGHT;
+    @Nullable
+    public LivingEntity getControllingPassenger() {
+        return (LivingEntity) this.getFirstPassenger(); // Retourne le premier passager comme LivingEntity
     }
 }
