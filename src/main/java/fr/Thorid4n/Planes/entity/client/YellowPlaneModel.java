@@ -6,6 +6,7 @@ package fr.Thorid4n.Planes.entity.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import fr.Thorid4n.Planes.entity.custom.YellowPlaneEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -21,9 +22,11 @@ import net.minecraft.world.entity.Entity;
 
 public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 	private final ModelPart YellowPlane;
+	private final ModelPart Pales;
 
 	public YellowPlaneModel(ModelPart root) {
 		this.YellowPlane = root.getChild("YellowPlane");
+		this.Pales = this.YellowPlane.getChild("Helice").getChild("Pales");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -185,7 +188,12 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		YellowPlaneEntity plane = (YellowPlaneEntity) entity;
+	    if (plane.isBeingControlled() && plane.isMovingForward()) {
+			this.Pales.zRot = ageInTicks; // Ajuste la vitesse de rotation ici
+		} else {
+			this.Pales.zRot = 0;
+		}
 	}
 
 	@Override

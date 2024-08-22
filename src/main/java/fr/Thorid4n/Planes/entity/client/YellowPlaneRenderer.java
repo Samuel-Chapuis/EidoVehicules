@@ -30,6 +30,7 @@ public class YellowPlaneRenderer extends EntityRenderer<YellowPlaneEntity> {
 	@Override
 	public void render(YellowPlaneEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
 					   net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight) {
+		
 		poseStack.pushPose();
 	
 		// Ajuste la position du modèle
@@ -54,10 +55,11 @@ public class YellowPlaneRenderer extends EntityRenderer<YellowPlaneEntity> {
 		// Rendu du modèle
 		var vertexConsumer = buffer.getBuffer(this.model.renderType(this.getTextureLocation(entity)));
 		this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-	
-		poseStack.popPose();
-	
+		
+		this.model.setupAnim(entity, 0.0F, 0.0F, entity.tickCount + partialTicks, entityYaw, entity.getXRot());
+		
 		super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+		poseStack.popPose();
 	}
 	
 	/**

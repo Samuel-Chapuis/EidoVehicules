@@ -4,7 +4,6 @@ import com.mojang.logging.LogUtils;
 
 import fr.Thorid4n.Planes.block.ModBlocks;
 import fr.Thorid4n.Planes.entity.ModEntities;
-import fr.Thorid4n.Planes.entity.client.RhinoRenderer;
 import fr.Thorid4n.Planes.entity.client.YellowPlaneRenderer;
 import fr.Thorid4n.Planes.item.ModCreativeModTabs;
 import fr.Thorid4n.Planes.item.ModItems;
@@ -65,7 +64,6 @@ public class ForPlanes {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-			EntityRenderers.register(ModEntities.RHINO.get(), RhinoRenderer::new);
 			EntityRenderers.register(ModEntities.YELLOW_PLANE.get(), YellowPlaneRenderer::new); 
         }
     }

@@ -27,6 +27,7 @@ public class YellowPlaneEntity extends Entity {
 	private final float maxSpeed = 1.5f; // Vitesse maximale de l'avion
 	private final float acceleration = 0.02f; // Vitesse d'accélération
 	private final float deceleration = 0.01f; // Vitesse de décélération
+	private float minSpeed = 0.4f;
 
     public YellowPlaneEntity(EntityType<? extends Entity> type, Level world) {
         super(type, world);
@@ -77,6 +78,10 @@ public class YellowPlaneEntity extends Entity {
     public boolean isInvulnerableTo(DamageSource source) {
         return false; // Assure-toi que l'entité n'est pas invulnérable
     }
+
+	public boolean isMovingForward() {
+		return this.getDeltaMovement().horizontalDistanceSqr() > 0.001;
+	}
 
     @Override
     public boolean isPickable() {
@@ -152,6 +157,14 @@ public class YellowPlaneEntity extends Entity {
 	public void tick() {
 		super.tick();
 	
+
+		if (this.onGround()) {
+			minSpeed = 0.0f; // L'avion peut rester immobile au sol
+		} else {
+			minSpeed = 0.4f; // L'avion doit maintenir une vitesse minimale en vol
+		}
+
+
 		if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
 			Player player = (Player) this.getControllingPassenger();
 	
@@ -181,6 +194,11 @@ public class YellowPlaneEntity extends Entity {
 			double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
 			double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed; // Utilise l'inclinaison (pitch) pour déterminer la montée ou la descente
 	
+
+			if (this.currentSpeed < 0.3f) {
+				motionY -= 0.15;
+			}
+
 			this.setDeltaMovement(motionX, motionY, motionZ);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 		}
@@ -200,4 +218,8 @@ public class YellowPlaneEntity extends Entity {
     public LivingEntity getControllingPassenger() {
         return (LivingEntity) this.getFirstPassenger(); // Retourne le premier passager comme LivingEntity
     }
+
+	public boolean isBeingControlled() {
+		return this.getControllingPassenger() instanceof Player;
+	}
 }

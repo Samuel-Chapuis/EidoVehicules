@@ -1,7 +1,6 @@
 package fr.Thorid4n.Planes.entity;
 
 import fr.Thorid4n.Planes.ForPlanes;
-import fr.Thorid4n.Planes.entity.custom.RhinoEntity;
 import fr.Thorid4n.Planes.entity.custom.YellowPlaneEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -14,10 +13,6 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ForPlanes.MOD_ID);
-
-    public static final RegistryObject<EntityType<RhinoEntity>> RHINO =
-		ENTITY_TYPES.register("rhino", () -> EntityType.Builder.of(RhinoEntity::new, MobCategory.CREATURE)
-				.sized(2.5f, 2.5f).build("rhino"));
 
 	public static final RegistryObject<EntityType<YellowPlaneEntity>> YELLOW_PLANE =
 		ENTITY_TYPES.register("yellow_plane",
