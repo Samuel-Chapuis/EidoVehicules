@@ -1,4 +1,4 @@
-package fr.Thorid4n.Planes.entity.custom;
+package fr.thoridan.planes.entity.custom;
 
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -64,7 +64,7 @@ public class YellowPlaneEntity extends Entity {
                 this.remove(RemovalReason.KILLED);
             }
         }
-        return super.hurt(source, amount);
+        return true;
     }
 
     private void dropItem() {

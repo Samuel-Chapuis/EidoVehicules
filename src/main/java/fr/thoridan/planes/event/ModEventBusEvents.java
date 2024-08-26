@@ -1,10 +1,10 @@
-package fr.Thorid4n.Planes.event;
+package fr.thoridan.planes.event;
 
-import fr.Thorid4n.Planes.ForPlanes;
-import fr.Thorid4n.Planes.entity.ModEntities;
-import fr.Thorid4n.Planes.entity.client.ModModelLayers;
-import fr.Thorid4n.Planes.entity.client.YellowPlaneModel;
-import fr.Thorid4n.Planes.entity.custom.YellowPlaneEntity;
+import fr.thoridan.planes.ForPlanes;
+import fr.thoridan.planes.entity.ModEntities;
+import fr.thoridan.planes.entity.client.ModModelLayers;
+import fr.thoridan.planes.entity.client.YellowPlaneModel;
+import fr.thoridan.planes.entity.custom.YellowPlaneEntity;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

@@ -1,6 +1,6 @@
-package fr.Thorid4n.Planes.item;
+package fr.thoridan.planes.item;
 
-import fr.Thorid4n.Planes.ForPlanes;
+import fr.thoridan.planes.ForPlanes;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

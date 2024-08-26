@@ -1,7 +1,7 @@
-package fr.Thorid4n.Planes.entity;
+package fr.thoridan.planes.entity;
 
-import fr.Thorid4n.Planes.ForPlanes;
-import fr.Thorid4n.Planes.entity.custom.YellowPlaneEntity;
+import fr.thoridan.planes.ForPlanes;
+import fr.thoridan.planes.entity.custom.YellowPlaneEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;

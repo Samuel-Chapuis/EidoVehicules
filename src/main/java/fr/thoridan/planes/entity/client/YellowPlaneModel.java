@@ -1,12 +1,12 @@
 // Made with Blockbench 4.8.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
-package fr.Thorid4n.Planes.entity.client;
+package fr.thoridan.planes.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import fr.Thorid4n.Planes.entity.custom.YellowPlaneEntity;
+import fr.thoridan.planes.entity.custom.YellowPlaneEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;

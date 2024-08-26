@@ -1,7 +1,7 @@
-package fr.Thorid4n.Planes.item;
+package fr.thoridan.planes.item;
 
-import fr.Thorid4n.Planes.ForPlanes;
-import fr.Thorid4n.Planes.block.ModBlocks;
+import fr.thoridan.planes.ForPlanes;
+import fr.thoridan.planes.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;

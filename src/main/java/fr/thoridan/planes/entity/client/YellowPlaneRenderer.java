@@ -1,9 +1,10 @@
-package fr.Thorid4n.Planes.entity.client;
+package fr.thoridan.planes.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import fr.Thorid4n.Planes.ForPlanes;
-import fr.Thorid4n.Planes.entity.custom.YellowPlaneEntity;
+
+import fr.thoridan.planes.ForPlanes;
+import fr.thoridan.planes.entity.custom.YellowPlaneEntity;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

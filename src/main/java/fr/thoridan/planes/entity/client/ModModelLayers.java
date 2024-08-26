@@ -1,6 +1,6 @@
-package fr.Thorid4n.Planes.entity.client;
+package fr.thoridan.planes.entity.client;
 
-import fr.Thorid4n.Planes.ForPlanes;
+import fr.thoridan.planes.ForPlanes;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 

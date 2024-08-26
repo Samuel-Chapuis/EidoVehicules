@@ -1,6 +1,6 @@
-package fr.Thorid4n.Planes.event;
+package fr.thoridan.planes.event;
 
-import fr.Thorid4n.Planes.ForPlanes;
+import fr.thoridan.planes.ForPlanes;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = ForPlanes.MOD_ID)
