@@ -24,10 +24,15 @@ public class YellowPlaneEntity extends Entity {
 
     private float health = 20.0f; // Points de vie de l’avion
 	private float currentSpeed = 0.0f;
-	private final float maxSpeed = 1.5f; // Vitesse maximale de l'avion
-	private final float acceleration = 0.02f; // Vitesse d'accélération
-	private final float deceleration = 0.01f; // Vitesse de décélération
-	private float minSpeed = 0.4f;
+	private final float maxSpeed = 1.5f;        // Vitesse maximale de l'avion
+	private final float acceleration = 0.02f;   // Vitesse d'accélération
+	private final float deceleration = 0.01f;   // Vitesse de décélération
+    private float invertSubtlety = 0.3f;        // Sorte de finesse inversé de l'avion
+    private float minSpeed = 0.0f;              // Vitesse minimale de l'avion
+    private float targetYaw;                    // La rotation Y cible (la direction du joueur)
+    private float targetPitch;                  // La rotation X cible (la direction du joueur)
+    private float yawSpeed = 2.0f;              // Vitesse d'interpolation pour le yaw
+    private float pitchSpeed = 2.0f;            // Vitesse d'interpolation pour le pitch
 
     public YellowPlaneEntity(EntityType<? extends Entity> type, Level world) {
         super(type, world);
@@ -153,56 +158,63 @@ public class YellowPlaneEntity extends Entity {
 		return player.zza > 0; // `zza` est le champ qui correspond au mouvement vers l'avant
 	}
 
+    private boolean isPlayerMovingBackward(Player player) {
+        return player.zza < 0; // `zza` est le champ qui correspond au mouvement vers l'arrière
+    }
+
 	@Override
 	public void tick() {
-		super.tick();
-	
-
-		if (this.onGround()) {
-			minSpeed = 0.0f; // L'avion peut rester immobile au sol
-		} else {
-			minSpeed = 0.4f; // L'avion doit maintenir une vitesse minimale en vol
-		}
+        super.tick();
 
 
-		if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
-			Player player = (Player) this.getControllingPassenger();
-	
-			// Mise à jour des valeurs de rotation pour une interpolation fluide
-			this.yRotO = this.getYRot(); // Ancien angle Yaw (gauche/droite)
-			this.setYRot(player.getYRot()); // Nouvel angle Yaw (gauche/droite)
-	
-			// Synchroniser l'inclinaison X (pitch, verticale) de l'avion avec celle du joueur
-			this.setXRot(player.getXRot()); // Le pitch est directement lié à l'inclinaison avant/arrière
-			this.setRot(this.getYRot(), this.getXRot());
-	
-			// Gestion de l'accélération et de la décélération
-			if (isPlayerMovingForward(player)) { // Vérifie si le joueur avance
-				this.currentSpeed += this.acceleration;
-				if (this.currentSpeed > this.maxSpeed) {
-					this.currentSpeed = this.maxSpeed;
-				}
-			} else { // Le joueur ne maintient pas la touche pour avancer
-				this.currentSpeed -= this.deceleration;
-				if (this.currentSpeed < 0) {
-					this.currentSpeed = 0;
-				}
-			}
-	
-			// Calcul du mouvement en fonction de la rotation actuelle de l'avion
-			double motionX = -Math.sin(Math.toRadians(this.getYRot())) * this.currentSpeed;
-			double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
-			double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed; // Utilise l'inclinaison (pitch) pour déterminer la montée ou la descente
-	
+        if (this.onGround()) {
+            minSpeed = 0.0f; // L'avion peut rester immobile au sol
+        } else {
+            minSpeed = invertSubtlety; // L'avion doit maintenir une vitesse minimale en vol
+        }
 
-			if (this.currentSpeed < 0.3f) {
-				motionY -= 0.15;
-			}
 
-			this.setDeltaMovement(motionX, motionY, motionZ);
-			this.move(MoverType.SELF, this.getDeltaMovement());
-		}
-	}
+        if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
+            Player player = (Player) this.getControllingPassenger();
+
+            // Mise à jour des valeurs de rotation pour une interpolation fluide
+            this.yRotO = this.getYRot();                    // Ancien angle Yaw (gauche/droite)
+            this.setYRot(player.getYRot());                 // Nouvel angle Yaw (gauche/droite)
+
+            // Synchroniser l'inclinaison X (pitch, verticale) de l'avion avec celle du joueur
+            this.setXRot(player.getXRot());                 // Le pitch est directement lié à l'inclinaison avant/arrière
+            this.setRot(this.getYRot(), this.getXRot());
+
+            // Gestion de l'accélération et de la décélération
+            if (isPlayerMovingForward(player)) {            // Vérifie si le joueur avance
+                this.currentSpeed += this.acceleration;
+                if (this.currentSpeed > this.maxSpeed) {
+                    this.currentSpeed = this.maxSpeed;
+                }
+            } else if (isPlayerMovingBackward(player)) {
+                this.currentSpeed -= this.acceleration;
+            } else { // Le joueur ne maintient pas la touche pour avancer
+                this.currentSpeed -= this.deceleration;
+                if (this.currentSpeed < this.minSpeed && this.currentSpeed > 0.0f) {
+                    this.currentSpeed = this.minSpeed;
+                }
+            }
+
+            // Calcul du mouvement en fonction de la rotation actuelle de l'avion
+            double motionX = -Math.sin(Math.toRadians(this.getYRot())) * this.currentSpeed;
+            double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
+            double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed; // Utilise l'inclinaison (pitch) pour déterminer la montée ou la descente
+
+
+            if (this.currentSpeed < 0.3f) {
+                motionY -= invertSubtlety;
+            }
+
+            this.setDeltaMovement(motionX, motionY, motionZ);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+
+        }
+    }
 
     @Override
     protected void removePassenger(Entity passenger) {
