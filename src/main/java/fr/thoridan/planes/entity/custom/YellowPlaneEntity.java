@@ -162,6 +162,12 @@ public class YellowPlaneEntity extends Entity {
         return player.zza < 0; // `zza` est le champ qui correspond au mouvement vers l'arrière
     }
 
+    public float getCurrentSpeed() {
+        System.out.println("Vitesse actuelle : " + this.currentSpeed);
+        return this.currentSpeed;
+
+    }
+
 	@Override
 	public void tick() {
         super.tick();
@@ -177,27 +183,48 @@ public class YellowPlaneEntity extends Entity {
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
             Player player = (Player) this.getControllingPassenger();
 
-            // Mise à jour des valeurs de rotation pour une interpolation fluide
-            this.yRotO = this.getYRot();                    // Ancien angle Yaw (gauche/droite)
-            this.setYRot(player.getYRot());                 // Nouvel angle Yaw (gauche/droite)
+            // Mise à jour des valeurs cibles de rotation en fonction du joueur
+            targetYaw = player.getYRot();
+            targetPitch = player.getXRot();
+
+            // Interpolation fluide vers la rotation cible
+            float yawDifference = targetYaw - this.getYRot();
+            if (Math.abs(yawDifference) > 180.0f) { // Pour gérer la transition à 360°
+                yawDifference -= Math.signum(yawDifference) * 360.0f;
+            }
+
+            float newYaw = this.getYRot() + Math.min(yawSpeed, Math.abs(yawDifference)) * Math.signum(yawDifference);
+            this.setYRot(newYaw);
+
+            float pitchDifference = targetPitch - this.getXRot();
+            float newPitch = this.getXRot() + Math.min(pitchSpeed, Math.abs(pitchDifference)) * Math.signum(pitchDifference);
+            this.setXRot(newPitch);
 
             // Synchroniser l'inclinaison X (pitch, verticale) de l'avion avec celle du joueur
-            this.setXRot(player.getXRot());                 // Le pitch est directement lié à l'inclinaison avant/arrière
             this.setRot(this.getYRot(), this.getXRot());
 
             // Gestion de l'accélération et de la décélération
-            if (isPlayerMovingForward(player)) {            // Vérifie si le joueur avance
+            if (isPlayerMovingForward(player)) {
                 this.currentSpeed += this.acceleration;
                 if (this.currentSpeed > this.maxSpeed) {
                     this.currentSpeed = this.maxSpeed;
                 }
             } else if (isPlayerMovingBackward(player)) {
                 this.currentSpeed -= this.acceleration;
-            } else { // Le joueur ne maintient pas la touche pour avancer
-                this.currentSpeed -= this.deceleration;
-                if (this.currentSpeed < this.minSpeed && this.currentSpeed > 0.0f) {
-                    this.currentSpeed = this.minSpeed;
+                if (this.currentSpeed < this.minSpeed) {
+                    this.currentSpeed = this.minSpeed; // Bloquer la vitesse à minSpeed pour éviter de reculer
                 }
+            } else {
+                // Lorsque le joueur ne fait rien, on décélère, mais sans passer en dessous de minSpeed
+                this.currentSpeed -= this.deceleration;
+                if (this.currentSpeed < this.minSpeed) {
+                    this.currentSpeed = this.minSpeed; // Bloquer la vitesse à minSpeed pour éviter de reculer
+                }
+            }
+
+            // Empêcher la vitesse de devenir négative
+            if (this.currentSpeed < 0.0f) {
+                this.currentSpeed = 0.0f;
             }
 
             // Calcul du mouvement en fonction de la rotation actuelle de l'avion

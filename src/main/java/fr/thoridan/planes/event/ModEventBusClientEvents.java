@@ -34,4 +34,11 @@ public class ModEventBusClientEvents {
         // Logique d'ajustement de la caméra ici
 
     }
+
+
+    @SubscribeEvent
+    public static void onEntityRenderersRegister(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(ModModelLayers.YELLOW_PLANE, YellowPlaneModel::createBodyLayer);
+    }
+
 }

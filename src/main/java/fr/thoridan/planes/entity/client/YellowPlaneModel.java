@@ -189,8 +189,12 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		YellowPlaneEntity plane = (YellowPlaneEntity) entity;
-	    if (plane.isBeingControlled() && plane.isMovingForward()) {
-			this.Pales.zRot = ageInTicks; // Ajuste la vitesse de rotation ici
+	    if (plane.isBeingControlled()) {
+			float mutliplier = plane.getCurrentSpeed()*0.1f;
+			if (mutliplier > 1f) {
+				mutliplier = 1f;
+			}
+			this.Pales.zRot = ageInTicks*mutliplier; // Ajuste la vitesse de rotation ici
 		} else {
 			this.Pales.zRot = 0;
 		}
