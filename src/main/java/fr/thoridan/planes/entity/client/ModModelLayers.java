@@ -1,13 +1,10 @@
-package fr.Thorid4n.Planes.entity.client;
+package fr.thoridan.planes.entity.client;
 
-import fr.Thorid4n.Planes.ForPlanes;
+import fr.thoridan.planes.ForPlanes;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 
 public class ModModelLayers {
-    public static final ModelLayerLocation RHINO_LAYER = new ModelLayerLocation(
-            new ResourceLocation(ForPlanes.MOD_ID, "rhino_layer"), "main");
-
 	public static final ModelLayerLocation YELLOW_PLANE = new ModelLayerLocation(
 			new ResourceLocation(ForPlanes.MOD_ID, "yellow_plane"), "main");
 }

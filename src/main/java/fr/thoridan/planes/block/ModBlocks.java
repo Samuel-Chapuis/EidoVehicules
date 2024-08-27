@@ -1,7 +1,5 @@
-package fr.Thorid4n.Planes.block;
+package fr.thoridan.planes.block;
 
-import fr.Thorid4n.Planes.ForPlanes;
-import fr.Thorid4n.Planes.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -15,6 +13,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
+
+import fr.thoridan.planes.ForPlanes;
+import fr.thoridan.planes.item.ModItems;
 
 
 public class ModBlocks {

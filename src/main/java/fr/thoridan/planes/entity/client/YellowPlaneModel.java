@@ -1,12 +1,13 @@
 // Made with Blockbench 4.8.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
-package fr.Thorid4n.Planes.entity.client;
+
+package fr.thoridan.planes.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import fr.Thorid4n.Planes.entity.custom.YellowPlaneEntity;
+import fr.thoridan.planes.entity.custom.YellowPlaneEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -19,6 +20,8 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+
+import static java.lang.Math.abs;
 
 public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 	private final ModelPart YellowPlane;
@@ -38,7 +41,7 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition Helice = YellowPlane.addOrReplaceChild("Helice", CubeListBuilder.create(), PartPose.offset(3.0F, -7.0F, -32.0F));
 
 		PartDefinition Rotor = Helice.addOrReplaceChild("Rotor", CubeListBuilder.create().texOffs(-1, 21).addBox(-3.0F, -3.0F, 0.0F, 4.0F, 4.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(20, 30).addBox(-4.0F, -4.0F, 2.0F, 6.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -3.0F));
+				.texOffs(20, 30).addBox(-4.0F, -4.0F, 2.0F, 6.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -3.0F));
 
 		PartDefinition Pales = Helice.addOrReplaceChild("Pales", CubeListBuilder.create(), PartPose.offset(-1.0F, -1.8453F, 1.5F));
 
@@ -51,7 +54,7 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition Root = YellowPlane.addOrReplaceChild("Root", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Chaise = Root.addOrReplaceChild("Chaise", CubeListBuilder.create().texOffs(135, 87).addBox(0.0F, 2.0F, -2.0F, 4.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
-		.texOffs(51, 77).addBox(1.0F, -1.0F, -7.0F, 9.0F, 3.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, -5.0F, -1.0F));
+				.texOffs(51, 77).addBox(1.0F, -1.0F, -7.0F, 9.0F, 3.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, -5.0F, -1.0F));
 
 		PartDefinition Dossier_r1 = Chaise.addOrReplaceChild("Dossier_r1", CubeListBuilder.create().texOffs(1, 0).addBox(1.0F, -15.0F, -1.0F, 9.0F, 18.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.0F, 4.0F, -0.2618F, 0.0F, 0.0F));
 
@@ -68,7 +71,7 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition Cot_r1 = Chassis.addOrReplaceChild("Cot_r1", CubeListBuilder.create().texOffs(122, 30).addBox(8.0F, -5.0F, -1.0F, 1.0F, 8.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.2F, 4.7F, -1.1606F, 0.0F, 0.0F));
 
 		PartDefinition Exterieur = Chassis.addOrReplaceChild("Exterieur", CubeListBuilder.create().texOffs(1, 77).addBox(0.0F, 7.0F, -32.0F, 9.0F, 3.0F, 30.0F, new CubeDeformation(0.0F))
-		.texOffs(114, 106).addBox(-2.0F, -10.0F, 22.0F, 6.0F, 10.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 36.0F));
+				.texOffs(114, 106).addBox(-2.0F, -10.0F, 22.0F, 6.0F, 10.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 36.0F));
 
 		PartDefinition QueuArriere2_r1 = Exterieur.addOrReplaceChild("QueuArriere2_r1", CubeListBuilder.create().texOffs(123, 115).addBox(0.0F, -5.0F, 11.0F, 5.0F, 10.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, -5.0F, 19.0F, 0.0F, -0.2182F, 0.0F));
 
@@ -83,14 +86,14 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition ChassisArriere1_r1 = Exterieur.addOrReplaceChild("ChassisArriere1_r1", CubeListBuilder.create().texOffs(134, 137).addBox(10.0F, -17.0F, -1.0F, 2.0F, 22.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2597F, -0.0338F, -0.1265F));
 
 		PartDefinition Cockpit = Chassis.addOrReplaceChild("Cockpit", CubeListBuilder.create().texOffs(96, 115).addBox(-7.0F, -5.0F, -27.0F, 14.0F, 10.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(136, 71).addBox(0.0F, 4.0F, -32.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 36.0F));
+				.texOffs(136, 71).addBox(0.0F, 4.0F, -32.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 36.0F));
 
 		PartDefinition Parbrise_r1 = Cockpit.addOrReplaceChild("Parbrise_r1", CubeListBuilder.create().texOffs(91, 30).addBox(0.0F, -16.0F, -1.0F, 1.0F, 16.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0F, -6.0F, -28.0F, -0.1745F, 0.0F, 0.0F));
 
 		PartDefinition Arriere_r1 = Cockpit.addOrReplaceChild("Arriere_r1", CubeListBuilder.create().texOffs(65, 30).addBox(0.0F, -18.0F, -1.0F, 9.0F, 26.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2618F, 0.0F, 0.0F));
 
 		PartDefinition Nez = Chassis.addOrReplaceChild("Nez", CubeListBuilder.create().texOffs(87, 106).addBox(0.0F, -5.0F, -1.0F, 10.0F, 10.0F, 10.0F, new CubeDeformation(0.0F))
-		.texOffs(121, 48).addBox(0.0F, -8.0F, -1.0F, 6.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+				.texOffs(121, 48).addBox(0.0F, -8.0F, -1.0F, 6.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Moteur_r1 = Nez.addOrReplaceChild("Moteur_r1", CubeListBuilder.create().texOffs(76, 144).addBox(-1.0F, -2.0F, -5.5F, 3.0F, 4.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.086F, -5.0213F, 5.5F, 0.0F, 0.0F, 0.7854F));
 
@@ -107,17 +110,17 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition Tige_r1 = RouesAvant.addOrReplaceChild("Tige_r1", CubeListBuilder.create().texOffs(2, 155).addBox(-1.0F, -2.0F, -1.0F, 8.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(10.0F, 3.0F, -12.0F, 0.0F, 0.3927F, 0.8727F));
 
 		PartDefinition Infill = Root.addOrReplaceChild("Infill", CubeListBuilder.create().texOffs(34, 110).addBox(3.0F, 5.0F, -10.0F, 4.0F, 12.0F, 10.0F, new CubeDeformation(0.0F))
-		.texOffs(87, 77).addBox(3.0F, 5.0F, -12.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(49, 143).addBox(3.0F, 10.0F, -14.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(1, 77).addBox(3.0F, 3.0F, -2.0F, 4.0F, 12.0F, 10.0F, new CubeDeformation(0.0F))
-		.texOffs(1, 120).addBox(3.0F, 1.0F, -11.0F, 4.0F, 5.0F, 23.0F, new CubeDeformation(0.0F))
-		.texOffs(104, 137).addBox(3.0F, -2.0F, -9.0F, 4.0F, 5.0F, 10.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 40).addBox(3.0F, -4.0F, -9.0F, 4.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.0F, -20.0F, 23.0F));
+				.texOffs(87, 77).addBox(3.0F, 5.0F, -12.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(49, 143).addBox(3.0F, 10.0F, -14.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(1, 77).addBox(3.0F, 3.0F, -2.0F, 4.0F, 12.0F, 10.0F, new CubeDeformation(0.0F))
+				.texOffs(1, 120).addBox(3.0F, 1.0F, -11.0F, 4.0F, 5.0F, 23.0F, new CubeDeformation(0.0F))
+				.texOffs(104, 137).addBox(3.0F, -2.0F, -9.0F, 4.0F, 5.0F, 10.0F, new CubeDeformation(0.0F))
+				.texOffs(22, 40).addBox(3.0F, -4.0F, -9.0F, 4.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.0F, -20.0F, 23.0F));
 
 		PartDefinition Root2 = YellowPlane.addOrReplaceChild("Root2", CubeListBuilder.create(), PartPose.offset(4.0F, 0.0F, 0.0F));
 
 		PartDefinition Chaise2 = Root2.addOrReplaceChild("Chaise2", CubeListBuilder.create().texOffs(135, 87).mirror().addBox(-4.0F, 2.0F, -2.0F, 4.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(51, 77).mirror().addBox(-10.0F, -1.0F, -7.0F, 9.0F, 3.0F, 16.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.0F, -5.0F, -1.0F));
+				.texOffs(51, 77).mirror().addBox(-10.0F, -1.0F, -7.0F, 9.0F, 3.0F, 16.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.0F, -5.0F, -1.0F));
 
 		PartDefinition Dossier_r2 = Chaise2.addOrReplaceChild("Dossier_r2", CubeListBuilder.create().texOffs(1, 0).mirror().addBox(-10.0F, -15.0F, -1.0F, 9.0F, 18.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -2.0F, 4.0F, -0.2618F, 0.0F, 0.0F));
 
@@ -134,7 +137,7 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition Cot_r2 = Chassis2.addOrReplaceChild("Cot_r2", CubeListBuilder.create().texOffs(122, 30).mirror().addBox(-9.0F, -5.0F, -1.0F, 1.0F, 8.0F, 13.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -2.2F, 4.7F, -1.1606F, 0.0F, 0.0F));
 
 		PartDefinition Exterieur2 = Chassis2.addOrReplaceChild("Exterieur2", CubeListBuilder.create().texOffs(1, 77).mirror().addBox(-9.0F, 7.0F, -32.0F, 9.0F, 3.0F, 30.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(114, 106).mirror().addBox(-4.0F, -10.0F, 22.0F, 6.0F, 10.0F, 21.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 36.0F));
+				.texOffs(114, 106).mirror().addBox(-4.0F, -10.0F, 22.0F, 6.0F, 10.0F, 21.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 36.0F));
 
 		PartDefinition QueuArriere3_r1 = Exterieur2.addOrReplaceChild("QueuArriere3_r1", CubeListBuilder.create().texOffs(123, 115).mirror().addBox(-5.0F, -5.0F, 11.0F, 5.0F, 10.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, -5.0F, 19.0F, 0.0F, 0.2182F, 0.0F));
 
@@ -155,7 +158,7 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition Arriere_r2 = Cockpit2.addOrReplaceChild("Arriere_r2", CubeListBuilder.create().texOffs(65, 30).mirror().addBox(-9.0F, -18.0F, -1.0F, 9.0F, 26.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2618F, 0.0F, 0.0F));
 
 		PartDefinition Nez2 = Chassis2.addOrReplaceChild("Nez2", CubeListBuilder.create().texOffs(87, 106).mirror().addBox(-10.0F, -5.0F, -1.0F, 10.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(121, 48).mirror().addBox(-6.0F, -8.0F, -1.0F, 6.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+				.texOffs(121, 48).mirror().addBox(-6.0F, -8.0F, -1.0F, 6.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Moteur_r2 = Nez2.addOrReplaceChild("Moteur_r2", CubeListBuilder.create().texOffs(76, 144).mirror().addBox(-2.0F, -2.0F, -5.5F, 3.0F, 4.0F, 9.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.086F, -5.0213F, 5.5F, 0.0F, 0.0F, -0.7854F));
 
@@ -172,12 +175,12 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 		PartDefinition Tige_r2 = RouesAvant2.addOrReplaceChild("Tige_r2", CubeListBuilder.create().texOffs(2, 155).mirror().addBox(-7.0F, -2.0F, -1.0F, 8.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-10.0F, 3.0F, -12.0F, 0.0F, -0.3927F, -0.8727F));
 
 		PartDefinition Infill2 = Root2.addOrReplaceChild("Infill2", CubeListBuilder.create().texOffs(34, 110).mirror().addBox(-7.0F, 5.0F, -10.0F, 4.0F, 12.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(87, 77).mirror().addBox(-7.0F, 5.0F, -12.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(49, 143).mirror().addBox(-7.0F, 10.0F, -14.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(1, 77).mirror().addBox(-7.0F, 3.0F, -2.0F, 4.0F, 12.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(1, 120).mirror().addBox(-7.0F, 1.0F, -11.0F, 4.0F, 5.0F, 23.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(104, 137).mirror().addBox(-7.0F, -2.0F, -9.0F, 4.0F, 5.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(22, 40).mirror().addBox(-7.0F, -4.0F, -9.0F, 4.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.0F, -20.0F, 23.0F));
+				.texOffs(87, 77).mirror().addBox(-7.0F, 5.0F, -12.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(49, 143).mirror().addBox(-7.0F, 10.0F, -14.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(1, 77).mirror().addBox(-7.0F, 3.0F, -2.0F, 4.0F, 12.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(1, 120).mirror().addBox(-7.0F, 1.0F, -11.0F, 4.0F, 5.0F, 23.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(104, 137).mirror().addBox(-7.0F, -2.0F, -9.0F, 4.0F, 5.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(22, 40).mirror().addBox(-7.0F, -4.0F, -9.0F, 4.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(1.0F, -20.0F, 23.0F));
 
 		PartDefinition RoueArriere = YellowPlane.addOrReplaceChild("RoueArriere", CubeListBuilder.create().texOffs(50, 83).addBox(2.0F, 3.0F, 20.0F, 2.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -189,9 +192,11 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		YellowPlaneEntity plane = (YellowPlaneEntity) entity;
-	    if (plane.isBeingControlled() && plane.isMovingForward()) {
-			this.Pales.zRot = ageInTicks; // Ajuste la vitesse de rotation ici
+		if (plane.isBeingControlled()) {
+			// Met à jour la rotation de l’hélice pour l'entité contrôlée
+			this.Pales.zRot = plane.getPropellerRotation();
 		} else {
+			// Garde l’hélice immobile pour les autres entités
 			this.Pales.zRot = 0;
 		}
 	}

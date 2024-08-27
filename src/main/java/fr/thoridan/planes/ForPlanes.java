@@ -1,14 +1,13 @@
-package fr.Thorid4n.Planes;
+package fr.thoridan.planes;
 
 import com.mojang.logging.LogUtils;
 
-import fr.Thorid4n.Planes.block.ModBlocks;
-import fr.Thorid4n.Planes.entity.ModEntities;
-import fr.Thorid4n.Planes.entity.client.YellowPlaneRenderer;
-import fr.Thorid4n.Planes.item.ModCreativeModTabs;
-import fr.Thorid4n.Planes.item.ModItems;
+import fr.thoridan.planes.block.ModBlocks;
+import fr.thoridan.planes.entity.ModEntities;
+import fr.thoridan.planes.entity.client.YellowPlaneRenderer;
+import fr.thoridan.planes.item.ModCreativeModTabs;
+import fr.thoridan.planes.item.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
