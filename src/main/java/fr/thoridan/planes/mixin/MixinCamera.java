@@ -14,10 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(net.minecraft.client.Camera.class)
 public abstract class MixinCamera {
 
+	private double distante = 32D;
 	@Inject(method = "setup", at = @At("TAIL"))
 	public void ia$setup(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
 		if (thirdPerson && entity.getVehicle() instanceof YellowPlaneEntity vehicle) {
-			move(-getMaxZoom(64D), 0.0, 0.0);
+			move(-getMaxZoom(distante), 0.0, 0.0);
 		}
 	}
 	@Shadow

@@ -38,9 +38,8 @@ public class YellowPlaneEntity extends Entity {
         super(type, world);
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+    private float calculateMaxPitchBasedOnSpeed() {
+        return this.currentSpeed * 20f; // Plus la vitesse est élevée, plus le pitch maximal est élevé
     }
 
     @Override
@@ -49,13 +48,47 @@ public class YellowPlaneEntity extends Entity {
     }
 
     @Override
+    protected void removePassenger(Entity passenger) {
+        super.removePassenger(passenger);
+        if (passenger instanceof Player) {
+            System.out.println("Le joueur a quitté l'avion.");
+            // Code pour gérer la descente, si nécessaire
+        }
+    }
+
+    @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
         this.health = compound.getFloat("Health"); // Charge la santé lors de la sauvegarde
+    }
+
+    private void dropItem() {
+        // Remplace Blocks.DIRT par l'item que tu veux faire tomber (par exemple, un item spécifique à l'avion)
+        ItemStack itemStack = new ItemStack(Blocks.DIRT);
+        ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
+        this.getCommandSenderWorld().addFreshEntity(itemEntity);
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.putFloat("Health", this.health); // Sauvegarde la santé
+    }
+
+    protected void customPositionRider(Entity passenger) {
+        if (this.hasPassenger(passenger)) {
+            // System.out.println("Le joueur est bien reconnu comme conducteur.");
+            double xOffset = 0.0D;
+            double yOffset = 0.6D; // Ajuste la hauteur pour que le joueur soit assis correctement
+            double zOffset = 0.0D;
+
+            passenger.setPos(this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
+        } else {
+            // System.out.println("Le joueur n'est pas reconnu comme conducteur.");
+        }
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
@@ -70,13 +103,6 @@ public class YellowPlaneEntity extends Entity {
             }
         }
         return true;
-    }
-
-    private void dropItem() {
-        // Remplace Blocks.DIRT par l'item que tu veux faire tomber (par exemple, un item spécifique à l'avion)
-        ItemStack itemStack = new ItemStack(Blocks.DIRT);
-        ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
-        this.getCommandSenderWorld().addFreshEntity(itemEntity);
     }
 
     @Override
@@ -111,20 +137,6 @@ public class YellowPlaneEntity extends Entity {
             super.addPassenger(passenger);
             System.out.println("Un joueur a été ajouté comme conducteur.");
             this.customPositionRider(passenger);
-        }
-    }
-
-    // Positionner le conducteur dans l'avion
-    protected void customPositionRider(Entity passenger) {
-        if (this.hasPassenger(passenger)) {
-            // System.out.println("Le joueur est bien reconnu comme conducteur.");
-            double xOffset = 0.0D;
-            double yOffset = 0.6D; // Ajuste la hauteur pour que le joueur soit assis correctement
-            double zOffset = 0.0D;
-
-            passenger.setPos(this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
-        } else {
-            // System.out.println("Le joueur n'est pas reconnu comme conducteur.");
         }
     }
 
@@ -187,6 +199,15 @@ public class YellowPlaneEntity extends Entity {
             targetYaw = player.getYRot();
             targetPitch = player.getXRot();
 
+            // Limiter le pitch en fonction de la vitesse actuelle
+            float maxPitch = calculateMaxPitchBasedOnSpeed();
+            if (targetPitch > maxPitch) {
+//                targetPitch = maxPitch; // Limite la descente
+            }
+            else if (targetPitch < -maxPitch) {
+                targetPitch = -maxPitch; // Limite la montée
+            }
+
             // Interpolation fluide vers la rotation cible
             float yawDifference = targetYaw - this.getYRot();
             if (Math.abs(yawDifference) > 180.0f) { // Pour gérer la transition à 360°
@@ -244,21 +265,20 @@ public class YellowPlaneEntity extends Entity {
     }
 
     @Override
-    protected void removePassenger(Entity passenger) {
-        super.removePassenger(passenger);
-        if (passenger instanceof Player) {
-            System.out.println("Le joueur a quitté l'avion.");
-            // Code pour gérer la descente, si nécessaire
-        }
-    }
-
-    @Override
     @Nullable
     public LivingEntity getControllingPassenger() {
         return (LivingEntity) this.getFirstPassenger(); // Retourne le premier passager comme LivingEntity
     }
 
-	public boolean isBeingControlled() {
-		return this.getControllingPassenger() instanceof Player;
-	}
+    public boolean isBeingControlled() {
+        return this.getControllingPassenger() instanceof Player;
+    }
+
+    public float getRoll() {
+        float yawDifference = this.targetYaw - this.getYRot();
+        if (Math.abs(yawDifference) > 180.0f) { // Pour gérer la transition à 360°
+            yawDifference -= Math.signum(yawDifference) * 360.0f;
+        }
+        return yawDifference;
+    }
 }
