@@ -33,7 +33,8 @@ public class YellowPlaneEntity extends Entity {
     private float targetPitch;                  // La rotation X cible (la direction du joueur)
     private float yawSpeed = 2.0f;              // Vitesse d'interpolation pour le yaw
     private float pitchSpeed = 2.0f;            // Vitesse d'interpolation pour le pitch
-
+    private float previousRoll = 0.0f;          // L'angle de roulis précédent
+    private float propellerRotation = 0.0F;     // Rotation de l'hélice
     public YellowPlaneEntity(EntityType<? extends Entity> type, Level world) {
         super(type, world);
     }
@@ -174,23 +175,13 @@ public class YellowPlaneEntity extends Entity {
         return player.zza < 0; // `zza` est le champ qui correspond au mouvement vers l'arrière
     }
 
-    public float getCurrentSpeed() {
-        System.out.println("Vitesse actuelle : " + this.currentSpeed);
-        return this.currentSpeed;
-
-    }
-
-	@Override
-	public void tick() {
-        super.tick();
-
+    private void control(){
 
         if (this.onGround()) {
             minSpeed = 0.0f; // L'avion peut rester immobile au sol
         } else {
             minSpeed = invertSubtlety; // L'avion doit maintenir une vitesse minimale en vol
         }
-
 
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
             Player player = (Player) this.getControllingPassenger();
@@ -202,7 +193,7 @@ public class YellowPlaneEntity extends Entity {
             // Limiter le pitch en fonction de la vitesse actuelle
             float maxPitch = calculateMaxPitchBasedOnSpeed();
             if (targetPitch > maxPitch) {
-//                targetPitch = maxPitch; // Limite la descente
+                // targetPitch = maxPitch; // Limite la descente
             }
             else if (targetPitch < -maxPitch) {
                 targetPitch = -maxPitch; // Limite la montée
@@ -253,7 +244,7 @@ public class YellowPlaneEntity extends Entity {
             double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
             double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed; // Utilise l'inclinaison (pitch) pour déterminer la montée ou la descente
 
-
+            // Ajout d'une légère force de descente pour éviter de rester en l'air à faible vitesse
             if (this.currentSpeed < 0.3f) {
                 motionY -= invertSubtlety;
             }
@@ -262,6 +253,12 @@ public class YellowPlaneEntity extends Entity {
             this.move(MoverType.SELF, this.getDeltaMovement());
 
         }
+    }
+
+    public float getCurrentSpeed() {
+        System.out.println("Vitesse actuelle : " + this.currentSpeed);
+        return this.currentSpeed;
+
     }
 
     @Override
@@ -275,10 +272,41 @@ public class YellowPlaneEntity extends Entity {
     }
 
     public float getRoll() {
+        if(this.onGround()){
+            return 0.0f;
+        }
         float yawDifference = this.targetYaw - this.getYRot();
         if (Math.abs(yawDifference) > 180.0f) { // Pour gérer la transition à 360°
             yawDifference -= Math.signum(yawDifference) * 360.0f;
         }
-        return yawDifference;
+        return - yawDifference; //*this.getCurrentSpeed()
+    }
+
+    public float getPreviousRoll(){
+        return this.previousRoll;
+    }
+
+    public float getPropellerRotation() {
+        return this.propellerRotation;
+    }
+
+    public void updatePropellerRotation(float speed) {
+        this.propellerRotation += speed * 0.3F; // Ajustez le facteur pour contrôler la vitesse de rotation
+        if (this.propellerRotation > 360.0F) {
+            this.propellerRotation -= 360.0F; // Réinitialise l'angle si on dépasse 360 degrés
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        this.previousRoll = this.getRoll();
+
+        this.control();
+
+        if (this.isBeingControlled()) {
+            this.updatePropellerRotation(Math.abs(this.getCurrentSpeed()));
+        }
     }
 }
