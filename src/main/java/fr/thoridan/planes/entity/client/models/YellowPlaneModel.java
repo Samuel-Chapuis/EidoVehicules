@@ -2,15 +2,13 @@
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-package fr.thoridan.planes.entity.client;
+package fr.thoridan.planes.entity.client.models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import fr.thoridan.planes.entity.custom.YellowPlaneEntity;
-import net.minecraft.client.model.EntityModel;
+import fr.thoridan.planes.entity.custom.models.YellowPlane;
 import net.minecraft.client.model.HierarchicalModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -18,7 +16,6 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 import static java.lang.Math.abs;
@@ -191,7 +188,7 @@ public class YellowPlaneModel<T extends Entity> extends HierarchicalModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		YellowPlaneEntity plane = (YellowPlaneEntity) entity;
+		YellowPlane plane = (YellowPlane) entity;
 		if (plane.isBeingControlled()) {
 			// Met à jour la rotation de l’hélice pour l'entité contrôlée
 			this.Pales.zRot = plane.getPropellerRotation();

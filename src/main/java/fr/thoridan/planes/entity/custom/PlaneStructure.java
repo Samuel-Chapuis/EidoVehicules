@@ -1,42 +1,42 @@
 package fr.thoridan.planes.entity.custom;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import org.jetbrains.annotations.Nullable;
 
-public class YellowPlaneEntity extends Entity {
-
-    private float health = 20.0f; // Points de vie de l’avion
-	private float currentSpeed = 0.0f;
-	private final float maxSpeed = 1.5f;        // Vitesse maximale de l'avion
-	private final float acceleration = 0.02f;   // Vitesse d'accélération
-	private final float deceleration = 0.01f;   // Vitesse de décélération
-    private float invertSubtlety = 0.3f;        // Sorte de finesse inversé de l'avion
-    private float minSpeed = 0.0f;              // Vitesse minimale de l'avion
+public abstract class PlaneStructure extends Entity {
+    private float currentSpeed = 0.0f;
+    private float minSpeed = 0.0f;              // Vitesse minimale de l'avion\
     private float targetYaw;                    // La rotation Y cible (la direction du joueur)
     private float targetPitch;                  // La rotation X cible (la direction du joueur)
     private float yawSpeed = 2.0f;              // Vitesse d'interpolation pour le yaw
     private float pitchSpeed = 2.0f;            // Vitesse d'interpolation pour le pitch
     private float previousRoll = 0.0f;          // L'angle de roulis précédent
-    private float propellerRotation = 0.0F;     // Rotation de l'hélice
-    public YellowPlaneEntity(EntityType<? extends Entity> type, Level world) {
+
+    protected float health;                     // Points de vie de l’avion
+    protected float maxSpeed;                   // Vitesse maximale de l'avion
+    protected float acceleration;               // Vitesse d'accélération
+    protected float deceleration;               // Vitesse de décélération
+    protected float invertSubtlety;             // Sorte de finesse inversé de l'avion
+    protected Block drop = Blocks.DIRT;         // Bloc à faire tomber lors de la destruction de l'avion
+    public PlaneStructure(EntityType<? extends Entity> type, Level world) {
         super(type, world);
     }
 
@@ -59,7 +59,7 @@ public class YellowPlaneEntity extends Entity {
 
     private void dropItem() {
         // Remplace Blocks.DIRT par l'item que tu veux faire tomber (par exemple, un item spécifique à l'avion)
-        ItemStack itemStack = new ItemStack(Blocks.DIRT);
+        ItemStack itemStack = new ItemStack(drop);
         ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
         this.getCommandSenderWorld().addFreshEntity(itemEntity);
     }
@@ -137,7 +137,7 @@ public class YellowPlaneEntity extends Entity {
                 this.remove(RemovalReason.KILLED);
             }
         }
-        return true;
+        return true; //super.hurt(source, amount)
     }
 
     @Override
@@ -329,16 +329,7 @@ public class YellowPlaneEntity extends Entity {
         return this.previousRoll;
     }
 
-    public float getPropellerRotation() {
-        return this.propellerRotation;
-    }
-
-    public void updatePropellerRotation(float speed) {
-        this.propellerRotation += speed * 0.3F; // Ajustez le facteur pour contrôler la vitesse de rotation
-        if (this.propellerRotation > 360.0F) {
-            this.propellerRotation -= 360.0F; // Réinitialise l'angle si on dépasse 360 degrés
-        }
-    }
+    protected abstract void addingControlledTicks();
 
     @Override
     public void tick() {
@@ -349,7 +340,8 @@ public class YellowPlaneEntity extends Entity {
         this.control();
 
         if (this.isBeingControlled()) {
-            this.updatePropellerRotation(Math.abs(this.getCurrentSpeed()));
+            this.addingControlledTicks();
+//            this.updatePropellerRotation(Math.abs(this.getCurrentSpeed()));
         }
 
         if (!this.level().isClientSide) {
