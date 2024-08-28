@@ -3,6 +3,7 @@ package fr.thoridan.planes.entity.custom;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,6 +44,27 @@ public class YellowPlaneEntity extends Entity {
         return this.currentSpeed * 20f; // Plus la vitesse est élevée, plus le pitch maximal est élevé
     }
 
+    private void stabilizeRoll() {
+        float roll = this.getRoll();
+        if (Math.abs(roll) > 0.1f) { // Seuil pour arrêter l'interpolation quand proche de 0
+            if (roll > 0) {
+                this.setYRot(this.getYRot() - Math.min(2.0f, roll)); // Ajuste la rotation pour ramener le roll vers 0
+            } else {
+                this.setYRot(this.getYRot() + Math.min(2.0f, -roll)); // Ajuste la rotation pour ramener le roll vers 0
+            }
+        } else {
+            this.setYRot(this.getYRot() - roll); // Ramène à 0
+        }
+    }
+
+    private void dropItem() {
+        // Remplace Blocks.DIRT par l'item que tu veux faire tomber (par exemple, un item spécifique à l'avion)
+        ItemStack itemStack = new ItemStack(Blocks.DIRT);
+        ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
+        this.getCommandSenderWorld().addFreshEntity(itemEntity);
+    }
+
+
     @Override
     protected void defineSynchedData() {
         // Méthode obligatoire pour les entités ; à implémenter selon tes besoins
@@ -52,21 +74,33 @@ public class YellowPlaneEntity extends Entity {
     protected void removePassenger(Entity passenger) {
         super.removePassenger(passenger);
         if (passenger instanceof Player) {
+            if(this.onGround()){
+                this.setDeltaMovement(0, 0, 0);
+                this.setXRot(0);
+            }
+
+            this.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+            if (!this.level().isClientSide) {
+                // Forcer une mise à jour de l'entité sur le client
+                this.level().getServer().getPlayerList().broadcast(
+                        null,
+                        this.getX(),
+                        this.getY(),
+                        this.getZ(),
+                        64.0,
+                        this.level().dimension(),
+                        new ClientboundTeleportEntityPacket(this)
+                );
+            }
+//            this.stabilizeRoll();
             System.out.println("Le joueur a quitté l'avion.");
-            // Code pour gérer la descente, si nécessaire
         }
+
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
         this.health = compound.getFloat("Health"); // Charge la santé lors de la sauvegarde
-    }
-
-    private void dropItem() {
-        // Remplace Blocks.DIRT par l'item que tu veux faire tomber (par exemple, un item spécifique à l'avion)
-        ItemStack itemStack = new ItemStack(Blocks.DIRT);
-        ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
-        this.getCommandSenderWorld().addFreshEntity(itemEntity);
     }
 
     @Override
@@ -234,25 +268,34 @@ public class YellowPlaneEntity extends Entity {
                 }
             }
 
-            // Empêcher la vitesse de devenir négative
-            if (this.currentSpeed < 0.0f) {
-                this.currentSpeed = 0.0f;
+
+
+        } else{
+            this.currentSpeed -= this.deceleration;
+            if (this.currentSpeed < this.minSpeed) {
+                this.currentSpeed = this.minSpeed;
             }
-
-            // Calcul du mouvement en fonction de la rotation actuelle de l'avion
-            double motionX = -Math.sin(Math.toRadians(this.getYRot())) * this.currentSpeed;
-            double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
-            double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed; // Utilise l'inclinaison (pitch) pour déterminer la montée ou la descente
-
-            // Ajout d'une légère force de descente pour éviter de rester en l'air à faible vitesse
-            if (this.currentSpeed < 0.3f) {
-                motionY -= invertSubtlety;
-            }
-
-            this.setDeltaMovement(motionX, motionY, motionZ);
-            this.move(MoverType.SELF, this.getDeltaMovement());
-
+            this.stabilizeRoll();
         }
+
+        // Empêcher la vitesse de devenir négative
+        if (this.currentSpeed < 0.0f) {
+            this.currentSpeed = 0.0f;
+        }
+
+        // Calcul du mouvement en fonction de la rotation actuelle de l'avion
+        double motionX = -Math.sin(Math.toRadians(this.getYRot())) * this.currentSpeed;
+        double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
+        double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed; // Utilise l'inclinaison (pitch) pour déterminer la montée ou la descente
+
+        // Ajout d'une légère force de descente pour éviter de rester en l'air à faible vitesse
+        if (this.currentSpeed < invertSubtlety*1.3) {
+            motionY -= invertSubtlety;
+        }
+
+        this.setDeltaMovement(motionX, motionY, motionZ);
+        this.move(MoverType.SELF, this.getDeltaMovement());
+
     }
 
     public float getCurrentSpeed() {
@@ -307,6 +350,13 @@ public class YellowPlaneEntity extends Entity {
 
         if (this.isBeingControlled()) {
             this.updatePropellerRotation(Math.abs(this.getCurrentSpeed()));
+        }
+
+        if (!this.level().isClientSide) {
+            this.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+            System.out.println("Server position: " + this.getX() + ", " + this.getY() + ", " + this.getZ());
+        } else {
+            System.out.println("Client position: " + this.getX() + ", " + this.getY() + ", " + this.getZ());
         }
     }
 }
