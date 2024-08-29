@@ -1,9 +1,6 @@
 package fr.thoridan.planes.entity.custom.models;
 
-import fr.thoridan.planes.ForPlanes;
-import fr.thoridan.planes.entity.client.models.RafaleModel;
 import fr.thoridan.planes.entity.custom.PlaneStructure;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
@@ -16,6 +13,8 @@ public class Rafale extends PlaneStructure {
         this.acceleration = 0.7f;
         this.deceleration = 0.5f;
         this.invertSubtlety = 0.3f;
+        this.yRiderOffset = 1f;
+        this.invisibleRider = true;
     }
 
     @Override

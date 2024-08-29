@@ -1,19 +1,17 @@
 package fr.thoridan.planes.entity.client.models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import fr.thoridan.planes.ForPlanes;
 import fr.thoridan.planes.entity.client.ModModelLayers;
 import fr.thoridan.planes.entity.client.PlaneRenderer;
 import fr.thoridan.planes.entity.custom.models.Rafale;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
-public class RafaleRender extends PlaneRenderer<Rafale> {
+public class RafaleRenderer extends PlaneRenderer<Rafale> {
     private static ResourceLocation RAFALE_TEXTURE;
     private final RafaleModel<Rafale> model;
 
-    public RafaleRender(EntityRendererProvider.Context context) {
+    public RafaleRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.model = new RafaleModel<>(context.bakeLayer(ModModelLayers.RAFALE));
     }

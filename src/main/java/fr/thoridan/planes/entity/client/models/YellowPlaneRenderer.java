@@ -1,5 +1,6 @@
 package fr.thoridan.planes.entity.client.models;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.thoridan.planes.ForPlanes;
 import fr.thoridan.planes.entity.client.ModModelLayers;
 import fr.thoridan.planes.entity.client.PlaneRenderer;
@@ -25,5 +26,10 @@ public class YellowPlaneRenderer extends PlaneRenderer<YellowPlane> {
     @Override
     protected EntityModel<YellowPlane> getPlaneModel(YellowPlane entity) {
         return model;
+    }
+
+    @Override
+    protected void renderSettings(PoseStack poseStack) {
+        poseStack.translate(0.0D, 1.5D, 0.0D);
     }
 }

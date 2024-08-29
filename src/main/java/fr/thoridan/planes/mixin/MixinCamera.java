@@ -26,17 +26,4 @@ public abstract class MixinCamera {
 	@Shadow
 	protected abstract double getMaxZoom(double desiredCameraDistance);
 
-
-
-
-//	@Inject(method = "setup(Lnet/minecraft/world/level/Level;Lnet/minecraft.world.entity.Entity;ZZF)V", at = @At("HEAD"))
-//	private void planeView() {
-//		if (entity instanceof YellowPlaneEntity) {
-//			// Logique d'ajustement de la caméra
-//			adjustCameraDistance();
-//		}
-//	}
-
-
-
 }

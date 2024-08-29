@@ -24,13 +24,13 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
 
     protected abstract EntityModel<T> getPlaneModel(T entity);  // Utilisez EntityModel ou votre superclasse de modèle
 
+    protected abstract void renderSettings(PoseStack poseStack);
     @Override
     public void render(T plane, float entityYaw, float partialTicks, PoseStack poseStack,
                        net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight) {
 
         poseStack.pushPose();
-
-        poseStack.translate(0.0D, 1.5D, 0.0D);
+        renderSettings(poseStack);
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
 
         float interpolatedYaw = interpolateAngle(plane.yRotO, plane.getYRot(), partialTicks);

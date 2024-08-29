@@ -22,7 +22,7 @@ public class ModEntities {
 
 	public static final RegistryObject<EntityType<Rafale>> RAFALE = ENTITY_TYPES.register("rafale",
 			() -> EntityType.Builder.<Rafale>of(Rafale::new, MobCategory.MISC)
-					.sized(1.5F, 1.5F) // dimensions de l'avion
+					.sized(4F, 8F) // dimensions de l'avion
 					.build(new ResourceLocation(ForPlanes.MOD_ID, "rafale").toString()));
 
 

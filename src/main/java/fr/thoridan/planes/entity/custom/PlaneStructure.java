@@ -34,7 +34,11 @@ public abstract class PlaneStructure extends Entity {
     protected float maxSpeed;                   // Vitesse maximale de l'avion
     protected float acceleration;               // Vitesse d'accélération
     protected float deceleration;               // Vitesse de décélération
-    protected float invertSubtlety;             // Sorte de finesse inversé de l'avion
+    protected float invertSubtlety;             // Sorte de finesse inversé
+    protected float xRiderOffset = 0;           // Décalage X du joueur
+    protected float yRiderOffset = 0;           // Décalage Y du joueur
+    protected float zRiderOffset = 0;           // Décalage Z du joueur
+    protected boolean invisibleRider = false;      // Visibilité du joueur
     protected Block drop = Blocks.DIRT;         // Bloc à faire tomber lors de la destruction de l'avion
     public PlaneStructure(EntityType<? extends Entity> type, Level world) {
         super(type, world);
@@ -77,6 +81,7 @@ public abstract class PlaneStructure extends Entity {
             if(this.onGround()){
                 this.setDeltaMovement(0, 0, 0);
                 this.setXRot(0);
+                passenger.setInvisible(false);
             }
 
             this.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
@@ -106,19 +111,6 @@ public abstract class PlaneStructure extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.putFloat("Health", this.health); // Sauvegarde la santé
-    }
-
-    protected void customPositionRider(Entity passenger) {
-        if (this.hasPassenger(passenger)) {
-            // System.out.println("Le joueur est bien reconnu comme conducteur.");
-            double xOffset = 0.0D;
-            double yOffset = 0.6D; // Ajuste la hauteur pour que le joueur soit assis correctement
-            double zOffset = 0.0D;
-
-            passenger.setPos(this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
-        } else {
-            // System.out.println("Le joueur n'est pas reconnu comme conducteur.");
-        }
     }
 
     @Override
@@ -164,6 +156,17 @@ public abstract class PlaneStructure extends Entity {
         return this.getBoundingBox();
     }
 
+    @Override
+    protected void positionRider(Entity passenger, MoveFunction moveFunction) {
+        if (this.hasPassenger(passenger)) {
+            double xOffset = xRiderOffset;
+            double yOffset = yRiderOffset; // Adjust the height as needed
+            double zOffset = zRiderOffset;
+
+            moveFunction.accept(passenger, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
+        }
+    }
+
     // Gérer l'ajout du conducteur uniquement
     @Override
     public void addPassenger(Entity passenger) {
@@ -171,7 +174,8 @@ public abstract class PlaneStructure extends Entity {
         if (passenger instanceof Player && this.getPassengers().isEmpty()) {
             super.addPassenger(passenger);
             System.out.println("Un joueur a été ajouté comme conducteur.");
-            this.customPositionRider(passenger);
+            this.positionRider(passenger);
+            passenger.setInvisible(invisibleRider);
         }
     }
 
@@ -232,6 +236,10 @@ public abstract class PlaneStructure extends Entity {
             else if (targetPitch < -maxPitch) {
                 targetPitch = -maxPitch; // Limite la montée
             }
+            if(this.onGround() && targetPitch < 0){
+                targetPitch = 0;
+            }
+
 
             // Interpolation fluide vers la rotation cible
             float yawDifference = targetYaw - this.getYRot();
@@ -256,13 +264,13 @@ public abstract class PlaneStructure extends Entity {
                     this.currentSpeed = this.maxSpeed;
                 }
             } else if (isPlayerMovingBackward(player)) {
-                this.currentSpeed -= this.acceleration;
+                this.currentSpeed -= this.acceleration*0.1;
                 if (this.currentSpeed < this.minSpeed) {
                     this.currentSpeed = this.minSpeed; // Bloquer la vitesse à minSpeed pour éviter de reculer
                 }
             } else {
                 // Lorsque le joueur ne fait rien, on décélère, mais sans passer en dessous de minSpeed
-                this.currentSpeed -= this.deceleration;
+                this.currentSpeed -= this.deceleration*0.1;
                 if (this.currentSpeed < this.minSpeed) {
                     this.currentSpeed = this.minSpeed; // Bloquer la vitesse à minSpeed pour éviter de reculer
                 }
@@ -341,7 +349,6 @@ public abstract class PlaneStructure extends Entity {
 
         if (this.isBeingControlled()) {
             this.addingControlledTicks();
-//            this.updatePropellerRotation(Math.abs(this.getCurrentSpeed()));
         }
 
         if (!this.level().isClientSide) {

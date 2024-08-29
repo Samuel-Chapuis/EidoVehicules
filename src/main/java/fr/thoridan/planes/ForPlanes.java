@@ -6,6 +6,7 @@ import fr.thoridan.planes.block.ModBlocks;
 import fr.thoridan.planes.entity.ModEntities;
 import fr.thoridan.planes.entity.client.models.RafaleRender;
 import fr.thoridan.planes.entity.client.models.YellowPlaneRenderer;
+import fr.thoridan.planes.entity.custom.models.Rafale;
 import fr.thoridan.planes.item.ModCreativeModTabs;
 import fr.thoridan.planes.item.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;

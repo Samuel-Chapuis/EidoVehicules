@@ -12,4 +12,12 @@ public class ModAnimationDefinitions {
 					new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f), AnimationChannel.Interpolations.LINEAR),
 					new Keyframe(0.25f, KeyframeAnimations.degreeVec(0f, 0f, 123f), AnimationChannel.Interpolations.LINEAR)))
 						.build();
+
+		public static final AnimationDefinition ANIMATION = AnimationDefinition.Builder.withLength(0.25f)
+				.addAnimation("TurboOn",
+						new AnimationChannel(AnimationChannel.Targets.POSITION,
+								new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0.5f),
+										AnimationChannel.Interpolations.LINEAR),
+								new Keyframe(0.25f, KeyframeAnimations.posVec(0f, 0f, 0.7f),
+										AnimationChannel.Interpolations.LINEAR))).build();
 }
