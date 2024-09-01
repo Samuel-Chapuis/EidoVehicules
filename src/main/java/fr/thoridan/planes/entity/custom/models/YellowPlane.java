@@ -18,8 +18,10 @@ public class YellowPlane extends PlaneStructure {
     }
 
     @Override
-    protected void addingControlledTicks(){
-        this.updatePropeller();
+    protected void addingTick(){
+        if (this.isBeingControlled()) {
+            this.updatePropeller();
+        }
     }
 
 

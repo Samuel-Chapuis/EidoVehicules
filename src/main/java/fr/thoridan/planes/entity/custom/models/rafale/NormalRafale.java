@@ -1,12 +1,14 @@
-package fr.thoridan.planes.entity.custom.models;
+package fr.thoridan.planes.entity.custom.models.rafale;
 
 import fr.thoridan.planes.entity.custom.PlaneStructure;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
-public class Rafale extends PlaneStructure {
+public class NormalRafale extends PlaneStructure {
 
-    public Rafale(EntityType<? extends PlaneStructure> type, Level world) {
+
+
+    public NormalRafale(EntityType<? extends PlaneStructure> type, Level world) {
         super(type, world);
         this.health = 100f;
         this.maxSpeed = 3f;
@@ -18,7 +20,8 @@ public class Rafale extends PlaneStructure {
     }
 
     @Override
-    protected void addingControlledTicks(){
-
+    protected void addingTick(){
+//        System.out.println("Bbbbbb");
     }
 }
+

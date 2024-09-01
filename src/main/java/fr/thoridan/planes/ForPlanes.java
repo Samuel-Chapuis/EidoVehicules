@@ -4,9 +4,10 @@ import com.mojang.logging.LogUtils;
 
 import fr.thoridan.planes.block.ModBlocks;
 import fr.thoridan.planes.entity.ModEntities;
-import fr.thoridan.planes.entity.client.models.RafaleRender;
 import fr.thoridan.planes.entity.client.models.YellowPlaneRenderer;
-import fr.thoridan.planes.entity.custom.models.Rafale;
+import fr.thoridan.planes.entity.client.models.rafale.RafaleGreenRenderer;
+import fr.thoridan.planes.entity.client.models.rafale.RafaleNormalRenderer;
+import fr.thoridan.planes.entity.client.models.rafale.RafaleRenderer;
 import fr.thoridan.planes.item.ModCreativeModTabs;
 import fr.thoridan.planes.item.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -66,7 +67,8 @@ public class ForPlanes {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 			EntityRenderers.register(ModEntities.YELLOW_PLANE.get(), YellowPlaneRenderer::new);
-            EntityRenderers.register(ModEntities.RAFALE.get(), RafaleRender::new);
+            EntityRenderers.register(ModEntities.NORMAL_RAFALE.get(), RafaleNormalRenderer::new);
+            EntityRenderers.register(ModEntities.GREEN_RAFALE.get(), RafaleGreenRenderer::new);
         }
     }
 }

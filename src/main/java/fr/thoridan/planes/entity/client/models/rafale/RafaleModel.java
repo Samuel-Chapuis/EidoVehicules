@@ -1,11 +1,11 @@
-package fr.thoridan.planes.entity.client.models;// Made with Blockbench 4.10.4
+package fr.thoridan.planes.entity.client.models.rafale;// Made with Blockbench 4.10.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.thoridan.planes.entity.custom.models.Rafale;
+import fr.thoridan.planes.entity.custom.models.rafale.NormalRafale;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -19,10 +19,12 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "rafalemodel"), "main");
 	private final ModelPart F15;
 	private final ModelPart TurboOn;
+	private final ModelPart Roues;
 
 	public RafaleModel(ModelPart root) {
 		this.F15 = root.getChild("F15");
 		this.TurboOn = this.F15.getChild("Body").getChild("TurboOn");
+		this.Roues = this.F15.getChild("Roues");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -196,12 +198,12 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		Rafale rafale = (Rafale) entity;
-		if (rafale.onGround()) {
+		if (entity.onGround()) {
 			this.TurboOn.visible = false;
-			// Additional animations can go here
+			this.Roues.visible = true;
 		} else {
 			this.TurboOn.visible = true;
+			this.Roues.visible = false;
 		}
 	}
 

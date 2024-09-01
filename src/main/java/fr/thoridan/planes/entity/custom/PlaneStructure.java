@@ -1,5 +1,6 @@
 package fr.thoridan.planes.entity.custom;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -21,6 +22,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.text.LabelView;
+
 public abstract class PlaneStructure extends Entity {
     private float currentSpeed = 0.0f;
     private float minSpeed = 0.0f;              // Vitesse minimale de l'avion\
@@ -40,8 +43,11 @@ public abstract class PlaneStructure extends Entity {
     protected float zRiderOffset = 0;           // Décalage Z du joueur
     protected boolean invisibleRider = false;      // Visibilité du joueur
     protected Block drop = Blocks.DIRT;         // Bloc à faire tomber lors de la destruction de l'avion
+    protected Level level;
+
     public PlaneStructure(EntityType<? extends Entity> type, Level world) {
         super(type, world);
+        this.level = world;
     }
 
     private float calculateMaxPitchBasedOnSpeed() {
@@ -337,25 +343,25 @@ public abstract class PlaneStructure extends Entity {
         return this.previousRoll;
     }
 
-    protected abstract void addingControlledTicks();
+    protected abstract void addingTick();
 
     @Override
     public void tick() {
         super.tick();
-
         this.previousRoll = this.getRoll();
-
         this.control();
 
-        if (this.isBeingControlled()) {
-            this.addingControlledTicks();
-        }
+        addingTick();
+
+//        if (this.isBeingControlled()) {
+//            System.out.println("L'avion est contrôlé.");
+//        }
 
         if (!this.level().isClientSide) {
             this.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
-            System.out.println("Server position: " + this.getX() + ", " + this.getY() + ", " + this.getZ());
+//            System.out.println("Server position: " + this.getX() + ", " + this.getY() + ", " + this.getZ());
         } else {
-            System.out.println("Client position: " + this.getX() + ", " + this.getY() + ", " + this.getZ());
+//            System.out.println("Client position: " + this.getX() + ", " + this.getY() + ", " + this.getZ());
         }
     }
 }

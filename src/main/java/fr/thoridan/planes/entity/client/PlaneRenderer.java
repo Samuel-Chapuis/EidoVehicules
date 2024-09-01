@@ -22,7 +22,7 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
 
     protected abstract ResourceLocation getPlaneTexture(T entity);
 
-    protected abstract EntityModel<T> getPlaneModel(T entity);  // Utilisez EntityModel ou votre superclasse de modèle
+    protected abstract EntityModel<T> getPlaneModel(T entity);
 
     protected abstract void renderSettings(PoseStack poseStack);
     @Override

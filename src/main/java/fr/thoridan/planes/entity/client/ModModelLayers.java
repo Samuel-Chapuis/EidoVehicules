@@ -9,5 +9,8 @@ public class ModModelLayers {
 			new ResourceLocation(ForPlanes.MOD_ID, "yellow_plane"), "main");
 
 	public static final ModelLayerLocation RAFALE = new ModelLayerLocation(
-			new ResourceLocation(ForPlanes.MOD_ID, "rafale"), "main");
+			new ResourceLocation(ForPlanes.MOD_ID, "normal_rafale"), "main");
+
+	public static final ModelLayerLocation RAFALE_GREEN = new ModelLayerLocation(
+			new ResourceLocation(ForPlanes.MOD_ID, "rafale_green"), "main");
 }
