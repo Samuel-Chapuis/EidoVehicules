@@ -17,6 +17,7 @@ public class NormalRafale extends PlaneStructure {
         this.invertSubtlety = 0.3f;
         this.yRiderOffset = 1f;
         this.invisibleRider = true;
+        this.cameraDistance = 64D;
     }
 
     @Override

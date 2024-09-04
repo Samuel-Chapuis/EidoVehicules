@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.text.LabelView;
 
 public abstract class PlaneStructure extends Entity {
+
     private float currentSpeed = 0.0f;
     private float minSpeed = 0.0f;              // Vitesse minimale de l'avion\
     private float targetYaw;                    // La rotation Y cible (la direction du joueur)
@@ -35,6 +36,7 @@ public abstract class PlaneStructure extends Entity {
 
     protected float health;                     // Points de vie de l’avion
     protected float maxSpeed;                   // Vitesse maximale de l'avion
+    protected double cameraDistance;
     protected float acceleration;               // Vitesse d'accélération
     protected float deceleration;               // Vitesse de décélération
     protected float invertSubtlety;             // Sorte de finesse inversé
@@ -44,6 +46,8 @@ public abstract class PlaneStructure extends Entity {
     protected boolean invisibleRider = false;      // Visibilité du joueur
     protected Block drop = Blocks.DIRT;         // Bloc à faire tomber lors de la destruction de l'avion
     protected Level level;
+
+    protected abstract void addingTick();
 
     public PlaneStructure(EntityType<? extends Entity> type, Level world) {
         super(type, world);
@@ -157,6 +161,9 @@ public abstract class PlaneStructure extends Entity {
         return true; // Rend l'entité "poussable"
     }
 
+    public double getCameraDistance() {
+        return this.cameraDistance;
+    }
     @Override
     public AABB getBoundingBoxForCulling() {
         return this.getBoundingBox();
@@ -342,8 +349,6 @@ public abstract class PlaneStructure extends Entity {
     public float getPreviousRoll(){
         return this.previousRoll;
     }
-
-    protected abstract void addingTick();
 
     @Override
     public void tick() {

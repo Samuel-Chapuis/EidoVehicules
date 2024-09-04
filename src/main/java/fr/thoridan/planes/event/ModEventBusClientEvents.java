@@ -36,7 +36,7 @@ public class ModEventBusClientEvents {
     @SubscribeEvent
     public static void onEntityRenderersRegister(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.YELLOW_PLANE, YellowPlaneModel::createBodyLayer);
-        event.registerLayerDefinition(ModModelLayers.RAFALE, YellowPlaneModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.NORMAL_RAFALE, YellowPlaneModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.RAFALE_GREEN, YellowPlaneModel::createBodyLayer);
     }
 

@@ -23,12 +23,12 @@ public class ModEntities {
 
 	public static final RegistryObject<EntityType<NormalRafale>> NORMAL_RAFALE = ENTITY_TYPES.register("normal_rafale",
 			() -> EntityType.Builder.<NormalRafale>of(NormalRafale::new, MobCategory.MISC)
-					.sized(4F, 8F) // dimensions de l'avion
+					.sized(4F, 3F) // dimensions de l'avion
 					.build(new ResourceLocation(ForPlanes.MOD_ID, "normal_rafale").toString()));
 
 	public static final RegistryObject<EntityType<GreenRafale>> GREEN_RAFALE = ENTITY_TYPES.register("green_rafale",
 			() -> EntityType.Builder.<GreenRafale>of(GreenRafale::new, MobCategory.MISC)
-					.sized(4F, 8F) // dimensions de l'avion
+					.sized(4F, 3F) // dimensions de l'avion
 					.build(new ResourceLocation(ForPlanes.MOD_ID, "green_rafale").toString()));
 
     public static void register(IEventBus eventBus) {

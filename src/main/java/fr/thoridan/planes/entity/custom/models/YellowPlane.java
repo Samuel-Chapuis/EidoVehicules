@@ -7,6 +7,8 @@ import net.minecraft.world.level.Level;
 
 public class YellowPlane extends PlaneStructure {
 
+
+
     protected float propellerRotation = 0.0F;   // Rotation de l'hélice
     public YellowPlane(EntityType<? extends PlaneStructure> type, Level world) {
         super(type, world);
@@ -15,6 +17,7 @@ public class YellowPlane extends PlaneStructure {
         this.acceleration = 0.2f;
         this.deceleration = 0.1f;
         this.invertSubtlety = 0.3f;
+        this.cameraDistance = 32D;
     }
 
     @Override
@@ -23,8 +26,6 @@ public class YellowPlane extends PlaneStructure {
             this.updatePropeller();
         }
     }
-
-
 
     protected void updatePropeller() {
         this.propellerRotation += this.getCurrentSpeed() * 0.3F; // Ajustez le facteur pour contrôler la vitesse de rotation
