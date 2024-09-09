@@ -1,6 +1,4 @@
-package fr.thoridan.planes.entity.client.models.rafale;// Made with Blockbench 4.10.4
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
+package fr.thoridan.planes.entity.client.models.rafale;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -13,13 +11,13 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
+
 public class RafaleModel<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "rafalemodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "rafale"), "main");
 	private final ModelPart F15;
 	private final ModelPart TurboOn;
 	private final ModelPart Roues;
-
 	public RafaleModel(ModelPart root) {
 		this.F15 = root.getChild("F15");
 		this.TurboOn = this.F15.getChild("Body").getChild("TurboOn");
@@ -30,10 +28,10 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition F15 = partdefinition.addOrReplaceChild("F15", CubeListBuilder.create(), PartPose.offset(0.0F, 26.0F, -12.0F));
+		PartDefinition F15 = partdefinition.addOrReplaceChild("F15", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 2.0F));
 
 		PartDefinition Body = F15.addOrReplaceChild("Body", CubeListBuilder.create().texOffs(0, 40).addBox(0.0F, -10.0F, 23.0F, 4.0F, 12.0F, 16.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 40).mirror().addBox(-4.0F, -10.0F, 23.0F, 4.0F, 12.0F, 16.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 1.0F, 0.0F));
+				.texOffs(0, 40).mirror().addBox(-4.0F, -10.0F, 23.0F, 4.0F, 12.0F, 16.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 8.0F, -9.0F));
 
 		PartDefinition cube_r1 = Body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(56, 40).addBox(-3.0F, -4.0F, -6.0F, 6.0F, 4.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -5.6F, 30.6F, 0.2618F, 0.0F, 0.0F));
 
@@ -64,7 +62,7 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 		PartDefinition TurboOff = Body.addOrReplaceChild("TurboOff", CubeListBuilder.create().texOffs(0, 88).addBox(0.0F, -8.0F, 39.0F, 6.0F, 7.0F, 41.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 88).mirror().addBox(-6.0F, -8.0F, 39.0F, 6.0F, 7.0F, 41.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition Aero = F15.addOrReplaceChild("Aero", CubeListBuilder.create(), PartPose.offset(7.0F, -4.0F, 35.0F));
+		PartDefinition Aero = F15.addOrReplaceChild("Aero", CubeListBuilder.create(), PartPose.offset(7.0F, 3.0F, 26.0F));
 
 		PartDefinition Aileron = Aero.addOrReplaceChild("Aileron", CubeListBuilder.create(), PartPose.offsetAndRotation(-6.75F, -12.2057F, 39.3622F, -0.1745F, 0.0F, 0.0F));
 
@@ -110,7 +108,7 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 				.texOffs(0, 9).mirror().addBox(-5.0F, -9.7F, 5.0F, 4.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(0, 88).addBox(-1.0F, -4.7F, 1.0F, 4.0F, 5.0F, 7.0F, new CubeDeformation(0.0F))
 				.texOffs(24, 40).addBox(-1.0F, -9.7F, 8.0F, 4.0F, 10.0F, 5.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 9).addBox(-1.0F, -9.7F, 5.0F, 4.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, -0.3F, -14.0F));
+				.texOffs(0, 9).addBox(-1.0F, -9.7F, 5.0F, 4.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, 6.7F, -23.0F));
 
 		PartDefinition cube_r19 = Nez.addOrReplaceChild("cube_r19", CubeListBuilder.create().texOffs(53, 92).addBox(-1.0F, -5.0F, -5.0F, 4.0F, 5.0F, 6.0F, new CubeDeformation(0.0F))
 				.texOffs(53, 92).mirror().addBox(-5.0F, -5.0F, -5.0F, 4.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.3054F, 0.0F, 0.0F));
@@ -121,7 +119,7 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 		PartDefinition cube_r21 = Nez.addOrReplaceChild("cube_r21", CubeListBuilder.create().texOffs(137, 143).addBox(-1.0F, -4.0F, -24.0F, 3.0F, 4.0F, 35.0F, new CubeDeformation(0.0F))
 				.texOffs(138, 143).mirror().addBox(-4.0F, -4.0F, -24.0F, 3.0F, 4.0F, 35.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 2.3F, 26.0F, -0.0873F, 0.0F, 0.0F));
 
-		PartDefinition Cockpit = F15.addOrReplaceChild("Cockpit", CubeListBuilder.create(), PartPose.offset(3.5F, -11.0F, -0.5F));
+		PartDefinition Cockpit = F15.addOrReplaceChild("Cockpit", CubeListBuilder.create(), PartPose.offset(3.5F, -4.0F, -9.5F));
 
 		PartDefinition Vitre = Cockpit.addOrReplaceChild("Vitre", CubeListBuilder.create().texOffs(57, 93).mirror().addBox(-7.1F, -1.65F, -17.5F, 0.0F, 3.0F, 13.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(74, 109).mirror().addBox(-7.1F, -0.65F, -19.5F, 0.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
@@ -184,7 +182,7 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 
 		PartDefinition Roues = F15.addOrReplaceChild("Roues", CubeListBuilder.create().texOffs(0, 48).mirror().addBox(-18.0F, 6.0F, 15.0F, 2.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
 				.texOffs(0, 48).addBox(2.0F, 6.0F, 15.0F, 2.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 40).addBox(-8.0F, 6.0F, -39.0F, 2.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(7.0F, -4.0F, 39.6F));
+				.texOffs(0, 40).addBox(-8.0F, 6.0F, -39.0F, 2.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(7.0F, 3.0F, 30.6F));
 
 		PartDefinition cube_r34 = Roues.addOrReplaceChild("cube_r34", CubeListBuilder.create().texOffs(62, 40).addBox(-1.0F, -2.0F, -1.0F, 1.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.5F, 6.0F, -34.6F, -0.7854F, 0.0F, 0.0F));
 
@@ -195,7 +193,6 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
 
-	@Override
 	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (entity.onGround()) {
 			this.TurboOn.visible = false;

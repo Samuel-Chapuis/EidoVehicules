@@ -7,6 +7,7 @@ import fr.thoridan.planes.entity.client.PlaneRenderer;
 import fr.thoridan.planes.entity.custom.PlaneStructure;
 import fr.thoridan.planes.entity.custom.models.rafale.GreenRafale;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 
 public class RafaleGreenRenderer extends PlaneRenderer<GreenRafale> {
@@ -32,6 +33,7 @@ public class RafaleGreenRenderer extends PlaneRenderer<GreenRafale> {
     @Override
     protected void renderSettings(PoseStack poseStack) {
         poseStack.scale(2.5F, 2.5F, 2.5F);
-        poseStack.translate(0.0D, 0D, 0.0D);
+        poseStack.translate(0.0D, 0.8D, 0.0D);
+
     }
 }
