@@ -17,7 +17,7 @@ public class YellowPlane extends PlaneStructure {
         this.acceleration = 0.2f;
         this.deceleration = 0.1f;
         this.invertSubtlety = 0.3f;
-        this.cameraDistance = 32D;
+        this.cameraDistance = 6D;
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
 public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRenderer<T> {
 
@@ -17,13 +18,13 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
-        return getPlaneTexture(entity);
+    public ResourceLocation getTextureLocation(T PlaneStructure) {
+        return getPlaneTexture(PlaneStructure);
     }
 
-    protected abstract ResourceLocation getPlaneTexture(T entity);
+    protected abstract ResourceLocation getPlaneTexture(T PlaneStructure);
 
-    protected abstract EntityModel<T> getPlaneModel(T entity);
+    protected abstract EntityModel<T> getPlaneModel(T PlaneStructure);
 
     protected abstract void renderSettings(PoseStack poseStack);
     @Override
@@ -44,6 +45,9 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
             interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
             poseStack.mulPose(Axis.XP.rotationDegrees(interpolatedPitch));
         }
+
+
+
 
         float interpolatedRoll = interpolateAngle(plane.getPreviousRoll(), plane.getRoll(), partialTicks);
         interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll));
@@ -72,6 +76,18 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
             plane.level().addParticle(ParticleTypes.FLAME, true, particleX + randX, particleY + randY, particleZ + randZ, 0, 0, 0);
         }
 
+
+        if (plane.isVehicle() && plane.getControllingPassenger() instanceof Player) {
+            Player player = (Player) plane.getControllingPassenger();
+
+            // Set the player's rotation to match the plane's rotation
+//            player.yRotO = 37;
+//            player.xRotO = 37;
+
+
+//            player.setYRot(interpolatedYaw);
+//            player.setXRot(interpolatedPitch);
+        }
 
 
 

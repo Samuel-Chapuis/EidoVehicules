@@ -71,20 +71,20 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 
 		PartDefinition cube_r12 = Aileron.addOrReplaceChild("cube_r12", CubeListBuilder.create().texOffs(108, 62).addBox(-9.5F, -0.5F, -3.5F, 26.0F, 1.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 2.6057F, -5.9622F, 0.0F, -0.5672F, -1.5708F));
 
-		PartDefinition Ailes = Aero.addOrReplaceChild("Ailes", CubeListBuilder.create().texOffs(0, 19).mirror().addBox(-66.0F, -4.0F, 20.7F, 51.0F, 4.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(53, 92).mirror().addBox(-67.0F, -3.0F, 10.7F, 2.0F, 2.0F, 30.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(0, 19).addBox(1.0F, -4.0F, 20.7F, 51.0F, 4.0F, 17.0F, new CubeDeformation(0.0F))
-				.texOffs(53, 92).addBox(51.0F, -3.0F, 10.7F, 2.0F, 2.0F, 30.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition Ailes = Aero.addOrReplaceChild("Ailes", CubeListBuilder.create().texOffs(0, 19).addBox(1.0F, -4.0F, 20.7F, 40.0F, 4.0F, 17.0F, new CubeDeformation(0.0F))
+				.texOffs(53, 92).addBox(41.0F, -3.0F, 10.7F, 2.0F, 2.0F, 30.0F, new CubeDeformation(0.0F))
+				.texOffs(53, 92).mirror().addBox(-57.0F, -3.0F, 10.7F, 2.0F, 2.0F, 30.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(0, 19).mirror().addBox(-55.0F, -4.0F, 20.7F, 40.0F, 4.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition cube_r13 = Ailes.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(147, 100).addBox(3.0F, -4.0F, -13.0F, 26.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 1.0F, 15.9F, 0.0F, -0.6109F, 0.0F));
+		PartDefinition cube_r13 = Ailes.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(5, 5).mirror().addBox(-54.0F, -4.0F, -8.0F, 58.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.75F, 1.0F, -4.5F, 0.0F, 0.6109F, 0.0F));
 
-		PartDefinition cube_r14 = Ailes.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -4.0F, -13.0F, 67.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 1.0F, -4.5F, 0.0F, -0.6109F, 0.0F));
+		PartDefinition cube_r14 = Ailes.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(147, 100).mirror().addBox(-29.0F, -4.0F, -13.0F, 26.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.75F, 1.0F, 15.9F, 0.0F, 0.6109F, 0.0F));
 
-		PartDefinition cube_r15 = Ailes.addOrReplaceChild("cube_r15", CubeListBuilder.create().texOffs(147, 100).mirror().addBox(-29.0F, -4.0F, -13.0F, 26.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.75F, 1.0F, 15.9F, 0.0F, 0.6109F, 0.0F));
+		PartDefinition cube_r15 = Ailes.addOrReplaceChild("cube_r15", CubeListBuilder.create().texOffs(147, 100).addBox(3.0F, -4.0F, -13.0F, 26.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 1.0F, 15.9F, 0.0F, -0.6109F, 0.0F));
 
-		PartDefinition cube_r16 = Ailes.addOrReplaceChild("cube_r16", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-63.0F, -4.0F, -13.0F, 67.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.75F, 1.0F, -4.5F, 0.0F, 0.6109F, 0.0F));
+		PartDefinition cube_r16 = Ailes.addOrReplaceChild("cube_r16", CubeListBuilder.create().texOffs(5, 5).addBox(-4.0F, -4.0F, -8.0F, 58.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 1.0F, -4.5F, 0.0F, -0.6109F, 0.0F));
 
-		PartDefinition Canard = Aero.addOrReplaceChild("Canard", CubeListBuilder.create(), PartPose.offset(-11.25F, 1.0F, -29.5F));
+		PartDefinition Canard = Aero.addOrReplaceChild("Canard", CubeListBuilder.create(), PartPose.offset(-11.25F, 1.0F, -22.5F));
 
 		PartDefinition cube_r17 = Canard.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(56, 73).addBox(7.0F, -4.0F, -3.0F, 16.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
 				.texOffs(84, 40).addBox(8.0F, -4.0F, -2.0F, 15.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))

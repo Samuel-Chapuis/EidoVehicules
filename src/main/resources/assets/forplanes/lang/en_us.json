@@ -1,6 +1,7 @@
 {
 	"item.forplanes.titanium": "Titanium",
 	"item.forplanes.raw_titanium": "Raw Titanium",
+	"item.forplanes.debug_tool_4plane": "Debug Tool",
 
 	"block.forplanes.titanium_block": "Titanium Block",
 	"block.forplanes.titanium_ore": "Titanium Ore",

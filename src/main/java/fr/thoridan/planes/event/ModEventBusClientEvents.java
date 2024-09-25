@@ -28,9 +28,10 @@ public class ModEventBusClientEvents {
     }
 
     private static void adjustCameraDistance() {
-        // Logique d'ajustement de la caméra ici
-
+        // Logique d'ajustement de la caméra ici, par exemple on peut changer l'angle ou le FOV
     }
+
+
 
 
     @SubscribeEvent

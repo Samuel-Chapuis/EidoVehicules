@@ -33,7 +33,6 @@ public abstract class PlaneStructure extends Entity {
     private float yawSpeed = 2.0f;              // Vitesse d'interpolation pour le yaw
     private float pitchSpeed = 2.0f;            // Vitesse d'interpolation pour le pitch
     private float previousRoll = 0.0f;          // L'angle de roulis précédent
-
     protected float health;                     // Points de vie de l’avion
     protected float maxSpeed;                   // Vitesse maximale de l'avion
     protected double cameraDistance;
@@ -238,7 +237,7 @@ public abstract class PlaneStructure extends Entity {
             Player player = (Player) this.getControllingPassenger();
 
             // Mise à jour des valeurs cibles de rotation en fonction du joueur
-            targetYaw = player.getYRot();
+            targetYaw = player.getYHeadRot();
             targetPitch = player.getXRot();
 
             // Limiter le pitch en fonction de la vitesse actuelle
@@ -268,7 +267,11 @@ public abstract class PlaneStructure extends Entity {
             this.setXRot(newPitch);
 
             // Synchroniser l'inclinaison X (pitch, verticale) de l'avion avec celle du joueur
-            this.setRot(this.getYRot(), this.getXRot());
+//            this.setRot(this.getYRot(), this.getXRot());
+//
+//            player.setYBodyRot(this.getYRot());
+
+
 
             // Gestion de l'accélération et de la décélération
             if (isPlayerMovingForward(player)) {
@@ -320,7 +323,7 @@ public abstract class PlaneStructure extends Entity {
     }
 
     public float getCurrentSpeed() {
-        System.out.println("Vitesse actuelle : " + this.currentSpeed);
+//        System.out.println("Vitesse actuelle : " + this.currentSpeed);
         return this.currentSpeed;
 
     }

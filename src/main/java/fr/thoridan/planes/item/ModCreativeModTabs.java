@@ -22,7 +22,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.RAW_TITANIUM.get());
 						pOutput.accept(ModBlocks.TITANIUM_BLOCK.get());
 						pOutput.accept(ModBlocks.TITANIUM_ORE.get());
-
+                        pOutput.accept(ModItems.DEBUG_TOOL_4PLANE.get());
 
                     })
                     .build());
