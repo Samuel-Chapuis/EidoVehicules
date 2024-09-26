@@ -27,23 +27,23 @@ import javax.swing.text.LabelView;
 public abstract class PlaneStructure extends Entity {
 
     private float currentSpeed = 0.0f;
-    private float minSpeed = 0.0f;              // Vitesse minimale de l'avion\
-    private float targetYaw;                    // La rotation Y cible (la direction du joueur)
-    private float targetPitch;                  // La rotation X cible (la direction du joueur)
-    private float yawSpeed = 2.0f;              // Vitesse d'interpolation pour le yaw
-    private float pitchSpeed = 2.0f;            // Vitesse d'interpolation pour le pitch
-    private float previousRoll = 0.0f;          // L'angle de roulis précédent
-    protected float health;                     // Points de vie de l’avion
-    protected float maxSpeed;                   // Vitesse maximale de l'avion
+    private float minSpeed = 0.0f;                  // Minimale plane speed
+    private float targetYaw;                        // Rotation on Y axis ( where the player is looking at)
+    private float targetPitch;                      // Rotation on X axis ( where the player is looking at)
+    private float yawSpeed = 2.0f;                  // Interpolation speed for yaw
+    private float pitchSpeed = 2.0f;                // Interpolation speed for pitch
+    private float previousRoll = 0.0f;              // Previous roll angle
+    protected float health;                         // Plane health
+    protected float maxSpeed;                       // Max plane speed
     protected double cameraDistance;
-    protected float acceleration;               // Vitesse d'accélération
-    protected float deceleration;               // Vitesse de décélération
-    protected float invertSubtlety;             // Sorte de finesse inversé
-    protected float xRiderOffset = 0;           // Décalage X du joueur
-    protected float yRiderOffset = 0;           // Décalage Y du joueur
-    protected float zRiderOffset = 0;           // Décalage Z du joueur
-    protected boolean invisibleRider = false;      // Visibilité du joueur
-    protected Block drop = Blocks.DIRT;         // Bloc à faire tomber lors de la destruction de l'avion
+    protected float acceleration;                   // Acceleration speed
+    protected float deceleration;                   // Braking speed
+    protected float invertSubtlety;                 // Sorte of inverted subtlety
+    protected float xRiderOffset = 0;               // X offset of the player
+    protected float yRiderOffset = 0;               // Y offset of the player
+    protected float zRiderOffset = 0;               // Z offset of the player
+    protected boolean invisibleRider = false;      // Is the rider invisible
+    protected Block drop = Blocks.DIRT;             // Item to drop when the plane is destroyed
     protected Level level;
 
     protected abstract void addingTick();
@@ -54,24 +54,26 @@ public abstract class PlaneStructure extends Entity {
     }
 
     private float calculateMaxPitchBasedOnSpeed() {
-        return this.currentSpeed * 20f; // Plus la vitesse est élevée, plus le pitch maximal est élevé
+        /* More the speed is high, more the max pitch is high */
+        return this.currentSpeed * 20f;
     }
 
     private void stabilizeRoll() {
         float roll = this.getRoll();
-        if (Math.abs(roll) > 0.1f) { // Seuil pour arrêter l'interpolation quand proche de 0
+
+        if (Math.abs(roll) > 0.1f) { // Interpolation limit to 0.1f
             if (roll > 0) {
-                this.setYRot(this.getYRot() - Math.min(2.0f, roll)); // Ajuste la rotation pour ramener le roll vers 0
+                this.setYRot(this.getYRot() - Math.min(2.0f, roll)); // Ajust the rotation to bring the roll back to 0
             } else {
-                this.setYRot(this.getYRot() + Math.min(2.0f, -roll)); // Ajuste la rotation pour ramener le roll vers 0
+                this.setYRot(this.getYRot() + Math.min(2.0f, -roll)); // Same
             }
         } else {
-            this.setYRot(this.getYRot() - roll); // Ramène à 0
+            this.setYRot(this.getYRot() - roll); // Go back to the previous roll -> 0
         }
     }
 
     private void dropItem() {
-        // Remplace Blocks.DIRT par l'item que tu veux faire tomber (par exemple, un item spécifique à l'avion)
+        // TODO: Replace Blocks.DIRT by the item you want to drop (e.g. a specific item for the plane)
         ItemStack itemStack = new ItemStack(drop);
         ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
         this.getCommandSenderWorld().addFreshEntity(itemEntity);
@@ -80,7 +82,7 @@ public abstract class PlaneStructure extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        // Méthode obligatoire pour les entités ; à implémenter selon tes besoins
+        /* This is where you define the synchronized data, to include if needed */
     }
 
     @Override
@@ -95,7 +97,7 @@ public abstract class PlaneStructure extends Entity {
 
             this.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
             if (!this.level().isClientSide) {
-                // Forcer une mise à jour de l'entité sur le client
+                /* Force the entity to update on the client */
                 this.level().getServer().getPlayerList().broadcast(
                         null,
                         this.getX(),
@@ -114,12 +116,14 @@ public abstract class PlaneStructure extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
-        this.health = compound.getFloat("Health"); // Charge la santé lors de la sauvegarde
+        /* This is where you read the additional save data, to include if needed */
+        this.health = compound.getFloat("Health");
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
-        compound.putFloat("Health", this.health); // Sauvegarde la santé
+        /* This is where you add the additional save data, to include if needed */
+        compound.putFloat("Health", this.health);
     }
 
     @Override
@@ -141,24 +145,9 @@ public abstract class PlaneStructure extends Entity {
         return true; //super.hurt(source, amount)
     }
 
-    @Override
-    public boolean isInvulnerableTo(DamageSource source) {
-        return false; // Assure-toi que l'entité n'est pas invulnérable
-    }
-
 	public boolean isMovingForward() {
 		return this.getDeltaMovement().horizontalDistanceSqr() > 0.001;
 	}
-
-    @Override
-    public boolean isPickable() {
-        return true; // Rend l'entité "attrapable"
-    }
-
-    @Override
-    public boolean isPushable() {
-        return true; // Rend l'entité "poussable"
-    }
 
     public double getCameraDistance() {
         return this.cameraDistance;
@@ -172,17 +161,17 @@ public abstract class PlaneStructure extends Entity {
     protected void positionRider(Entity passenger, MoveFunction moveFunction) {
         if (this.hasPassenger(passenger)) {
             double xOffset = xRiderOffset;
-            double yOffset = yRiderOffset; // Adjust the height as needed
+            double yOffset = yRiderOffset; // Adjust the height as needed in the subclass
             double zOffset = zRiderOffset;
 
             moveFunction.accept(passenger, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
         }
     }
 
-    // Gérer l'ajout du conducteur uniquement
+    /* This is where you can add the logic to add the driver only */
     @Override
     public void addPassenger(Entity passenger) {
-        // Si le passager est un joueur et que l'avion n'a pas encore de conducteur
+        /* If the passenger is a player and the plane has no driver yet */
         if (passenger instanceof Player && this.getPassengers().isEmpty()) {
             super.addPassenger(passenger);
             System.out.println("Un joueur a été ajouté comme conducteur.");
@@ -193,16 +182,25 @@ public abstract class PlaneStructure extends Entity {
 
     @Override
     public boolean canAddPassenger(Entity passenger) {
-        // Limite à un seul passager pour cet avion (le conducteur)
+        /* Limit to one passenger for this plane (the driver) */
         return this.getPassengers().isEmpty();
+
+        //TODO: Add logic to allow more passengers if needed
     }
 
     @Override
     public double getPassengersRidingOffset() {
-        return 0.6D; // Ajuste la hauteur à laquelle le joueur est assis
+        /* Adjust the height at which the player is sitting */
+        return 0.6D;
     }
 
-    // Permettre au joueur de monter dans l'avion
+    @Override
+    public boolean isPickable() {
+        /* Allow player to interact with the plane */
+        return true;
+    }
+
+    /* This is where you can add the logic to allow the player to interact with the plane */
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (!this.getCommandSenderWorld().isClientSide) {
@@ -218,44 +216,51 @@ public abstract class PlaneStructure extends Entity {
     }
 
 	private boolean isPlayerMovingForward(Player player) {
-		return player.zza > 0; // `zza` est le champ qui correspond au mouvement vers l'avant
+        /* zaa is the field that corresponds to moving forward */
+		return player.zza > 0;
 	}
 
     private boolean isPlayerMovingBackward(Player player) {
-        return player.zza < 0; // `zza` est le champ qui correspond au mouvement vers l'arrière
+        /* zaa is the field that corresponds to moving backward */
+        return player.zza < 0;
     }
 
     private void control(){
 
         if (this.onGround()) {
-            minSpeed = 0.0f; // L'avion peut rester immobile au sol
+            /* If the plane is on the ground, the minimum speed is 0, to allow clear landing */
+            minSpeed = 0.0f;
         } else {
-            minSpeed = invertSubtlety; // L'avion doit maintenir une vitesse minimale en vol
+            /* To add a realistic effect, the plane must maintain a minimum speed in flight */
+            minSpeed = invertSubtlety;
         }
 
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
             Player player = (Player) this.getControllingPassenger();
 
-            // Mise à jour des valeurs cibles de rotation en fonction du joueur
+            /* Update the target rotation values based on the player */
             targetYaw = player.getYHeadRot();
             targetPitch = player.getXRot();
 
-            // Limiter le pitch en fonction de la vitesse actuelle
+            /* Limit the pitch based on the current speed to simulate realitic physics */
             float maxPitch = calculateMaxPitchBasedOnSpeed();
             if (targetPitch > maxPitch) {
-                // targetPitch = maxPitch; // Limite la descente
+                /* No need to block the descent angle */
             }
             else if (targetPitch < -maxPitch) {
-                targetPitch = -maxPitch; // Limite la montée
+                /* Limit the climb */
+                //TODO: Improve the logic to limit the climb angle
+                targetPitch = -maxPitch;
             }
             if(this.onGround() && targetPitch < 0){
                 targetPitch = 0;
             }
 
-
-            // Interpolation fluide vers la rotation cible
+            /* Smooth interpolation to the target rotation */
             float yawDifference = targetYaw - this.getYRot();
-            if (Math.abs(yawDifference) > 180.0f) { // Pour gérer la transition à 360°
+            if (Math.abs(yawDifference) > 180.0f) {
+                /* To manage the transition to 360° */
+                //TODO: Improve the logic to manage the transition to 360°
                 yawDifference -= Math.signum(yawDifference) * 360.0f;
             }
 
@@ -266,14 +271,7 @@ public abstract class PlaneStructure extends Entity {
             float newPitch = this.getXRot() + Math.min(pitchSpeed, Math.abs(pitchDifference)) * Math.signum(pitchDifference);
             this.setXRot(newPitch);
 
-            // Synchroniser l'inclinaison X (pitch, verticale) de l'avion avec celle du joueur
-//            this.setRot(this.getYRot(), this.getXRot());
-//
-//            player.setYBodyRot(this.getYRot());
-
-
-
-            // Gestion de l'accélération et de la décélération
+            /* Acceleration and braking management */
             if (isPlayerMovingForward(player)) {
                 this.currentSpeed += this.acceleration;
                 if (this.currentSpeed > this.maxSpeed) {
@@ -282,13 +280,13 @@ public abstract class PlaneStructure extends Entity {
             } else if (isPlayerMovingBackward(player)) {
                 this.currentSpeed -= this.acceleration*0.1;
                 if (this.currentSpeed < this.minSpeed) {
-                    this.currentSpeed = this.minSpeed; // Bloquer la vitesse à minSpeed pour éviter de reculer
+                    this.currentSpeed = this.minSpeed; // Bloc the speed to minSpeed to avoid going backwards
                 }
             } else {
-                // Lorsque le joueur ne fait rien, on décélère, mais sans passer en dessous de minSpeed
+                /* If the player is not moving forward or backward, the plane decelerates slowly */
                 this.currentSpeed -= this.deceleration*0.1;
                 if (this.currentSpeed < this.minSpeed) {
-                    this.currentSpeed = this.minSpeed; // Bloquer la vitesse à minSpeed pour éviter de reculer
+                    this.currentSpeed = this.minSpeed; // Bloc the speed to minSpeed to avoid going backwards
                 }
             }
 
@@ -302,17 +300,17 @@ public abstract class PlaneStructure extends Entity {
             this.stabilizeRoll();
         }
 
-        // Empêcher la vitesse de devenir négative
+        /* Prevent the speed from becoming negative 8 */
         if (this.currentSpeed < 0.0f) {
             this.currentSpeed = 0.0f;
         }
 
-        // Calcul du mouvement en fonction de la rotation actuelle de l'avion
+        /* Calculate the movement based on the current rotation of the plane */
         double motionX = -Math.sin(Math.toRadians(this.getYRot())) * this.currentSpeed;
         double motionZ = Math.cos(Math.toRadians(this.getYRot())) * this.currentSpeed;
-        double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed; // Utilise l'inclinaison (pitch) pour déterminer la montée ou la descente
+        double motionY = -Math.sin(Math.toRadians(this.getXRot())) * this.currentSpeed;
 
-        // Ajout d'une légère force de descente pour éviter de rester en l'air à faible vitesse
+        /* Add a slight downward force to avoid staying in the air at low speed, it acts like a simili gravity */
         if (this.currentSpeed < invertSubtlety*1.3) {
             motionY -= invertSubtlety;
         }
@@ -323,15 +321,14 @@ public abstract class PlaneStructure extends Entity {
     }
 
     public float getCurrentSpeed() {
-//        System.out.println("Vitesse actuelle : " + this.currentSpeed);
         return this.currentSpeed;
-
     }
 
     @Override
     @Nullable
     public LivingEntity getControllingPassenger() {
-        return (LivingEntity) this.getFirstPassenger(); // Retourne le premier passager comme LivingEntity
+        /* Return the first passenger as a LivingEntity */
+        return (LivingEntity) this.getFirstPassenger();
     }
 
     public boolean isBeingControlled() {
@@ -343,7 +340,7 @@ public abstract class PlaneStructure extends Entity {
             return 0.0f;
         }
         float yawDifference = this.targetYaw - this.getYRot();
-        if (Math.abs(yawDifference) > 180.0f) { // Pour gérer la transition à 360°
+        if (Math.abs(yawDifference) > 180.0f) { // Use to manage the 360° transition
             yawDifference -= Math.signum(yawDifference) * 360.0f;
         }
         return - yawDifference; //*this.getCurrentSpeed()
@@ -361,15 +358,10 @@ public abstract class PlaneStructure extends Entity {
 
         addingTick();
 
-//        if (this.isBeingControlled()) {
-//            System.out.println("L'avion est contrôlé.");
-//        }
 
         if (!this.level().isClientSide) {
             this.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
-//            System.out.println("Server position: " + this.getX() + ", " + this.getY() + ", " + this.getZ());
         } else {
-//            System.out.println("Client position: " + this.getX() + ", " + this.getY() + ", " + this.getZ());
         }
     }
 }
