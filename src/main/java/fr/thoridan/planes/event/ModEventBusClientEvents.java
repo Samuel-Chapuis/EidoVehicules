@@ -61,20 +61,20 @@ public class ModEventBusClientEvents {
     @SubscribeEvent
     public static void onRenderPlayerPre(RenderLivingEvent.Pre<LivingEntity, ?> event) {
         LivingEntity livingEntity = event.getEntity();
-        if (livingEntity instanceof Player p) {
-            ItemStack heldItem = p.getMainHandItem();
-            if (heldItem.getItem() == ModItems.DEBUG_TOOL_4PLANE.get()) {
+        Entity entity = livingEntity.getRootVehicle();
+        if (entity instanceof PlaneStructure plane) {
+            if (livingEntity instanceof Player p) {
                 System.out.println("Player is holding the debug tool");
                 PoseStack poseStack = event.getPoseStack();
-                poseStack.translate(0.0, 100, 0.0);
+                poseStack.translate(0.0, 1, 0.0);
 
                 // Angles de rotation en degrés
-                float rotationAngleX = 0; // Rotation autour de l'axe X local
+                float rotationAngleX = 45; // Rotation autour de l'axe X local
                 float rotationAngleY = 0; // Rotation autour de l'axe Y local
                 float rotationAngleZ = 0; // Rotation autour de l'axe Z local
 
                 // Obtenir la direction du regard du joueur
-                Vec3 lookDirection = p.getLookAngle().normalize(); // Axe Z local
+                Vec3 lookDirection = plane.getLookAngle().normalize(); // Axe Z local
 
                 // Définir le vecteur "up" global
                 Vec3 upVector = new Vec3(0, 1, 0); // Axe Y global
