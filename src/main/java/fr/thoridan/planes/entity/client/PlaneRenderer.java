@@ -52,6 +52,7 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
 
 
         float interpolatedRoll = interpolateAngle(plane.getPreviousRoll(), plane.getRoll(), partialTicks);
+        plane.setInterpolate_roll(interpolatedRoll);
         interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll));
         poseStack.mulPose(Axis.ZP.rotationDegrees(interpolatedRoll));
 

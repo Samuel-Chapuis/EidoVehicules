@@ -34,6 +34,9 @@ public abstract class PlaneStructure extends Entity {
     private float yawSpeed = 2.0f;                  // Interpolation speed for yaw
     private float pitchSpeed = 2.0f;                // Interpolation speed for pitch
     private float previousRoll = 0.0f;              // Previous roll angle
+    private float roll = 0.0f;                      // Roll angle
+
+    private float interpolate_roll = 0.0f;                  // Max pitch angle
     protected float health;                         // Plane health
     protected float maxSpeed;                       // Max plane speed
     protected double cameraDistance;
@@ -60,7 +63,7 @@ public abstract class PlaneStructure extends Entity {
     }
 
     private void stabilizeRoll() {
-        float roll = this.getRoll();
+        this.roll = this.getRoll();
 
         if (Math.abs(roll) > 0.1f) { // Interpolation limit to 0.1f
             if (roll > 0) {
@@ -375,4 +378,13 @@ public abstract class PlaneStructure extends Entity {
         } else {
         }
     }
+
+    public void setInterpolate_roll(float interpolate_roll) {
+        this.interpolate_roll = interpolate_roll;
+    }
+
+    public float getInterpolate_roll() {
+        return this.interpolate_roll;
+    }
+
 }
