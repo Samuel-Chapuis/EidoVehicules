@@ -12,6 +12,7 @@ public class YellowPlane extends PlaneStructure {
     protected float propellerRotation = 0.0F;   // Rotation de l'hélice
     public YellowPlane(EntityType<? extends PlaneStructure> type, Level world) {
         super(type, world);
+        this.yRiderOffset = 0.30F;
         this.health = 20f;
         this.maxSpeed = 1.5f;
         this.acceleration = 0.2f;

@@ -1,6 +1,7 @@
 package fr.thoridan.planes.event;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import fr.thoridan.planes.entity.client.ModModelLayers;
 import fr.thoridan.planes.entity.client.models.YellowPlaneModel;
 import fr.thoridan.planes.entity.custom.PlaneStructure;
@@ -58,80 +59,15 @@ public class ModEventBusClientEvents {
         }
     }
 
-    @SubscribeEvent
-    public static void onRenderPlayerPre(RenderLivingEvent.Pre<LivingEntity, ?> event) {
-        LivingEntity livingEntity = event.getEntity();
-        Entity entity = livingEntity.getRootVehicle();
-        if (entity instanceof PlaneStructure plane) {
-            if (livingEntity instanceof Player p) {
-                System.out.println("Player is holding the debug tool");
-                PoseStack poseStack = event.getPoseStack();
-                poseStack.translate(0.0, 1, 0.0);
-
-                // Angles de rotation en degrés
-                float rotationAngleX = 45; // Rotation autour de l'axe X local
-                float rotationAngleY = 0; // Rotation autour de l'axe Y local
-                float rotationAngleZ = 0; // Rotation autour de l'axe Z local
-
-                // Obtenir la direction du regard du joueur
-                Vec3 lookDirection = plane.getLookAngle().normalize(); // Axe Z local
-
-                // Définir le vecteur "up" global
-                Vec3 upVector = new Vec3(0, 1, 0); // Axe Y global
-
-                // Calculer l'axe X local (droite du joueur)
-                Vec3 rightVector = upVector.cross(lookDirection).normalize();
-
-                // Gestion du cas où le joueur regarde directement vers le haut ou le bas
-                if (rightVector.lengthSqr() < 0.0001) {
-                    rightVector = new Vec3(1, 0, 0); // Axe par défaut
-                }
-
-                // Calculer l'axe Y local (haut du joueur)
-                Vec3 localUpVector = lookDirection.cross(rightVector).normalize();
-
-                // Convertir les angles en radians
-                float angleXRad = (float) Math.toRadians(rotationAngleX);
-                float angleYRad = (float) Math.toRadians(rotationAngleY);
-                float angleZRad = (float) Math.toRadians(rotationAngleZ);
-
-                // Créer les quaternions de rotation
-                Quaternionf rotationQuaternionX = new Quaternionf().rotateAxis(
-                        angleXRad,
-                        (float) rightVector.x,
-                        (float) rightVector.y,
-                        (float) rightVector.z
-                );
-
-                Quaternionf rotationQuaternionY = new Quaternionf().rotateAxis(
-                        angleYRad,
-                        (float) localUpVector.x,
-                        (float) localUpVector.y,
-                        (float) localUpVector.z
-                );
-
-                Quaternionf rotationQuaternionZ = new Quaternionf().rotateAxis(
-                        angleZRad,
-                        (float) lookDirection.x,
-                        (float) lookDirection.y,
-                        (float) lookDirection.z
-                );
-
-                // Combiner les quaternions de rotation
-                Quaternionf combinedQuaternion = new Quaternionf();
-
-                // Appliquer les rotations dans l'ordre souhaité
-                combinedQuaternion.mul(rotationQuaternionZ);
-                combinedQuaternion.mul(rotationQuaternionY);
-                combinedQuaternion.mul(rotationQuaternionX);
-
-                // Appliquer la rotation au PoseStack
-                poseStack.mulPose(combinedQuaternion);
-
-                p.yBodyRot = p.yHeadRot;
-                p.yBodyRotO = p.yHeadRotO;
-            }
+    static private float interpolateAngle(float startAngle, float endAngle, float partialTicks) {
+        float deltaAngle = endAngle - startAngle;
+        while (deltaAngle < -180.0F) {
+            deltaAngle += 360.0F;
         }
+        while (deltaAngle >= 180.0F) {
+            deltaAngle -= 360.0F;
+        }
+        return startAngle + partialTicks * deltaAngle;
     }
 
 

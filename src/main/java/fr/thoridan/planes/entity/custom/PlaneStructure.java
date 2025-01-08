@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -78,7 +79,6 @@ public abstract class PlaneStructure extends Entity {
         ItemEntity itemEntity = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
         this.getCommandSenderWorld().addFreshEntity(itemEntity);
     }
-
 
     @Override
     protected void defineSynchedData() {
@@ -160,13 +160,25 @@ public abstract class PlaneStructure extends Entity {
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunction) {
         if (this.hasPassenger(passenger)) {
-            double xOffset = xRiderOffset;
-            double yOffset = yRiderOffset; // Adjust the height as needed in the subclass
-            double zOffset = zRiderOffset;
+            // Place passenger at the seat offset
+            double seatX = this.getX() + xRiderOffset;
+            double seatY = this.getY() + yRiderOffset;
+            double seatZ = this.getZ() + zRiderOffset;
 
-            moveFunction.accept(passenger, this.getX() + xOffset, this.getY() + yOffset, this.getZ() + zOffset);
+            moveFunction.accept(passenger, seatX, seatY, seatZ);
+
+            // Now forcibly set the passenger's rotation to match the plane
+            if (passenger instanceof Player p) {
+                float planeYaw = this.getYRot();
+
+                p.yBodyRot  = planeYaw;
+                p.yBodyRotO = planeYaw;
+
+            }
         }
     }
+
+
 
     /* This is where you can add the logic to add the driver only */
     @Override

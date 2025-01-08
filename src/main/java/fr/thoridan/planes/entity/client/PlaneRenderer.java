@@ -26,6 +26,10 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
 
     protected abstract EntityModel<T> getPlaneModel(T PlaneStructure);
 
+    public ResourceLocation getResourceLocation() {
+        return new ResourceLocation("forplanes", "textures/entity/yellow_plane.png");
+    }
+
     protected abstract void renderSettings(PoseStack poseStack);
     @Override
     public void render(T plane, float entityYaw, float partialTicks, PoseStack poseStack,
@@ -47,34 +51,29 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
         }
 
 
-
-
         float interpolatedRoll = interpolateAngle(plane.getPreviousRoll(), plane.getRoll(), partialTicks);
         interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll));
         poseStack.mulPose(Axis.ZP.rotationDegrees(interpolatedRoll));
 
-
-
-
-        // Determine particle position based on the plane's rotation
-        double particleXOffset = -Math.sin(Math.toRadians(interpolatedYaw)) * Math.cos(Math.toRadians(interpolatedPitch));
-        double particleYOffset = -Math.sin(Math.toRadians(interpolatedPitch));
-        double particleZOffset = Math.cos(Math.toRadians(interpolatedYaw)) * Math.cos(Math.toRadians(interpolatedPitch));
-
-        // Adjust the offset to be behind and above the plane
-        double distanceBehindPlane = -10.0; // Adjust as needed for behind-plane distance
-        double heightOffset = 1.5;        // Adjust as needed for height
-        double particleX = plane.getX() + particleXOffset * distanceBehindPlane;
-        double particleY = plane.getY() + particleYOffset * distanceBehindPlane + heightOffset;
-        double particleZ = plane.getZ() + particleZOffset * distanceBehindPlane;
-
-        // Spawn particle
-        for (int i = 0; i < 5; i++){
-            double randX = Math.random() * 0.4 - 0.2;
-            double randY = Math.random() * 0.4 - 0.2;
-            double randZ = Math.random() * 0.4 - 0.2;
-            plane.level().addParticle(ParticleTypes.FLAME, true, particleX + randX, particleY + randY, particleZ + randZ, 0, 0, 0);
-        }
+//        // Determine particle position based on the plane's rotation
+//        double particleXOffset = -Math.sin(Math.toRadians(interpolatedYaw)) * Math.cos(Math.toRadians(interpolatedPitch));
+//        double particleYOffset = -Math.sin(Math.toRadians(interpolatedPitch));
+//        double particleZOffset = Math.cos(Math.toRadians(interpolatedYaw)) * Math.cos(Math.toRadians(interpolatedPitch));
+//
+//        // Adjust the offset to be behind and above the plane
+//        double distanceBehindPlane = -10.0; // Adjust as needed for behind-plane distance
+//        double heightOffset = 1.5;        // Adjust as needed for height
+//        double particleX = plane.getX() + particleXOffset * distanceBehindPlane;
+//        double particleY = plane.getY() + particleYOffset * distanceBehindPlane + heightOffset;
+//        double particleZ = plane.getZ() + particleZOffset * distanceBehindPlane;
+//
+//        // Spawn particle
+//        for (int i = 0; i < 5; i++){
+//            double randX = Math.random() * 0.4 - 0.2;
+//            double randY = Math.random() * 0.4 - 0.2;
+//            double randZ = Math.random() * 0.4 - 0.2;
+//            plane.level().addParticle(ParticleTypes.FLAME, true, particleX + randX, particleY + randY, particleZ + randZ, 0, 0, 0);
+//        }
 
 
         if (plane.isVehicle() && plane.getControllingPassenger() instanceof Player) {
