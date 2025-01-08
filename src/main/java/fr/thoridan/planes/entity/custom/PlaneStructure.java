@@ -157,26 +157,25 @@ public abstract class PlaneStructure extends Entity {
         return this.getBoundingBox();
     }
 
-    @Override
-    protected void positionRider(Entity passenger, MoveFunction moveFunction) {
-        if (this.hasPassenger(passenger)) {
-            // Place passenger at the seat offset
-            double seatX = this.getX() + xRiderOffset;
-            double seatY = this.getY() + yRiderOffset;
-            double seatZ = this.getZ() + zRiderOffset;
-
-            moveFunction.accept(passenger, seatX, seatY, seatZ);
-
-            // Now forcibly set the passenger's rotation to match the plane
-            if (passenger instanceof Player p) {
-                float planeYaw = this.getYRot();
-
-                p.yBodyRot  = planeYaw;
-                p.yBodyRotO = planeYaw;
-
-            }
-        }
-    }
+//    @Override
+//    protected void positionRider(Entity passenger, MoveFunction moveFunction) {
+//        if (this.hasPassenger(passenger)) {
+//            // Place passenger at the seat offset
+//            double seatX = this.getX() + xRiderOffset;
+//            double seatY = this.getY() + yRiderOffset;
+//            double seatZ = this.getZ() + zRiderOffset;
+//
+//            moveFunction.accept(passenger, seatX, seatY, seatZ);
+//
+//            // Now forcibly set the passenger's rotation to match the plane
+//            if (passenger instanceof Player p) {
+//                float planeYaw = this.getYRot();
+//
+//                p.yBodyRot  = planeYaw;
+//                p.yBodyRotO = planeYaw;
+//            }
+//        }
+//    }
 
 
 
