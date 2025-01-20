@@ -35,7 +35,6 @@ public abstract class PlaneStructure extends Entity {
     private float pitchSpeed = 2.0f;                // Interpolation speed for pitch
     private float previousRoll = 0.0f;              // Previous roll angle
     private float roll = 0.0f;                      // Roll angle
-
     private float interpolate_roll = 0.0f;                  // Max pitch angle
     protected float health;                         // Plane health
     protected float maxSpeed;                       // Max plane speed

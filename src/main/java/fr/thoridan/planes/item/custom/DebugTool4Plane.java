@@ -16,16 +16,8 @@ public class DebugTool4Plane extends Item {
     public InteractionResult useOn(UseOnContext pContext) {
         if(pContext.getLevel().isClientSide()){
             Player player = pContext.getPlayer();
-            player.sendSystemMessage(Component.nullToEmpty("You are using the Debug Tool 4 Plane :"));
-
-
-
-
-
+//            player.sendSystemMessage(Component.nullToEmpty("You are using the Debug Tool 4 Plane :"));
         }
-
-
-
 
         return InteractionResult.SUCCESS; // Using for viewing the item beiing used
     }
