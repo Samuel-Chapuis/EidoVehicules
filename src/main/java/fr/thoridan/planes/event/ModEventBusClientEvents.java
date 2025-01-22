@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -254,95 +255,111 @@ public class ModEventBusClientEvents {
 //    }
 
 
+    @SubscribeEvent
+    public static void onRenderLivingPre(RenderLivingEvent.Pre<?,?> event) {
+        // Check if the entity is a Player
+        if (event.getEntity() instanceof Player player) {
+            // If they are holding your special item, cancel
+            if (isHoldingItem(player, ModItems.DEBUG_TOOL_4PLANE.get())) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    private static boolean isHoldingItem(Player player, Item item) {
+        return player.getMainHandItem().getItem() == item ||
+                player.getOffhandItem().getItem() == item;
+    }
+
     /**
      * This event is called before the player is rendered.
      * It is used to apply custom logic to the player's rendering.
      */
-    @SubscribeEvent
-    public static void onRenderPlayerPreDebugTool(RenderLivingEvent.Pre<LivingEntity, ?> event) {
-        LivingEntity livingEntity = event.getEntity();
-
-        // Ensure the entity is a Player
-        if (livingEntity instanceof Player player) {
-            ItemStack heldItem = player.getMainHandItem();
-
-            // Check if the player is holding the debug tool
-            if (heldItem.getItem() == ModItems.DEBUG_TOOL_4PLANE.get()) {
-                PoseStack poseStack = event.getPoseStack();
-
-                // Define the desired rotation angles
-                float rotationAngleX = 180.0f; // Rotation on local X-axis
-                float rotationAngleY = 90.0f;  // Additional rotation on local Y-axis
-                float rotationAngleZ = 0.0f;   // Additional rotation on local Z-axis
-
-                // Normalize the look direction (forward vector, local Z-axis)
-                Vec3 forward = player.getLookAngle().normalize();
-
-                // Define the global up vector
-                Vec3 globalUp = new Vec3(0, 1, 0);
-
-                // Compute the right vector (local X-axis)
-                Vec3 right = globalUp.cross(forward).normalize();
-
-                // Handle edge cases where the player looks straight up/down
-                if (right.lengthSqr() < 0.0001) {
-                    right = new Vec3(1, 0, 0); // Default right vector
-                }
-
-                // Compute the local up vector (perpendicular to forward and right, local Y-axis)
-                Vec3 localUp = forward.cross(right).normalize();
-
-                // Convert the rotation angles to radians
-                float angleXRad = (float) Math.toRadians(rotationAngleX);
-                float angleYRad = (float) Math.toRadians(rotationAngleY);
-                float angleZRad = (float) Math.toRadians(rotationAngleZ);
-
-                // Shift the rotation point to the middle of the player's body
-                double middleHeight = player.getBbHeight() / 2.0; // Half the player's height
-                poseStack.translate(0.0, middleHeight, 0.0); // Move up by half the player's height
-
-                // Create a quaternion for the rotation around the local X-axis
-                Quaternionf rotationQuaternionX = new Quaternionf().rotateAxis(
-                        angleXRad,
-                        (float) right.x,
-                        (float) right.y,
-                        (float) right.z
-                );
-
-                // Create a quaternion for the rotation around the local Y-axis
-                Quaternionf rotationQuaternionY = new Quaternionf().rotateAxis(
-                        angleYRad,
-                        (float) localUp.x,
-                        (float) localUp.y,
-                        (float) localUp.z
-                );
-
-                // Create a quaternion for the rotation around the local Z-axis
-                Quaternionf rotationQuaternionZ = new Quaternionf().rotateAxis(
-                        angleZRad,
-                        (float) forward.x,
-                        (float) forward.y,
-                        (float) forward.z
-                );
-
-                // Combine the rotations
-                Quaternionf combinedQuaternion = new Quaternionf();
-                combinedQuaternion.mul(rotationQuaternionZ); // Apply Z rotation first
-                combinedQuaternion.mul(rotationQuaternionY); // Then apply Y rotation
-                combinedQuaternion.mul(rotationQuaternionX); // Then apply X rotation
-
-                // Apply the combined rotation to the PoseStack
-                poseStack.mulPose(combinedQuaternion);
-
-                // Translate back to the original position
-                poseStack.translate(0.0, -middleHeight, 0.0); // Move back down by the same amount
-
-                // Synchronize body rotation with the head
-                player.yBodyRot = player.yHeadRot;
-                player.yBodyRotO = player.yHeadRotO;
-            }
-        }
-    }
+//    @SubscribeEvent
+//    public static void onRenderPlayerPreDebugTool(RenderLivingEvent.Pre<LivingEntity, ?> event) {
+//        LivingEntity livingEntity = event.getEntity();
+//
+//        // Ensure the entity is a Player
+//        if (livingEntity instanceof Player player) {
+//            ItemStack heldItem = player.getMainHandItem();
+//
+//            // Check if the player is holding the debug tool
+//            if (heldItem.getItem() == ModItems.DEBUG_TOOL_4PLANE.get()) {
+//                PoseStack poseStack = event.getPoseStack();
+//
+//                // Define the desired rotation angles
+//                float rotationAngleX = 180.0f; // Rotation on local X-axis
+//                float rotationAngleY = 90.0f;  // Additional rotation on local Y-axis
+//                float rotationAngleZ = 0.0f;   // Additional rotation on local Z-axis
+//
+//                // Normalize the look direction (forward vector, local Z-axis)
+//                Vec3 forward = player.getLookAngle().normalize();
+//
+//                // Define the global up vector
+//                Vec3 globalUp = new Vec3(0, 1, 0);
+//
+//                // Compute the right vector (local X-axis)
+//                Vec3 right = globalUp.cross(forward).normalize();
+//
+//                // Handle edge cases where the player looks straight up/down
+//                if (right.lengthSqr() < 0.0001) {
+//                    right = new Vec3(1, 0, 0); // Default right vector
+//                }
+//
+//                // Compute the local up vector (perpendicular to forward and right, local Y-axis)
+//                Vec3 localUp = forward.cross(right).normalize();
+//
+//                // Convert the rotation angles to radians
+//                float angleXRad = (float) Math.toRadians(rotationAngleX);
+//                float angleYRad = (float) Math.toRadians(rotationAngleY);
+//                float angleZRad = (float) Math.toRadians(rotationAngleZ);
+//
+//                // Shift the rotation point to the middle of the player's body
+//                double middleHeight = player.getBbHeight() / 2.0; // Half the player's height
+//                poseStack.translate(0.0, middleHeight, 0.0); // Move up by half the player's height
+//
+//                // Create a quaternion for the rotation around the local X-axis
+//                Quaternionf rotationQuaternionX = new Quaternionf().rotateAxis(
+//                        angleXRad,
+//                        (float) right.x,
+//                        (float) right.y,
+//                        (float) right.z
+//                );
+//
+//                // Create a quaternion for the rotation around the local Y-axis
+//                Quaternionf rotationQuaternionY = new Quaternionf().rotateAxis(
+//                        angleYRad,
+//                        (float) localUp.x,
+//                        (float) localUp.y,
+//                        (float) localUp.z
+//                );
+//
+//                // Create a quaternion for the rotation around the local Z-axis
+//                Quaternionf rotationQuaternionZ = new Quaternionf().rotateAxis(
+//                        angleZRad,
+//                        (float) forward.x,
+//                        (float) forward.y,
+//                        (float) forward.z
+//                );
+//
+//                // Combine the rotations
+//                Quaternionf combinedQuaternion = new Quaternionf();
+//                combinedQuaternion.mul(rotationQuaternionZ); // Apply Z rotation first
+//                combinedQuaternion.mul(rotationQuaternionY); // Then apply Y rotation
+//                combinedQuaternion.mul(rotationQuaternionX); // Then apply X rotation
+//
+//                // Apply the combined rotation to the PoseStack
+//                poseStack.mulPose(combinedQuaternion);
+//
+//                // Translate back to the original position
+//                poseStack.translate(0.0, -middleHeight, 0.0); // Move back down by the same amount
+//
+//                // Synchronize body rotation with the head
+//                player.yBodyRot = player.yHeadRot;
+//                player.yBodyRotO = player.yHeadRotO;
+//            }
+//        }
+//    }
 
 
     @SubscribeEvent
