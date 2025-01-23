@@ -197,22 +197,31 @@ public class ModEventBusClientEvents {
         if (event.getEntity() instanceof Player player) {
             if (isHoldingItem(player, ModItems.DEBUG_TOOL_4PLANE.get())) {
                 event.setCanceled(true);
-                doCustomPlayerRender(player, event);
+
+                // Define desired rotations (in degrees)
+                float rotX = 0.0F;   // Rotation around X-axis
+                float rotY = 0.0F;  // Rotation around Y-axis
+                float rotZ = 0.0F;   // Rotation around Z-axis
+
+                // Define desired positions
+                double posX = 0.0D;  // Translation along X-axis
+                double posY = 0.0D;  // Translation along Y-axis (1.5 + 1.0)
+                double posZ = 0.0D;  // Translation along Z-axis
+
+                // Call the custom render method with transformation parameters
+                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ);
             }
         }
     }
 
-    public static void doCustomPlayerRender(Player player, RenderLivingEvent.Pre<?, ?> event) {
+    public static void doCustomPlayerRender(Player player, RenderLivingEvent.Pre<?, ?> event,
+                                            float rotX, float rotY, float rotZ,
+                                            double posX, double posY, double posZ) {
         // Grab all the info we need from the event
         PoseStack poseStack = event.getPoseStack();
         MultiBufferSource buffer = event.getMultiBufferSource();
         int packedLight = event.getPackedLight();
         float partialTicks = event.getPartialTick();
-
-        // Remove yaw-based rotation
-        // float yaw = Mth.rotLerp(partialTicks, player.yRotO, player.getYRot());
-        // float bodyYaw = Mth.rotLerp(partialTicks, player.yBodyRotO, player.yBodyRot);
-        // float pitch = Mth.lerp(partialTicks, player.xRotO, player.getXRot());
 
         // 1) Create or retrieve a PlayerModel to render.
         ModelPart playerModelRoot = Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.PLAYER);
@@ -221,11 +230,15 @@ public class ModEventBusClientEvents {
         // 2) Push a new matrix
         poseStack.pushPose();
 
-        // 3) Translate and apply fixed rotation (optional)
-        poseStack.translate(0.0D, 1.501F, 0.0D); // Slight offset so the model is standing on the ground
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F)); // Fixed rotation
+        // 3) Apply position transformations
+        poseStack.translate(posX, posY, posZ); // Translate model
 
-        // 4) Set up model animations
+        // 4) Apply rotation transformations
+        poseStack.mulPose(Axis.XP.rotationDegrees(rotX)); // Rotate around X-axis
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotY)); // Rotate around Y-axis
+        poseStack.mulPose(Axis.ZP.rotationDegrees(rotZ)); // Rotate around Z-axis
+
+        // 5) Set up model animations
         float ageInTicks = player.tickCount + partialTicks;
         float limbSwingAmount = 0.0F; // for demonstration, set 0 or compute from speed
         float limbSwing = 0.0F;        // likewise
@@ -253,7 +266,7 @@ public class ModEventBusClientEvents {
         playerModel.rightLeg.xRot = ...;
         */
 
-        // 5) Render the model
+        // 6) Render the model
         VertexConsumer vertexconsumer = buffer.getBuffer(playerModel.renderType(getPlayerTexture(player)));
         playerModel.renderToBuffer(
                 poseStack,
@@ -263,7 +276,7 @@ public class ModEventBusClientEvents {
                 1.0F, 1.0F, 1.0F, 1.0F
         );
 
-        // 6) Pop the matrix
+        // 7) Pop the matrix
         poseStack.popPose();
     }
 
