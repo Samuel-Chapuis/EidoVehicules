@@ -218,6 +218,11 @@ public class ModEventBusClientEvents {
                                             float rotX, float rotY, float rotZ,
                                             double posX, double posY, double posZ) {
         // Grab all the info we need from the event
+        rotX = 180 + rotX;
+        if(rotX > 360){
+            rotX -= 360;
+        }
+
         PoseStack poseStack = event.getPoseStack();
         MultiBufferSource buffer = event.getMultiBufferSource();
         int packedLight = event.getPackedLight();
@@ -231,7 +236,8 @@ public class ModEventBusClientEvents {
         poseStack.pushPose();
 
         // 3) Apply position transformations
-        poseStack.translate(posX, posY, posZ); // Translate model
+        poseStack.translate(posX, posY+ 2.8, posZ); // Translate model
+        poseStack.scale(1.8F, 1.9F, 1.8F);
 
         // 4) Apply rotation transformations
         poseStack.mulPose(Axis.XP.rotationDegrees(rotX)); // Rotate around X-axis
@@ -249,22 +255,8 @@ public class ModEventBusClientEvents {
                 0.0F  // headPitch
         );
 
-        // Option 2: Manually set rotations (uncomment if you prefer manual control)
-        /*
-        playerModel.head.xRot = 0.0F;
-        playerModel.head.yRot = 0.0F;
-        playerModel.head.zRot = 0.0F;
-
-        playerModel.body.xRot = 0.0F;
-        playerModel.body.yRot = 0.0F;
-        playerModel.body.zRot = 0.0F;
-
-        // Similarly for arms and legs
-        playerModel.leftArm.xRot = ...; // Set as desired
-        playerModel.rightArm.xRot = ...;
-        playerModel.leftLeg.xRot = ...;
-        playerModel.rightLeg.xRot = ...;
-        */
+        boolean originalHeadVisibility = playerModel.head.visible;
+        playerModel.head.visible = false;
 
         // 6) Render the model
         VertexConsumer vertexconsumer = buffer.getBuffer(playerModel.renderType(getPlayerTexture(player)));
@@ -275,6 +267,42 @@ public class ModEventBusClientEvents {
                 OverlayTexture.NO_OVERLAY,
                 1.0F, 1.0F, 1.0F, 1.0F
         );
+
+        playerModel.head.visible = originalHeadVisibility;
+
+        // 10) Pop the matrix after rendering the body
+        poseStack.popPose();
+
+        // 11) Push a new matrix for the head
+        poseStack.pushPose();
+
+        // 12) Apply position transformations for the head
+        poseStack.translate(posX, posY+1.38, posZ); // Translate to the same position as the body
+
+        // 13) Apply separate scaling for the head
+        poseStack.scale(0.9F, 0.9F, 0.9F); // Scale the head independently (1.6 ≈ 1 / 0.625)
+
+        // 14) Apply rotation transformations for the head
+        poseStack.mulPose(Axis.XP.rotationDegrees(rotX)); // Rotate around X-axis
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotY)); // Rotate around Y-axis
+        poseStack.mulPose(Axis.ZP.rotationDegrees(rotZ)); // Rotate around Z-axis
+
+        // 15) Set up model animations for the head
+        playerModel.setupAnim(player, limbSwing, limbSwingAmount, ageInTicks,
+                0.0F, // netHeadYaw
+                0.0F  // headPitch
+        );
+
+        // 16) Render the head separately using the correct method
+        VertexConsumer vertexconsumerHead = buffer.getBuffer(playerModel.renderType(getPlayerTexture(player)));
+        playerModel.head.render(
+                poseStack,
+                vertexconsumerHead,
+                packedLight,
+                OverlayTexture.NO_OVERLAY,
+                1.0F, 1.0F, 1.0F, 1.0F
+        );
+
 
         // 7) Pop the matrix
         poseStack.popPose();
