@@ -217,6 +217,8 @@ public class ModEventBusClientEvents {
     public static void doCustomPlayerRender(Player player, RenderLivingEvent.Pre<?, ?> event,
                                             float rotX, float rotY, float rotZ,
                                             double posX, double posY, double posZ) {
+
+        event.setCanceled(true);
         // Grab all the info we need from the event
         PoseStack poseStack = event.getPoseStack();
         MultiBufferSource buffer = event.getMultiBufferSource();
@@ -230,15 +232,23 @@ public class ModEventBusClientEvents {
         // 2) Push a new matrix
         poseStack.pushPose();
 
-        // 3) Apply position transformations
+        // 3) Apply scaling to correct the model size
+        float scaleFactor = 1.0F; // Adjust as necessary
+        poseStack.scale(scaleFactor, scaleFactor, scaleFactor);
+
+        // 4) Apply fixed rotation to correct the upside-down rendering
+        // Rotate 180 degrees around the X-axis to flip the model upright
+        poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
+        poseStack.translate(0.0D, - 1.5D, 0.0D); // Adjust the model position to align with the ground
+
+        // 5) Apply position transformations
         poseStack.translate(posX, posY, posZ); // Translate model
 
-        // 4) Apply rotation transformations
-        poseStack.mulPose(Axis.XP.rotationDegrees(rotX)); // Rotate around X-axis
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotY)); // Rotate around Y-axis
-        poseStack.mulPose(Axis.ZP.rotationDegrees(rotZ)); // Rotate around Z-axis
+        // If additional rotation is needed based on player orientation, apply it here
+        // For example, to rotate the player based on their yaw:
+        poseStack.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
 
-        // 5) Set up model animations
+        // 6) Set up model animations
         float ageInTicks = player.tickCount + partialTicks;
         float limbSwingAmount = 0.0F; // for demonstration, set 0 or compute from speed
         float limbSwing = 0.0F;        // likewise
@@ -249,24 +259,7 @@ public class ModEventBusClientEvents {
                 0.0F  // headPitch
         );
 
-        // Option 2: Manually set rotations (uncomment if you prefer manual control)
-        /*
-        playerModel.head.xRot = 0.0F;
-        playerModel.head.yRot = 0.0F;
-        playerModel.head.zRot = 0.0F;
-
-        playerModel.body.xRot = 0.0F;
-        playerModel.body.yRot = 0.0F;
-        playerModel.body.zRot = 0.0F;
-
-        // Similarly for arms and legs
-        playerModel.leftArm.xRot = ...; // Set as desired
-        playerModel.rightArm.xRot = ...;
-        playerModel.leftLeg.xRot = ...;
-        playerModel.rightLeg.xRot = ...;
-        */
-
-        // 6) Render the model
+        // 7) Render the model
         VertexConsumer vertexconsumer = buffer.getBuffer(playerModel.renderType(getPlayerTexture(player)));
         playerModel.renderToBuffer(
                 poseStack,
@@ -276,7 +269,7 @@ public class ModEventBusClientEvents {
                 1.0F, 1.0F, 1.0F, 1.0F
         );
 
-        // 7) Pop the matrix
+        // 8) Pop the matrix
         poseStack.popPose();
     }
 
