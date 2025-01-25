@@ -71,74 +71,27 @@ public class ModEventBusClientEvents {
 
             // Ensure the vehicle is a PlaneStructure
             if (entity instanceof PlaneStructure plane) {
-                // Retrieve plane rotation
-                float planeYaw = plane.getYRot();
-                float planePitch = plane.getXRot();
-                float planeRoll = plane.getInterpolate_roll();
+                event.setCanceled(true);
 
-                // Update player's yaw
-                player.yBodyRot = planeYaw;
-                player.yBodyRotO = planeYaw;
+                float partialTicks = event.getPartialTick();
+                float interpolatedRoll = plane.getInterpolate_roll();
+                interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll));
+                float interpolatedYaw = interpolateAngle(plane.yRotO, plane.getYRot(), partialTicks);
 
-                // Access PoseStack
-                PoseStack poseStack = event.getPoseStack();
+                float interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
+                System.out.println("interpolatedPitch: " + interpolatedPitch);
 
-                // Normalize the look direction (forward vector, local Z-axis)
-                Vec3 forward = player.getLookAngle().normalize();
+                float rotX = interpolatedPitch ;   // Rotation around X-axis
+                float rotY = interpolatedYaw;  // Rotation around Y-axis
+                float rotZ = interpolatedRoll;   // Rotation around Z-axis
 
-                // Define the global up vector
-                Vec3 globalUp = new Vec3(0, 1, 0);
+                // Define desired positions
+                double posX = 0.0D;  // Translation along X-axis
+                double posY = 0.5D;  // Translation along Y-axis (1.5 + 1.0)
+                double posZ = 0.0D;  // Translation along Z-axis
 
-                // Compute the right vector (local X-axis)
-                Vec3 right = globalUp.cross(forward).normalize();
-
-                // Handle edge cases where the player looks straight up/down
-                if (right.lengthSqr() < 0.0001) {
-                    right = new Vec3(1, 0, 0); // Default right vector
-                }
-
-                // Compute the local up vector (perpendicular to forward and right, local Y-axis)
-                Vec3 localUp = forward.cross(right).normalize();
-
-                // Convert the rotation angles to radians
-                float angleXRad = (float) Math.toRadians(planePitch);
-                float angleZRad = (float) Math.toRadians(- planeRoll);
-
-                // Shift the rotation point to the middle of the player's body
-                double middleHeight = player.getBbHeight() / 2.0; // Half the player's height
-                poseStack.translate(0.0, middleHeight, 0.0); // Move up by half the player's height
-
-                // Create a quaternion for the 45° rotation around the local X-axis
-                Quaternionf rotationQuaternionX = new Quaternionf().rotateAxis(
-                        angleXRad,
-                        (float) right.x,
-                        (float) right.y,
-                        (float) right.z
-                );
-
-                // Create a quaternion for the 30° rotation around the local Z-axis
-                Quaternionf rotationQuaternionZ = new Quaternionf().rotateAxis(
-                        angleZRad,
-                        (float) forward.x,
-                        (float) forward.y,
-                        (float) forward.z
-                );
-
-                // Combine the rotations
-                Quaternionf combinedQuaternion = new Quaternionf();
-                combinedQuaternion.mul(rotationQuaternionZ); // Apply Z rotation first
-                combinedQuaternion.mul(rotationQuaternionX); // Then apply X rotation
-
-                // Apply the combined rotation to the PoseStack
-                poseStack.mulPose(combinedQuaternion);
-
-                // Translate back to the original position
-                poseStack.translate(0.0, -middleHeight, 0.0); // Move back down by the same amount
-
-                // Synchronize body rotation with the head
-                player.yBodyRot = player.yHeadRot;
-                player.yBodyRotO = player.yHeadRotO;
-
+                // Call the custom render method with transformation parameters
+                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ);
             }
         }
     }
@@ -252,9 +205,10 @@ public class ModEventBusClientEvents {
         poseStack.translate(pivotX, pivotY, pivotZ);
 
         // 5.2) Apply rotation transformations around the new pivot
+
+        poseStack.mulPose(Axis.YP.rotationDegrees(- rotY)); // Rotate around Y-axis
+        poseStack.mulPose(Axis.ZP.rotationDegrees(- rotZ)); // Rotate around Z-axis
         poseStack.mulPose(Axis.XP.rotationDegrees(rotX)); // Rotate around X-axis
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotY)); // Rotate around Y-axis
-        poseStack.mulPose(Axis.ZP.rotationDegrees(rotZ)); // Rotate around Z-axis
 
         // 5.3) Translate back from the pivot point
         poseStack.translate(-pivotX, -pivotY, -pivotZ);
@@ -272,10 +226,6 @@ public class ModEventBusClientEvents {
         // Render legs
         playerModel.leftLeg.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
         playerModel.rightLeg.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
-
-        // Render arms
-//        playerModel.leftArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
-//        playerModel.rightArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
 
         float armScale = 0.8F; // Adjust this value as needed for the arms
         poseStack.pushPose();
@@ -354,6 +304,17 @@ public class ModEventBusClientEvents {
     private static boolean isHoldingItem(Player player, Item item) {
         return player.getMainHandItem().getItem() == item ||
                 player.getOffhandItem().getItem() == item;
+    }
+
+    private static float interpolateAngle(float startAngle, float endAngle, float partialTicks) {
+        float deltaAngle = endAngle - startAngle;
+        while (deltaAngle < -180.0F) {
+            deltaAngle += 360.0F;
+        }
+        while (deltaAngle >= 180.0F) {
+            deltaAngle -= 360.0F;
+        }
+        return startAngle + partialTicks * deltaAngle;
     }
 
 }

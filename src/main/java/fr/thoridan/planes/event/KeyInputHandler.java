@@ -62,7 +62,7 @@ public class KeyInputHandler {
             if (K_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
                 if (event.getAction() == GLFW.GLFW_PRESS) {
                     Globals.global2 = Globals.global2 + 1f;
-                    System.out.println("K key pressed: " + Globals.global1);
+                    System.out.println("K key pressed: " + Globals.global2);
                 }
                 if (event.getAction() == GLFW.GLFW_RELEASE) {
                     System.out.println("K key released");
@@ -72,7 +72,7 @@ public class KeyInputHandler {
             if (L_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
                 if (event.getAction() == GLFW.GLFW_PRESS) {
                     Globals.global3 = Globals.global3 + 1f;
-                    System.out.println("L key pressed: " + Globals.global1);
+                    System.out.println("L key pressed: " + Globals.global3);
                 }
                 if (event.getAction() == GLFW.GLFW_RELEASE) {
                     System.out.println("L key released");
