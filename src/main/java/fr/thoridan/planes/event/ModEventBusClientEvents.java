@@ -3,6 +3,7 @@ package fr.thoridan.planes.event;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import fr.thoridan.planes.Globals;
 import fr.thoridan.planes.entity.client.ModModelLayers;
 import fr.thoridan.planes.entity.client.models.YellowPlaneModel;
 import fr.thoridan.planes.entity.custom.PlaneStructure;
@@ -199,9 +200,9 @@ public class ModEventBusClientEvents {
                 event.setCanceled(true);
 
                 // Define desired rotations (in degrees)
-                float rotX = 0.0F;   // Rotation around X-axis
-                float rotY = 0.0F;  // Rotation around Y-axis
-                float rotZ = 0.0F;   // Rotation around Z-axis
+                float rotX = Globals.global1;   // Rotation around X-axis
+                float rotY = Globals.global2;  // Rotation around Y-axis
+                float rotZ = Globals.global3;   // Rotation around Z-axis
 
                 // Define desired positions
                 double posX = 0.0D;  // Translation along X-axis
@@ -218,40 +219,52 @@ public class ModEventBusClientEvents {
                                             float rotX, float rotY, float rotZ,
                                             double posX, double posY, double posZ) {
 
-        event.setCanceled(true);
-        // Grab all the info we need from the event
+        // Grab all the necessary information from the event
         PoseStack poseStack = event.getPoseStack();
         MultiBufferSource buffer = event.getMultiBufferSource();
         int packedLight = event.getPackedLight();
         float partialTicks = event.getPartialTick();
 
-        // 1) Create or retrieve a PlayerModel to render.
+        // 1) Create or retrieve a PlayerModel to render
         ModelPart playerModelRoot = Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.PLAYER);
         PlayerModel<Player> playerModel = new PlayerModel<>(playerModelRoot, false); // false => normal (non-slim) arms
 
-        // 2) Push a new matrix
+        // 2) Push a new matrix to isolate transformations
         poseStack.pushPose();
 
-        // 3) Apply scaling to correct the model size
-        float scaleFactor = 1.0F; // Adjust as necessary
-        poseStack.scale(scaleFactor, scaleFactor, scaleFactor);
+        rotX = (rotX + 180) % 360;
 
-        // 4) Apply fixed rotation to correct the upside-down rendering
-        // Rotate 180 degrees around the X-axis to flip the model upright
-        poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
-        poseStack.translate(0.0D, - 1.5D, 0.0D); // Adjust the model position to align with the ground
+        // 3) Apply main scaling factor for the body
+        float bodyScale = 0.8F; // Adjust this value as needed for the body
+        poseStack.scale(bodyScale, bodyScale, bodyScale);
 
-        // 5) Apply position transformations
-        poseStack.translate(posX, posY, posZ); // Translate model
+        // 4) Apply position transformations (translate to desired position)
+        poseStack.translate(posX, posY, posZ); // Translate model to desired position
 
-        // If additional rotation is needed based on player orientation, apply it here
-        // For example, to rotate the player based on their yaw:
-        poseStack.mulPose(Axis.YP.rotationDegrees(player.getYRot()));
+        // === Changing the Pivot Point ===
+
+        // Define your custom pivot point relative to the player's origin
+        double pivotX = 0.0D; // Adjust these values as needed
+        double pivotY = 0.8D;
+        double pivotZ = 0.0D;
+
+        // 5.1) Translate to the pivot point
+        poseStack.translate(pivotX, pivotY, pivotZ);
+
+        // 5.2) Apply rotation transformations around the new pivot
+        poseStack.mulPose(Axis.XP.rotationDegrees(rotX)); // Rotate around X-axis
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotY)); // Rotate around Y-axis
+        poseStack.mulPose(Axis.ZP.rotationDegrees(rotZ)); // Rotate around Z-axis
+
+        // 5.3) Translate back from the pivot point
+        poseStack.translate(-pivotX, -pivotY, -pivotZ);
+
+        // === End of Pivot Point Adjustment ===
 
         // 6) Set up model animations
         float ageInTicks = player.tickCount + partialTicks;
-        float limbSwingAmount = 0.0F; // for demonstration, set 0 or compute from speed
-        float limbSwing = 0.0F;        // likewise
+        float limbSwingAmount = 0.0F; // For demonstration, set to 0 or compute from player movement
+        float limbSwing = 0.0F;        // Likewise
 
         // Option 1: Set fixed head rotation
         playerModel.setupAnim(player, limbSwing, limbSwingAmount, ageInTicks,
@@ -259,19 +272,42 @@ public class ModEventBusClientEvents {
                 0.0F  // headPitch
         );
 
-        // 7) Render the model
-        VertexConsumer vertexconsumer = buffer.getBuffer(playerModel.renderType(getPlayerTexture(player)));
-        playerModel.renderToBuffer(
-                poseStack,
-                vertexconsumer,
-                packedLight,
-                OverlayTexture.NO_OVERLAY,
-                1.0F, 1.0F, 1.0F, 1.0F
-        );
+        // 7) Render body parts (excluding head)
+        // Render the torso
+        playerModel.body.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
 
-        // 8) Pop the matrix
+        // Render arms
+        playerModel.leftArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+        playerModel.rightArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+
+        // Render legs
+        playerModel.leftLeg.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+        playerModel.rightLeg.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+
+        // 8) Render the head with adjusted scaling
+        // Push a new matrix for the head
+        poseStack.pushPose();
+
+        // Define head scaling factor (less than 1 to make it smaller)
+        float headScale = 1F; // Adjust this value as needed for the head
+
+        // Apply scaling to the head
+        poseStack.scale(headScale, headScale, headScale);
+
+        // Optional: Adjust the head's position if it appears offset after scaling
+        // For example, translate upwards to align with the body
+        // poseStack.translate(0.0D, 0.1D, 0.0D); // Modify values as needed
+
+        // Render the head
+        playerModel.head.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+
+        // Pop the head's transformation matrix
+        poseStack.popPose();
+
+        // 9) Pop the main matrix
         poseStack.popPose();
     }
+
 
     /**
      * Retrieves the player's skin texture. Falls back to Steve's skin if unavailable.
@@ -288,4 +324,5 @@ public class ModEventBusClientEvents {
         return player.getMainHandItem().getItem() == item ||
                 player.getOffhandItem().getItem() == item;
     }
+
 }

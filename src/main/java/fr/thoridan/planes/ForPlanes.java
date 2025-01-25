@@ -7,6 +7,7 @@ import fr.thoridan.planes.entity.ModEntities;
 import fr.thoridan.planes.entity.client.models.YellowPlaneRenderer;
 import fr.thoridan.planes.entity.client.models.rafale.RafaleGreenRenderer;
 import fr.thoridan.planes.entity.client.models.rafale.RafaleNormalRenderer;
+import fr.thoridan.planes.event.KeyInputHandler;
 import fr.thoridan.planes.item.ModCreativeModTabs;
 import fr.thoridan.planes.item.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -23,11 +24,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
+
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ForPlanes.MOD_ID)
 public class ForPlanes {
     public static final String MOD_ID = "forplanes";
-    public static final Logger LOGGER = LogUtils.getLogger();
 
     public ForPlanes() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -36,6 +38,7 @@ public class ForPlanes {
 		ModItems.register(modEventBus);					// Register the items
 		ModBlocks.register(modEventBus);				// Register the blocks
 		ModEntities.register(modEventBus);				// Register the entities
+
 
         modEventBus.addListener(this::commonSetup);
 

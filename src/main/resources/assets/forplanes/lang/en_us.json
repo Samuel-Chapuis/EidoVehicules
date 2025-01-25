@@ -6,5 +6,10 @@
 	"block.forplanes.titanium_block": "Titanium Block",
 	"block.forplanes.titanium_ore": "Titanium Ore",
 
-	"creativetab.forplanes_tab": "Forplanes"
+	"creativetab.forplanes_tab": "Forplanes",
+
+	"key.forplanes.j_key": "Toggle J Key",
+	"key.forplanes.k_key": "Toggle K Key",
+	"key.forplanes.l_key": "Toggle L Key",
+	"category.forplanes.custom_keys": "Your Mod Custom Keys"
 }
