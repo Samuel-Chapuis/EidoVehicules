@@ -225,14 +225,14 @@ public class ModEventBusClientEvents {
         int packedLight = event.getPackedLight();
         float partialTicks = event.getPartialTick();
 
+        rotX = (rotX + 180) % 360;
+
         // 1) Create or retrieve a PlayerModel to render
         ModelPart playerModelRoot = Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.PLAYER);
         PlayerModel<Player> playerModel = new PlayerModel<>(playerModelRoot, false); // false => normal (non-slim) arms
 
         // 2) Push a new matrix to isolate transformations
         poseStack.pushPose();
-
-        rotX = (rotX + 180) % 360;
 
         // 3) Apply main scaling factor for the body
         float bodyScale = 0.8F; // Adjust this value as needed for the body
@@ -245,7 +245,7 @@ public class ModEventBusClientEvents {
 
         // Define your custom pivot point relative to the player's origin
         double pivotX = 0.0D; // Adjust these values as needed
-        double pivotY = 0.8D;
+        double pivotY = 0.5D;
         double pivotZ = 0.0D;
 
         // 5.1) Translate to the pivot point
@@ -261,35 +261,36 @@ public class ModEventBusClientEvents {
 
         // === End of Pivot Point Adjustment ===
 
-        // 6) Set up model animations
-        float ageInTicks = player.tickCount + partialTicks;
-        float limbSwingAmount = 0.0F; // For demonstration, set to 0 or compute from player movement
-        float limbSwing = 0.0F;        // Likewise
-
-        // Option 1: Set fixed head rotation
-        playerModel.setupAnim(player, limbSwing, limbSwingAmount, ageInTicks,
-                0.0F, // netHeadYaw
-                0.0F  // headPitch
-        );
+        // 6) Set up model animations (sitting pose)
+        setupSittingPose(playerModel, player, partialTicks);
 
         // 7) Render body parts (excluding head)
         // Render the torso
         playerModel.body.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
 
-        // Render arms
-        playerModel.leftArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
-        playerModel.rightArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
 
         // Render legs
         playerModel.leftLeg.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
         playerModel.rightLeg.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+
+        // Render arms
+//        playerModel.leftArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+//        playerModel.rightArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+
+        float armScale = 0.8F; // Adjust this value as needed for the arms
+        poseStack.pushPose();
+        poseStack.scale(armScale, armScale, armScale);
+        playerModel.leftArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+        playerModel.rightArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
+        poseStack.popPose();
+
 
         // 8) Render the head with adjusted scaling
         // Push a new matrix for the head
         poseStack.pushPose();
 
         // Define head scaling factor (less than 1 to make it smaller)
-        float headScale = 1F; // Adjust this value as needed for the head
+        float headScale = 0.9F; // Adjust this value as needed for the head
 
         // Apply scaling to the head
         poseStack.scale(headScale, headScale, headScale);
@@ -307,6 +308,36 @@ public class ModEventBusClientEvents {
         // 9) Pop the main matrix
         poseStack.popPose();
     }
+
+
+    private static void setupSittingPose(PlayerModel<Player> playerModel, Player player, float partialTicks) {
+        // Calculate ageInTicks if needed for animations
+        float ageInTicks = player.tickCount + partialTicks;
+
+        // Set up model animations
+        playerModel.setupAnim(player, 0.0F, 0.0F, ageInTicks, 0.0F, 0.0F);
+
+        // Adjust legs for sitting
+        // Rotate the legs forward by 90 degrees around the X-axis
+        float legRotation =  - 90.0F; // Adjust as needed
+        playerModel.leftLeg.xRot = (float) Math.toRadians(legRotation);
+        playerModel.rightLeg.xRot = (float) Math.toRadians(legRotation);
+
+        // Optionally, bend the knees slightly
+        playerModel.leftLeg.zRot = (float) Math.toRadians(10.0F); // Adjust as needed
+        playerModel.rightLeg.zRot = (float) Math.toRadians(-10.0F); // Adjust as needed
+
+        // Adjust arms for sitting
+        // For example, lower the arms to rest on the lap
+        float armRotationX = - 45.0F; // Rotate arms downward
+        playerModel.leftArm.xRot = (float) Math.toRadians(armRotationX);
+        playerModel.rightArm.xRot = (float) Math.toRadians(armRotationX);
+
+        // Optionally, rotate arms slightly inward
+        playerModel.leftArm.zRot = (float) Math.toRadians(-10.0F); // Adjust as needed
+        playerModel.rightArm.zRot = (float) Math.toRadians(10.0F); // Adjust as needed
+    }
+
 
 
     /**
