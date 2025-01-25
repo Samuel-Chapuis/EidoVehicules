@@ -30,6 +30,7 @@ import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraft.world.entity.player.Player;
@@ -63,35 +64,69 @@ public class ModEventBusClientEvents {
     }
 
     // This event is use to apply custom render to the player in the plane
-    @SubscribeEvent
-    public static void onRenderPlayerPre(RenderLivingEvent.Pre<?, ?> event) {
-        // Ensure the entity being rendered is a Player
-        if (event.getEntity() instanceof Player player) {
-            Entity entity = player.getRootVehicle();
+//    @SubscribeEvent
+//    public static void onRenderPlayerPre(RenderLivingEvent.Pre<?, ?> event) {
+//        // Ensure the entity being rendered is a Player
+//        if (event.getEntity() instanceof Player player) {
+//            Entity entity = player.getRootVehicle();
+//
+//            // Ensure the vehicle is a PlaneStructure
+//            if (entity instanceof PlaneStructure plane) {
+//                event.setCanceled(true);
+//
+//                float partialTicks = event.getPartialTick();
+//                float interpolatedRoll = plane.getInterpolate_roll();
+//                interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll));
+//                float interpolatedYaw = interpolateAngle(plane.yRotO, plane.getYRot(), partialTicks);
+//
+//                float interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
+//                System.out.println("interpolatedPitch: " + interpolatedPitch);
+//
+//                float rotX = interpolatedPitch ;   // Rotation around X-axis
+//                float rotY = interpolatedYaw;  // Rotation around Y-axis
+//                float rotZ = interpolatedRoll;   // Rotation around Z-axis
+//
+//                // Define desired positions
+//                double posX = 0.0D;  // Translation along X-axis
+//                double posY = 0.5D;  // Translation along Y-axis (1.5 + 1.0)
+//                double posZ = 0.0D;  // Translation along Z-axis
+//
+//                // Call the custom render method with transformation parameters
+//                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, plane.yRiderOffset);
+//            }
+//        }
+//    }
 
-            // Ensure the vehicle is a PlaneStructure
-            if (entity instanceof PlaneStructure plane) {
-                event.setCanceled(true);
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onRenderPre(RenderLivingEvent.Pre<LivingEntity, ?> event) {
+        LivingEntity livingEntity = event.getEntity();
+        Entity entity = livingEntity.getRootVehicle();
+        if (entity instanceof PlaneStructure planeEntity) {
+            PoseStack matrixStack = event.getPoseStack();
+            matrixStack.pushPose();
 
-                float partialTicks = event.getPartialTick();
-                float interpolatedRoll = plane.getInterpolate_roll();
-                interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll));
-                float interpolatedYaw = interpolateAngle(plane.yRotO, plane.getYRot(), partialTicks);
+            matrixStack.translate(0, 0.375, 0);
+            Quaternionf quaternion = MathUtil.lerpQ(event.getPartialTick(), planeEntity.getQ_Prev(), planeEntity.getQ_Client());
+            quaternion.set(quaternion.x(), -quaternion.y(), -quaternion.z(), quaternion.w());
+            // La ligne si dessous sert a faire tourner le joueur avec l'avion
+            matrixStack.mulPose(quaternion);
 
-                float interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
-                System.out.println("interpolatedPitch: " + interpolatedPitch);
+        }
+    }
 
-                float rotX = interpolatedPitch ;   // Rotation around X-axis
-                float rotY = interpolatedYaw;  // Rotation around Y-axis
-                float rotZ = interpolatedRoll;   // Rotation around Z-axis
+    @SuppressWarnings("rawtypes")
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onRenderPost(RenderLivingEvent.Post event) {
+        LivingEntity livingEntity = event.getEntity();
+        Entity entity = livingEntity.getRootVehicle();
+        if (entity instanceof PlaneStructure planeEntity) {
+            event.getPoseStack().popPose();
 
-                // Define desired positions
-                double posX = 0.0D;  // Translation along X-axis
-                double posY = 0.5D;  // Translation along Y-axis (1.5 + 1.0)
-                double posZ = 0.0D;  // Translation along Z-axis
-
-                // Call the custom render method with transformation parameters
-                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, plane.yRiderOffset);
+            if (MathUtil.degreesDifferenceAbs(planeEntity.getPreviousRoll(), 0) > 90) {
+                livingEntity.yHeadRot = planeEntity.getYRot() * 2 - event.getEntity().yHeadRot;
+            }
+            if (MathUtil.degreesDifferenceAbs(planeEntity.getPreviousRoll(), 0) > 90) {
+                livingEntity.yHeadRotO = planeEntity.yRotO * 2 - event.getEntity().yHeadRotO;
             }
         }
     }
@@ -144,31 +179,28 @@ public class ModEventBusClientEvents {
 //        }
 //    }
 
-
-
-    @SubscribeEvent
-    public static void onRenderLivingPre(RenderLivingEvent.Pre<?, ?> event) {
-        // If it's a Player and holding our special item, cancel default rendering
-        if (event.getEntity() instanceof Player player) {
-            if (isHoldingItem(player, ModItems.DEBUG_TOOL_4PLANE.get())) {
-                event.setCanceled(true);
-
-                // Define desired rotations (in degrees)
-                float rotX = Globals.global1;   // Rotation around X-axis
-                float rotY = Globals.global2;  // Rotation around Y-axis
-                float rotZ = Globals.global3;   // Rotation around Z-axis
-
-                // Define desired positions
-                double posX = 0.0D;  // Translation along X-axis
-                double posY = 0.0D;  // Translation along Y-axis (1.5 + 1.0)
-                double posZ = 0.0D;  // Translation along Z-axis
-
-                // Call the custom render method with transformation parameters
-                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, 0);
-            }
-        }
-    }
-
+//    @SubscribeEvent
+//    public static void onRenderLivingPre(RenderLivingEvent.Pre<?, ?> event) {
+//        // If it's a Player and holding our special item, cancel default rendering
+//        if (event.getEntity() instanceof Player player) {
+//            if (isHoldingItem(player, ModItems.DEBUG_TOOL_4PLANE.get())) {
+//                event.setCanceled(true);
+//
+//                // Define desired rotations (in degrees)
+//                float rotX = Globals.global1;   // Rotation around X-axis
+//                float rotY = Globals.global2;  // Rotation around Y-axis
+//                float rotZ = Globals.global3;   // Rotation around Z-axis
+//
+//                // Define desired positions
+//                double posX = 0.0D;  // Translation along X-axis
+//                double posY = 0.0D;  // Translation along Y-axis (1.5 + 1.0)
+//                double posZ = 0.0D;  // Translation along Z-axis
+//
+//                // Call the custom render method with transformation parameters
+//                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, 0);
+//            }
+//        }
+//    }
 
     /* --------------------- */
     /* --- Utility -------- */

@@ -22,6 +22,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 
 import javax.swing.text.LabelView;
 
@@ -48,6 +49,25 @@ public abstract class PlaneStructure extends Entity {
     protected boolean invisibleRider = false;      // Is the rider invisible
     protected Block drop = Blocks.DIRT;             // Item to drop when the plane is destroyed
     protected Level level;
+
+    public Quaternionf Q_Client = new Quaternionf();
+    public Quaternionf Q_Prev = new Quaternionf();
+
+    public Quaternionf getQ_Client() {
+        return Q_Client;
+    }
+
+    public Quaternionf getQ_Prev() {
+        return Q_Prev;
+    }
+
+    public void setQ_Client(Quaternionf q) {
+        Q_Client = q;
+    }
+
+    public void setQ_prev(Quaternionf q) {
+        Q_Prev = q;
+    }
 
     protected abstract void addingTick();
 
