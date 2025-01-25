@@ -15,8 +15,13 @@ public abstract class MixinCamera {
 
 	@Inject(method = "setup", at = @At("TAIL"))
 	public void ia$setup(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
-		if (thirdPerson && entity.getVehicle() instanceof PlaneStructure vehicle) {
-			move(-getMaxZoom(vehicle.getCameraDistance()), 0.0, 0.0);
+
+		if( entity.getVehicle() instanceof PlaneStructure vehicle) {
+			if (thirdPerson) {
+				move(-getMaxZoom(vehicle.getCameraDistance()), 0.0, 0.0);
+			}else{
+				move(0.0D, vehicle.yRiderOffset, 0.0D);
+			}
 		}
 	}
 	@Shadow

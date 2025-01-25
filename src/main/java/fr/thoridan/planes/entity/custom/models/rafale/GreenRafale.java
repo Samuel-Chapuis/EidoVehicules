@@ -1,5 +1,6 @@
 package fr.thoridan.planes.entity.custom.models.rafale;
 
+import fr.thoridan.planes.Globals;
 import fr.thoridan.planes.entity.custom.PlaneStructure;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
@@ -15,7 +16,7 @@ public class GreenRafale extends PlaneStructure {
         this.acceleration = 0.7f;
         this.deceleration = 0.5f;
         this.invertSubtlety = 0.3f;
-        this.yRiderOffset = 1.1f;
+        this.yRiderOffset = 0.8f;
         this.invisibleRider = false;
         this.cameraDistance = 64D; //64
     }

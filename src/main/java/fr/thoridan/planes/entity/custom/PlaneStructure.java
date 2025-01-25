@@ -43,7 +43,7 @@ public abstract class PlaneStructure extends Entity {
     protected float deceleration;                   // Braking speed
     protected float invertSubtlety;                 // Sorte of inverted subtlety
     protected float xRiderOffset = 0;               // X offset of the player
-    protected float yRiderOffset = 0;               // Y offset of the player
+    public float yRiderOffset = 0;               // Y offset of the player
     protected float zRiderOffset = 0;               // Z offset of the player
     protected boolean invisibleRider = false;      // Is the rider invisible
     protected Block drop = Blocks.DIRT;             // Item to drop when the plane is destroyed

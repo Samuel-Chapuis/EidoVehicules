@@ -91,26 +91,27 @@ public class ModEventBusClientEvents {
                 double posZ = 0.0D;  // Translation along Z-axis
 
                 // Call the custom render method with transformation parameters
-                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ);
+                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, plane.yRiderOffset);
             }
         }
     }
 
     // This event is used to apply custom logic to the camera angles
-//    @SubscribeEvent
-//    public static void onComputeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
-//        // Check if the camera’s entity is a Player
-//        if (event.getCamera().getEntity() instanceof Player player) {
-//            Entity entity = player.getRootVehicle();
-//
-//            // Ensure the vehicle is a PlaneStructure
-//            if (entity instanceof PlaneStructure plane) {
-//                float planeRoll = plane.getInterpolate_roll();
-//                event.setRoll(event.getRoll() + planeRoll);
-//            }
-//
-//        }
-//    }
+    @SubscribeEvent
+    public static void onComputeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
+        // Check if the camera’s entity is a Player
+        if (event.getCamera().getEntity() instanceof Player player) {
+            Entity entity = player.getRootVehicle();
+
+            // Ensure the vehicle is a PlaneStructure
+            if (entity instanceof PlaneStructure plane) {
+                float planeRoll = plane.getInterpolate_roll();
+                event.setRoll(event.getRoll() + planeRoll);
+            }
+
+        }
+    }
+
 
 
     /* --------------------- */
@@ -163,14 +164,19 @@ public class ModEventBusClientEvents {
                 double posZ = 0.0D;  // Translation along Z-axis
 
                 // Call the custom render method with transformation parameters
-                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ);
+                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, 0);
             }
         }
     }
 
+
+    /* --------------------- */
+    /* --- Utility -------- */
+    /* -------------------- */
+
     public static void doCustomPlayerRender(Player player, RenderLivingEvent.Pre<?, ?> event,
                                             float rotX, float rotY, float rotZ,
-                                            double posX, double posY, double posZ) {
+                                            double posX, double posY, double posZ, double Yoffset) {
 
         // Grab all the necessary information from the event
         PoseStack poseStack = event.getPoseStack();
@@ -198,7 +204,7 @@ public class ModEventBusClientEvents {
 
         // Define your custom pivot point relative to the player's origin
         double pivotX = 0.0D; // Adjust these values as needed
-        double pivotY = 0.5D;
+        double pivotY = 0.4D + Yoffset; // Adjust these values as needed 0.7 for rafal
         double pivotZ = 0.0D;
 
         // 5.1) Translate to the pivot point
