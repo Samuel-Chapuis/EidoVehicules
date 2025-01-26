@@ -1,6 +1,6 @@
 # ForPlanes Mod
 
-![ForPlanes Mod Banner](Readme/YellowPlane.png)
+![ForPlanes Mod Banner](readme/YellowPlane.png)
 
 Welcome to the **ForPlanes Mod**! This Minecraft Forge mod introduces planes only controlled by the player camera.
 This mod was designed for a challenge so you are more than welcome to contribute to it!
@@ -14,7 +14,7 @@ This mod was designed for a challenge so you are more than welcome to contribute
 
 ### Steps
 
-1. Download and install Minecraft Forge for version 1.20.1.
+1. Download and install Minecraft Forge for version 1.20.1 from the [modrinth](https://modrinth.com/mod/4plane).
 2. Place the `ForPlanes Mod` `.jar` file in your `mods` folder (found in your Minecraft directory).
 3. Launch Minecraft with the Forge profile and enjoy the mod!
 
@@ -25,7 +25,8 @@ We welcome contributions to the **ForPlanes Mod**! Whether you want to report bu
 1. Fork the repository.
 2. Create a branch for your feature or bugfix.
 3. Commit your changes with detailed descriptions.
-4. Submit a pull request for review.
+4. Make sure you're following the project's [Git syntax](readme/gitSyntax.md).
+5. Submit a pull request for review.
 
 ### Development Notes
 
@@ -47,6 +48,8 @@ This project is licensed under the **MIT License**. Feel free to use, modify, an
 
 For any questions, feedback, or support, feel free to reach out via the repository's issue tracker or directly at [samuel.chapuis@hotmail.com].
 
+## Credits
+- **Creator:** [Samuel Chapuis]
 ---
 
 Enjoy flying high with the **ForPlanes Mod**! 🚀✈️
