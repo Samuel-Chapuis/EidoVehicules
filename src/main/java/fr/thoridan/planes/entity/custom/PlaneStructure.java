@@ -54,6 +54,8 @@ public abstract class PlaneStructure extends Entity {
     protected float xRiderOffset = 0;              // X-axis offset for the passenger's position
     public float yRiderOffset = 0;                 // Y-axis offset for the passenger's position
     protected float zRiderOffset = 0;              // Z-axis offset for the passenger's position
+
+    public float cameraOffset = 0;                 // Camera offset for the passenger's position
     protected boolean invisibleRider = false;      // Flag to determine if the passenger is invisible
     protected Block drop = Blocks.DIRT;            // Block/item to drop upon plane destruction
     protected Level level;                         // Reference to the current game level

@@ -35,7 +35,7 @@ public abstract class MixinCamera {
 				move(-getMaxZoom(vehicle.getCameraDistance()), 0.0, 0.0);
 			} else {
 				// Adjust the camera height for first-person view based on the vehicle's rider offset
-				move(0.0D, vehicle.yRiderOffset, 0.0D);
+				move(0.0D, vehicle.cameraOffset, 0.0D);
 			}
 
 			// Optional: Integrate Cartridge functionality if applicable

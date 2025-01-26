@@ -32,6 +32,7 @@ public class GreenRafale extends PlaneStructure {
         this.deceleration = 0.5f;          // Deceleration (braking) rate of the GreenRafale
         this.invertSubtlety = 0.3f;        // Subtlety factor influencing control inversions
         this.yRiderOffset = 0.8f;          // Vertical offset for rider positioning
+        this.cameraOffset = 0.8f;           // Camera offset for the rider's view
         this.invisibleRider = false;       // Keeps the rider visible when in the GreenRafale
         this.cameraDistance = 64D;         // Sets the camera's distance from the GreenRafale
     }

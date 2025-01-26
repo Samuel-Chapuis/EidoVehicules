@@ -29,7 +29,8 @@ public class YellowPlane extends PlaneStructure {
      */
     public YellowPlane(EntityType<? extends PlaneStructure> type, Level world) {
         super(type, world);
-        this.yRiderOffset = 0.0F;         // Sets the Y-axis offset for the passenger's position
+        this.yRiderOffset = 0.2F;         // Sets the Y-axis offset for the passenger's position
+        this.cameraOffset = 0.0F;         // Sets the camera offset for the passenger's view
         this.health = 20f;                 // Initializes the plane's health
         this.maxSpeed = 1.5f;              // Sets the maximum speed the plane can achieve
         this.acceleration = 0.2f;          // Sets the acceleration rate of the plane
