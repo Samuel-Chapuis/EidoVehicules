@@ -46,7 +46,7 @@ This project is licensed under the **MIT License**. Feel free to use, modify, an
 
 ## Contact
 
-For any questions, feedback, or support, feel free to reach out via the repository's issue tracker or directly at [samuel.chapuis@hotmail.com].
+For any questions, feedback, or support, feel free to reach out via the repository's issue tracker or directly by [mail](samuel.chapuis@hotmail.com).
 
 ## Credits
 - **Creator:** [Samuel Chapuis]
