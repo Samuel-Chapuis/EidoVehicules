@@ -34,10 +34,12 @@ public class ForPlanes {
     public ForPlanes() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		ModCreativeModTabs.register(modEventBus);		// Register the creative tab
-		ModItems.register(modEventBus);					// Register the items
+
+        ModEntities.register(modEventBus);				// Register the entities
 		ModBlocks.register(modEventBus);				// Register the blocks
-		ModEntities.register(modEventBus);				// Register the entities
+
+        ModCreativeModTabs.register(modEventBus);		// Register the creative tab
+        ModItems.register(modEventBus);					// Register the items
 
 
         modEventBus.addListener(this::commonSetup);

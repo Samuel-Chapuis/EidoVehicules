@@ -1,7 +1,9 @@
 package fr.thoridan.planes.item;
 
 import fr.thoridan.planes.ForPlanes;
+import fr.thoridan.planes.entity.ModEntities;
 import fr.thoridan.planes.item.custom.DebugTool4Plane;
+import fr.thoridan.planes.item.custom.PlaneSpawnItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -42,6 +44,10 @@ public class ModItems {
 	 */
 	public static final RegistryObject<Item> DEBUG_TOOL_4PLANE = ITEMS.register("debug_tool_4plane",
 			() -> new DebugTool4Plane(new Item.Properties()));
+
+	public static final RegistryObject<Item> PLANE_SPAWN_ITEM = ITEMS.register("plane_spawn_item",
+			() -> new PlaneSpawnItem(new Item.Properties()));
+
 
 	/**
 	 * Registers all items with the provided event bus.

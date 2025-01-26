@@ -44,7 +44,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.TITANIUM_BLOCK.get());    // Titanium block
                         pOutput.accept(ModBlocks.TITANIUM_ORE.get());      // Titanium ore
                         pOutput.accept(ModItems.DEBUG_TOOL_4PLANE.get());  // Debug Tool for Plane
-                        // Add more items or blocks as needed
+                        pOutput.accept(ModItems.PLANE_SPAWN_ITEM.get());   // Plane Spawn Item
                     })
 
                     // Builds and returns the CreativeModeTab instance.
