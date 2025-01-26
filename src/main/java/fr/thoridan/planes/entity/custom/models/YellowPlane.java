@@ -33,8 +33,8 @@ public class YellowPlane extends PlaneStructure {
         this.cameraOffset = 0.0F;         // Sets the camera offset for the passenger's view
         this.health = 20f;                 // Initializes the plane's health
         this.maxSpeed = 1.5f;              // Sets the maximum speed the plane can achieve
-        this.acceleration = 0.2f;          // Sets the acceleration rate of the plane
-        this.deceleration = 0.1f;          // Sets the deceleration (braking) rate of the plane
+        this.acceleration = 0.07f;          // Sets the acceleration rate of the plane
+        this.deceleration = 0.05f;          // Sets the deceleration (braking) rate of the plane
         this.invertSubtlety = 0.3f;        // Sets the subtlety factor influencing plane inversions
         this.cameraDistance = 6D;          // Sets the camera's distance from the plane
     }

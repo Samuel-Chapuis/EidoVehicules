@@ -28,8 +28,8 @@ public class GreenRafale extends PlaneStructure {
         // Initialize default attributes for the GreenRafale
         this.health = 100f;                // Sets the health of the GreenRafale
         this.maxSpeed = 4f;                // Maximum speed the GreenRafale can achieve
-        this.acceleration = 0.7f;          // Acceleration rate of the GreenRafale
-        this.deceleration = 0.5f;          // Deceleration (braking) rate of the GreenRafale
+        this.acceleration = 0.09f;          // Sets the acceleration rate of the plane
+        this.deceleration = 0.07f;          // Sets the deceleration (braking) rate of the plane
         this.invertSubtlety = 0.3f;        // Subtlety factor influencing control inversions
         this.yRiderOffset = 0.8f;          // Vertical offset for rider positioning
         this.cameraOffset = 0.8f;           // Camera offset for the rider's view

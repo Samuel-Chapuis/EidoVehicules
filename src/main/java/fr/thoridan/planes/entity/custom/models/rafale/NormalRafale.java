@@ -27,8 +27,8 @@ public class NormalRafale extends PlaneStructure {
         // Setting default attributes for the NormalRafale
         this.health = 100f;                 // Health of the Rafale, representing durability
         this.maxSpeed = 4f;                 // Maximum speed achievable by the Rafale
-        this.acceleration = 0.7f;           // Acceleration rate of the Rafale
-        this.deceleration = 0.5f;           // Deceleration (braking) rate of the Rafale
+        this.acceleration = 0.09f;          // Sets the acceleration rate of the plane
+        this.deceleration = 0.07f;          // Sets the deceleration (braking) rate of the planeafale
         this.invertSubtlety = 0.3f;         // Subtlety factor influencing control inversions
         this.yRiderOffset = 0.8f;           // Vertical offset for rider positioning
         this.cameraOffset = 0.8f;           // Camera offset for the rider's view
