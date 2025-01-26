@@ -223,16 +223,25 @@ public abstract class PlaneStructure extends Entity {
      */
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!this.getCommandSenderWorld().isClientSide && this.isAlive()) {
+        if (!level().isClientSide && this.isAlive()) {
             this.health -= amount;
-            System.out.println("Santé de l'avion : " + this.health); // Debug message showing current health
-
             if (this.health <= 0.0f) {
-                this.dropItem(); // Drop the specified item upon destruction
-                this.remove(RemovalReason.KILLED); // Remove the entity from the world
+                this.dropItem();
+                this.remove(RemovalReason.KILLED);
             }
         }
-        return true; // Indicate that the damage was successfully applied
+        return true;
+    }
+
+    // Some mods or versions also have isAttackable():
+    @Override
+    public boolean isAttackable() {
+        return true; // indicates that the entity can be attacked
+    }
+
+    @Override
+    public boolean skipAttackInteraction(Entity attacker) {
+        return false; // means "don't skip", so allow normal attack handling
     }
 
     /**
@@ -422,7 +431,7 @@ public abstract class PlaneStructure extends Entity {
                 }
             } else if (isPlayerMovingBackward(player)) {
                 /* Player is decelerating the plane */
-                this.currentSpeed -= this.acceleration * 0.1;
+                this.currentSpeed -= this.acceleration * 0.4;
                 if (this.currentSpeed < this.minSpeed) {
                     this.currentSpeed = this.minSpeed; // Prevent the plane from moving backward beyond minSpeed
                 }

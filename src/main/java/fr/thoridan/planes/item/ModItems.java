@@ -45,9 +45,32 @@ public class ModItems {
 	public static final RegistryObject<Item> DEBUG_TOOL_4PLANE = ITEMS.register("debug_tool_4plane",
 			() -> new DebugTool4Plane(new Item.Properties()));
 
-	public static final RegistryObject<Item> PLANE_SPAWN_ITEM = ITEMS.register("plane_spawn_item",
-			() -> new PlaneSpawnItem(new Item.Properties()));
+	public static final RegistryObject<Item> NORMAL_RAFALE_SPAWN_ITEM = ITEMS.register(
+			"normal_rafale_spawn_item",
+			() -> new PlaneSpawnItem<>(
+					ModEntities.NORMAL_RAFALE, // Pass the RegistryObject *itself*, not .get()
+					new Item.Properties()
+							.stacksTo(1)
+			)
+	);
 
+	public static final RegistryObject<Item> GREEN_RAFALE_SPAWN_ITEM = ITEMS.register(
+			"green_rafale_spawn_item",
+			() -> new PlaneSpawnItem<>(
+					ModEntities.GREEN_RAFALE, // Pass the RegistryObject *itself*, not .get()
+					new Item.Properties()
+							.stacksTo(1)
+			)
+	);
+
+	public static final RegistryObject<Item> YELLOW_PLANE_SPAWN_ITEM = ITEMS.register(
+			"yellow_plane_spawn_item",
+			() -> new PlaneSpawnItem<>(
+					ModEntities.YELLOW_PLANE, // Pass the RegistryObject *itself*, not .get()
+					new Item.Properties()
+							.stacksTo(1)
+			)
+	);
 
 	/**
 	 * Registers all items with the provided event bus.

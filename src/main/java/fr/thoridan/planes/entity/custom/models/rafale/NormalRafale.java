@@ -25,7 +25,7 @@ public class NormalRafale extends PlaneStructure {
         super(type, world);
 
         // Setting default attributes for the NormalRafale
-        this.health = 100f;                 // Health of the Rafale, representing durability
+        this.health = 1f;                 // Health of the Rafale, representing durability
         this.maxSpeed = 4f;                 // Maximum speed achievable by the Rafale
         this.acceleration = 0.09f;          // Sets the acceleration rate of the plane
         this.deceleration = 0.07f;          // Sets the deceleration (braking) rate of the planeafale

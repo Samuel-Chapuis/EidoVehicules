@@ -26,7 +26,7 @@ public class GreenRafale extends PlaneStructure {
         super(type, world);
 
         // Initialize default attributes for the GreenRafale
-        this.health = 100f;                // Sets the health of the GreenRafale
+        this.health = 1f;                // Sets the health of the GreenRafale
         this.maxSpeed = 4f;                // Maximum speed the GreenRafale can achieve
         this.acceleration = 0.09f;          // Sets the acceleration rate of the plane
         this.deceleration = 0.07f;          // Sets the deceleration (braking) rate of the plane

@@ -44,7 +44,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.TITANIUM_BLOCK.get());    // Titanium block
                         pOutput.accept(ModBlocks.TITANIUM_ORE.get());      // Titanium ore
                         pOutput.accept(ModItems.DEBUG_TOOL_4PLANE.get());  // Debug Tool for Plane
-                        pOutput.accept(ModItems.PLANE_SPAWN_ITEM.get());   // Plane Spawn Item
+                        pOutput.accept(ModItems.NORMAL_RAFALE_SPAWN_ITEM.get());  // Normal Rafale Spawn Item
+                        pOutput.accept(ModItems.GREEN_RAFALE_SPAWN_ITEM.get());   // Green Rafale Spawn Item
+                        pOutput.accept(ModItems.YELLOW_PLANE_SPAWN_ITEM.get());    // Blue Rafale Spawn Item
                     })
 
                     // Builds and returns the CreativeModeTab instance.
