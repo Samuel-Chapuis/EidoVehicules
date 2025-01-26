@@ -10,32 +10,61 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * Handles custom key input events for the ForPlanes mod.
+ * This class defines custom key bindings and processes key press and release events
+ * to modify global variables used in the mod's rendering logic.
+ */
 @Mod.EventBusSubscriber(modid = "forplanes", bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class KeyInputHandler {
 
-    // Define the key binding
+    /* --------------------- */
+    /* --- Key Bindings --- */
+    /* --------------------- */
+
+    /**
+     * Defines the key binding for the 'J' key.
+     * This key is used to modify the first global variable (Globals.global1).
+     */
     public static final KeyMapping J_KEY_BINDING = new KeyMapping(
-            "key.forplanes.j_key", // Translation key
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_J, // The key code for 'J'
-            "category.forplanes.custom_keys" // The category in controls menu
+            "key.forplanes.j_key", // Translation key for localization
+            InputConstants.Type.KEYSYM, // Type of input (keyboard key)
+            GLFW.GLFW_KEY_J, // The GLFW key code for 'J'
+            "category.forplanes.custom_keys" // Category in the controls menu
     );
 
+    /**
+     * Defines the key binding for the 'K' key.
+     * This key is used to modify the second global variable (Globals.global2).
+     */
     public static final KeyMapping K_KEY_BINDING = new KeyMapping(
-            "key.forplanes.k_key", // Translation key
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_K, // The key code for 'K'
-            "category.forplanes.custom_keys" // The category in controls menu
+            "key.forplanes.k_key", // Translation key for localization
+            InputConstants.Type.KEYSYM, // Type of input (keyboard key)
+            GLFW.GLFW_KEY_K, // The GLFW key code for 'K'
+            "category.forplanes.custom_keys" // Category in the controls menu
     );
 
+    /**
+     * Defines the key binding for the 'L' key.
+     * This key is used to modify the third global variable (Globals.global3).
+     */
     public static final KeyMapping L_KEY_BINDING = new KeyMapping(
-            "key.forplanes.l_key", // Translation key
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_L, // The key code for 'L'
-            "category.forplanes.custom_keys" // The category in controls menu
+            "key.forplanes.l_key", // Translation key for localization
+            InputConstants.Type.KEYSYM, // Type of input (keyboard key)
+            GLFW.GLFW_KEY_L, // The GLFW key code for 'L'
+            "category.forplanes.custom_keys" // Category in the controls menu
     );
 
-    // Register the key binding
+    /* ----------------------------- */
+    /* --- Key Binding Registration --- */
+    /* ----------------------------- */
+
+    /**
+     * Registers all custom key bindings with Minecraft's key binding system.
+     * This method is called during the key mapping registration phase.
+     *
+     * @param event The RegisterKeyMappingsEvent used to register key bindings.
+     */
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(J_KEY_BINDING);
@@ -43,15 +72,29 @@ public class KeyInputHandler {
         event.register(L_KEY_BINDING);
     }
 
-    // Handle key press events
+    /* -------------------------------- */
+    /* --- Key Input Event Handling --- */
+    /* -------------------------------- */
+
+    /**
+     * Handles key input events to detect when custom keys are pressed or released.
+     * This inner class listens to key events and updates global variables accordingly.
+     */
     @Mod.EventBusSubscriber(modid = "forplanes", bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
     public static class ClientEvents {
 
+        /**
+         * Called whenever a key input event occurs.
+         * Checks if the 'J', 'K', or 'L' keys are pressed or released and updates global variables.
+         *
+         * @param event The InputEvent.Key event containing key input information.
+         */
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
+            // Handle 'J' key events
             if (J_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
                 if (event.getAction() == GLFW.GLFW_PRESS) {
-                    Globals.global1 = Globals.global1 + 0.2f;
+                    Globals.global1 += 0.2f; // Increment global1 by 0.2
                     System.out.println("J key pressed: " + Globals.global1);
                 }
                 if (event.getAction() == GLFW.GLFW_RELEASE) {
@@ -59,9 +102,10 @@ public class KeyInputHandler {
                 }
             }
 
+            // Handle 'K' key events
             if (K_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
                 if (event.getAction() == GLFW.GLFW_PRESS) {
-                    Globals.global2 = Globals.global2 + 0.2f;
+                    Globals.global2 += 0.2f; // Increment global2 by 0.2
                     System.out.println("K key pressed: " + Globals.global2);
                 }
                 if (event.getAction() == GLFW.GLFW_RELEASE) {
@@ -69,9 +113,10 @@ public class KeyInputHandler {
                 }
             }
 
+            // Handle 'L' key events
             if (L_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
                 if (event.getAction() == GLFW.GLFW_PRESS) {
-                    Globals.global3 = Globals.global3 + 0.2f;
+                    Globals.global3 += 0.2f; // Increment global3 by 0.2
                     System.out.println("L key pressed: " + Globals.global3);
                 }
                 if (event.getAction() == GLFW.GLFW_RELEASE) {

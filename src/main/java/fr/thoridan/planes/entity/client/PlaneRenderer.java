@@ -7,54 +7,115 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
+/**
+ * Abstract renderer for planes in the ForPlanes mod.
+ * This class handles rendering logic for plane entities, including transformations and texture management.
+ *
+ * @param <T> The specific type of {@link PlaneStructure} this renderer supports.
+ */
 public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRenderer<T> {
 
+    /**
+     * Constructs a new PlaneRenderer.
+     *
+     * @param context The rendering context provided by Minecraft.
+     */
     public PlaneRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
-    @Override
-    public ResourceLocation getTextureLocation(T PlaneStructure) {
-        return getPlaneTexture(PlaneStructure);
-    }
+    /* --------------------- */
+    /* --- Abstract Methods --- */
+    /* --------------------- */
 
-    protected abstract ResourceLocation getPlaneTexture(T PlaneStructure);
+    /**
+     * Retrieves the texture location for the specific plane entity.
+     *
+     * @param plane The plane entity instance.
+     * @return A {@link ResourceLocation} pointing to the texture.
+     */
+    protected abstract ResourceLocation getPlaneTexture(T plane);
 
-    protected abstract EntityModel<T> getPlaneModel(T PlaneStructure);
+    /**
+     * Retrieves the model for the specific plane entity.
+     *
+     * @param plane The plane entity instance.
+     * @return An {@link EntityModel} corresponding to the plane.
+     */
+    protected abstract EntityModel<T> getPlaneModel(T plane);
 
-    public ResourceLocation getResourceLocation() {
-        return new ResourceLocation("forplanes", "textures/entity/yellow_plane.png");
-    }
-
+    /**
+     * Applies custom rendering transformations.
+     *
+     * @param poseStack The {@link PoseStack} used for transformations.
+     */
     protected abstract void renderSettings(PoseStack poseStack);
+
+    /* --------------------- */
+    /* --- Overridden Methods --- */
+    /* --------------------- */
+
+    /**
+     * Retrieves the texture location for the given plane entity.
+     *
+     * @param plane The plane entity instance.
+     * @return A {@link ResourceLocation} pointing to the texture.
+     */
+    @Override
+    public ResourceLocation getTextureLocation(T plane) {
+        return getPlaneTexture(plane);
+    }
+
+    /**
+     * Renders the plane entity, applying transformations for yaw, pitch, and roll,
+     * and handles model rendering with the associated texture.
+     *
+     * @param plane        The plane entity instance.
+     * @param entityYaw    The entity's yaw rotation.
+     * @param partialTicks The partial ticks for interpolation.
+     * @param poseStack    The {@link PoseStack} for rendering transformations.
+     * @param buffer       The buffer source for rendering.
+     * @param packedLight  The packed lightmap coordinates.
+     */
     @Override
     public void render(T plane, float entityYaw, float partialTicks, PoseStack poseStack,
                        net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight) {
 
-        poseStack.pushPose();
-        renderSettings(poseStack);
-        poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
+        poseStack.pushPose(); // Start a new transformation matrix
+        renderSettings(poseStack); // Apply custom rendering transformations
+        poseStack.mulPose(Axis.XP.rotationDegrees(180.0F)); // Rotate the plane to face the correct direction
 
+        // Interpolate and apply yaw rotation
         float interpolatedYaw = interpolateAngle(plane.yRotO, plane.getYRot(), partialTicks);
         poseStack.mulPose(Axis.YP.rotationDegrees(interpolatedYaw));
 
+        // Apply pitch rotation only if the plane is moving
         double speedSquared = plane.getDeltaMovement().horizontalDistanceSqr();
-        double minSpeedSquared = 0.03;
-        float interpolatedPitch = 0;
+        double minSpeedSquared = 0.03; // Threshold for movement
         if (speedSquared > minSpeedSquared) {
-            interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
+            float interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
             poseStack.mulPose(Axis.XP.rotationDegrees(interpolatedPitch));
         }
 
-
+        // Interpolate and apply roll rotation
         float interpolatedRoll = interpolateAngle(plane.getPreviousRoll(), plane.getRoll(), partialTicks);
-        plane.setInterpolate_roll(interpolatedRoll);
-        interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll));
+        plane.setInterpolate_roll(interpolatedRoll); // Update interpolated roll in the plane entity
+        interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll)); // Clamp roll angle
         poseStack.mulPose(Axis.ZP.rotationDegrees(interpolatedRoll));
+
+        // Setup and render the model
+        EntityModel<T> model = getPlaneModel(plane); // Retrieve the specific model for this plane
+        model.setupAnim(plane, 0.0F, 0.0F, plane.tickCount + partialTicks, entityYaw, plane.getXRot());
+
+        var vertexConsumer = buffer.getBuffer(model.renderType(this.getTextureLocation(plane)));
+        model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+
+        super.render(plane, entityYaw, partialTicks, poseStack, buffer, packedLight); // Call superclass render method
+        poseStack.popPose(); // Restore the transformation matrix
+
 
 //        // Determine particle position based on the plane's rotation
 //        double particleXOffset = -Math.sin(Math.toRadians(interpolatedYaw)) * Math.cos(Math.toRadians(interpolatedPitch));
@@ -75,40 +136,37 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
 //            double randZ = Math.random() * 0.4 - 0.2;
 //            plane.level().addParticle(ParticleTypes.FLAME, true, particleX + randX, particleY + randY, particleZ + randZ, 0, 0, 0);
 //        }
-
-
-        if (plane.isVehicle() && plane.getControllingPassenger() instanceof Player) {
-            Player player = (Player) plane.getControllingPassenger();
-
-            // Set the player's rotation to match the plane's rotation
-//            player.yRotO = 37;
-//            player.xRotO = 37;
-
-
-//            player.setYRot(interpolatedYaw);
-//            player.setXRot(interpolatedPitch);
-        }
-
-
-
-        EntityModel<T> model = getPlaneModel(plane); // Récupère le modèle spécifique à l'avion
-        model.setupAnim(plane, 0.0F, 0.0F, plane.tickCount + partialTicks, entityYaw, plane.getXRot());
-
-        var vertexConsumer = buffer.getBuffer(model.renderType(this.getTextureLocation(plane)));
-        model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-
-        super.render(plane, entityYaw, partialTicks, poseStack, buffer, packedLight);
-        poseStack.popPose();
     }
 
+    /**
+     * Interpolates between two angles to create smooth transitions.
+     *
+     * @param startAngle  The starting angle.
+     * @param endAngle    The target angle.
+     * @param partialTicks The partial ticks for interpolation.
+     * @return The interpolated angle.
+     */
     private float interpolateAngle(float startAngle, float endAngle, float partialTicks) {
         float deltaAngle = endAngle - startAngle;
         while (deltaAngle < -180.0F) {
-            deltaAngle += 360.0F;
+            deltaAngle += 360.0F; // Adjust for 360° wrapping
         }
         while (deltaAngle >= 180.0F) {
-            deltaAngle -= 360.0F;
+            deltaAngle -= 360.0F; // Adjust for 360° wrapping
         }
-        return startAngle + partialTicks * deltaAngle;
+        return startAngle + partialTicks * deltaAngle; // Smoothly interpolate between angles
+    }
+
+    /* --------------------- */
+    /* --- Example Resources --- */
+    /* --------------------- */
+
+    /**
+     * Retrieves the default texture resource location for planes.
+     *
+     * @return A {@link ResourceLocation} pointing to the default plane texture.
+     */
+    public ResourceLocation getResourceLocation() {
+        return new ResourceLocation("forplanes", "textures/entity/yellow_plane.png");
     }
 }

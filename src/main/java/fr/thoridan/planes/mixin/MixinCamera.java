@@ -10,24 +10,59 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Mixin for the Minecraft Camera class to adjust camera behavior when the player is in a PlaneStructure vehicle.
+ */
 @Mixin(net.minecraft.client.Camera.class)
 public abstract class MixinCamera {
 
+	/**
+	 * Injects custom camera adjustments after the standard setup method executes.
+	 *
+	 * @param area         The current block getter area.
+	 * @param entity       The entity for which the camera is being set up.
+	 * @param thirdPerson  Flag indicating if the camera is in third-person view.
+	 * @param inverseView  Flag for inverse view settings.
+	 * @param tickDelta    The partial tick time.
+	 * @param ci           Callback information for the injection.
+	 */
 	@Inject(method = "setup", at = @At("TAIL"))
 	public void ia$setup(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
-
-		if( entity.getVehicle() instanceof PlaneStructure vehicle) {
+		// Check if the entity is riding a PlaneStructure
+		if (entity.getVehicle() instanceof PlaneStructure vehicle) {
 			if (thirdPerson) {
+				// Adjust the camera distance for third-person view based on the vehicle's camera settings
 				move(-getMaxZoom(vehicle.getCameraDistance()), 0.0, 0.0);
-			}else{
+			} else {
+				// Adjust the camera height for first-person view based on the vehicle's rider offset
 				move(0.0D, vehicle.yRiderOffset, 0.0D);
 			}
+
+			// Optional: Integrate Cartridge functionality if applicable
+			// For example, adjust camera based on active cartridge
+			// Cartridge activeCartridge = vehicle.getActiveCartridge();
+			// if (activeCartridge != null) {
+			//     activeCartridge.applyCameraEffects(this);
+			// }
 		}
 	}
+
+	/**
+	 * Moves the camera by the specified x, y, and z offsets.
+	 *
+	 * @param x The movement along the X-axis.
+	 * @param y The movement along the Y-axis.
+	 * @param z The movement along the Z-axis.
+	 */
 	@Shadow
 	protected abstract void move(double x, double y, double z);
 
+	/**
+	 * Calculates the maximum zoom level based on the desired camera distance.
+	 *
+	 * @param desiredCameraDistance The desired distance for the camera zoom.
+	 * @return The calculated maximum zoom level.
+	 */
 	@Shadow
 	protected abstract double getMaxZoom(double desiredCameraDistance);
-
 }
