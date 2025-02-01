@@ -2,6 +2,7 @@ package fr.thoridan.planes.entity.custom;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
@@ -14,6 +15,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,8 +25,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.text.LabelView;
 
 /**
  * Abstract class representing the structure and behavior of a plane entity within the game.
@@ -59,6 +60,10 @@ public abstract class PlaneStructure extends Entity {
     protected boolean invisibleRider = false;      // Flag to determine if the passenger is invisible
     protected Block drop = Blocks.DIRT;            // Block/item to drop upon plane destruction
     protected Level level;                         // Reference to the current game level
+    protected float red = 1.0F;                    // Red tint value for colorable texture
+    protected float green = 1.0F;                  // Green tint value for colorable texture
+    protected float blue = 1.0F;                   // Blue tint value for colorable texture
+    protected float alpha = 1.0F;                  // Alpha value for colorable texture
 
     /* --------------------- */
     /* --- Abstract Methods --- */
@@ -336,6 +341,8 @@ public abstract class PlaneStructure extends Entity {
      */
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+
         if (!this.getCommandSenderWorld().isClientSide) {
             if (this.getPassengers().isEmpty()) {
                 System.out.println("Le joueur tente de monter dans l'avion."); // Debug message indicating mounting attempt
@@ -345,7 +352,27 @@ public abstract class PlaneStructure extends Entity {
                 System.out.println("L'avion a déjà un conducteur."); // Debug message indicating the plane already has a driver
             }
         }
-        return InteractionResult.CONSUME; // Consume the interaction to prevent further processing
+
+        if (player.isShiftKeyDown() && itemStack.getItem() instanceof DyeItem dyeItem) {
+            // Get the color from the dye
+            DyeColor dyeColor = dyeItem.getDyeColor();
+            float[] rgb = dyeColor.getTextureDiffuseColors(); // Directly gets normalized RGB values
+
+            // Update the plane's color
+            setColor(rgb[0], rgb[1], rgb[2], 1.0F);
+
+            // Reduce the dye item stack by 1 (unless in creative mode)
+            if (!player.getAbilities().instabuild) {
+                itemStack.shrink(1);
+            }
+
+            // Provide feedback to the player
+            player.displayClientMessage(Component.literal("Plane color updated to " + dyeColor.getName() + "!"), true);
+
+            return InteractionResult.SUCCESS;
+        }
+
+        return InteractionResult.CONSUME;
     }
 
     /**
@@ -565,5 +592,24 @@ public abstract class PlaneStructure extends Entity {
      */
     public float getInterpolate_roll() {
         return this.interpolate_roll;
+    }
+
+    public float getRed() {
+        return red;
+    }
+    public float getGreen() {
+        return green;
+    }
+    public float getBlue() {
+        return blue;
+    }
+    public float getAlpha() {
+        return alpha;
+    }
+    public void setColor(float red, float green, float blue, float alpha) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = alpha;
     }
 }

@@ -3,7 +3,9 @@ package fr.thoridan.planes.entity.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import fr.thoridan.planes.entity.custom.PlaneStructure;
+import fr.thoridan.planes.entity.custom.models.rafale.NormalRafale;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -114,6 +116,7 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
         model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 
         super.render(plane, entityYaw, partialTicks, poseStack, buffer, packedLight); // Call superclass render method
+        render_addition(poseStack, buffer, packedLight, plane);
         poseStack.popPose(); // Restore the transformation matrix
 
 
@@ -169,4 +172,6 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
     public ResourceLocation getResourceLocation() {
         return new ResourceLocation("forplanes", "textures/entity/yellow_plane.png");
     }
+
+    abstract protected void render_addition(PoseStack poseStack, MultiBufferSource buffer, int packedLight, PlaneStructure planeStructure);
 }

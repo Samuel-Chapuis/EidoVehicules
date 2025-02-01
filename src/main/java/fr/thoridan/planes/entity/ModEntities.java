@@ -1,7 +1,6 @@
 package fr.thoridan.planes.entity;
 
 import fr.thoridan.planes.ForPlanes;
-import fr.thoridan.planes.entity.custom.models.rafale.GreenRafale;
 import fr.thoridan.planes.entity.custom.models.rafale.NormalRafale;
 import fr.thoridan.planes.entity.custom.models.YellowPlane;
 import net.minecraft.resources.ResourceLocation;
@@ -43,15 +42,6 @@ public class ModEntities {
 			() -> EntityType.Builder.<NormalRafale>of(NormalRafale::new, MobCategory.MISC)
 					.sized(4F, 3F) // Dimensions of the NormalRafale (width, height)
 					.build(new ResourceLocation(ForPlanes.MOD_ID, "normal_rafale").toString()));
-
-	/**
-	 * RegistryObject representing the GreenRafale entity type.
-	 * This Rafale variant is categorized under MobCategory.MISC and has defined dimensions.
-	 */
-	public static final RegistryObject<EntityType<GreenRafale>> GREEN_RAFALE = ENTITY_TYPES.register("green_rafale",
-			() -> EntityType.Builder.<GreenRafale>of(GreenRafale::new, MobCategory.MISC)
-					.sized(4F, 3F) // Dimensions of the GreenRafale (width, height)
-					.build(new ResourceLocation(ForPlanes.MOD_ID, "green_rafale").toString()));
 
 	/**
 	 * Registers all custom entity types with the provided event bus.

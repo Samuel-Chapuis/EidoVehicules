@@ -54,15 +54,6 @@ public class ModItems {
 			)
 	);
 
-	public static final RegistryObject<Item> GREEN_RAFALE_SPAWN_ITEM = ITEMS.register(
-			"green_rafale_spawn_item",
-			() -> new PlaneSpawnItem<>(
-					ModEntities.GREEN_RAFALE, // Pass the RegistryObject *itself*, not .get()
-					new Item.Properties()
-							.stacksTo(1)
-			)
-	);
-
 	public static final RegistryObject<Item> YELLOW_PLANE_SPAWN_ITEM = ITEMS.register(
 			"yellow_plane_spawn_item",
 			() -> new PlaneSpawnItem<>(

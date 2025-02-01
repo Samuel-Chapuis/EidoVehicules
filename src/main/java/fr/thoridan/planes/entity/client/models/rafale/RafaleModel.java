@@ -28,7 +28,7 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition F15 = partdefinition.addOrReplaceChild("F15", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 2.0F));
+		PartDefinition F15 = partdefinition.addOrReplaceChild("F15", CubeListBuilder.create(), PartPose.offset(0.0F, 11.0F, 2.0F));
 
 		PartDefinition Body = F15.addOrReplaceChild("Body", CubeListBuilder.create().texOffs(0, 40).addBox(0.0F, -10.0F, 23.0F, 4.0F, 12.0F, 16.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 40).mirror().addBox(-4.0F, -10.0F, 23.0F, 4.0F, 12.0F, 16.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 8.0F, -9.0F));
@@ -51,9 +51,9 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 
 		PartDefinition cube_r7 = Reacteur.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(86, 137).addBox(-1.0F, 0.0F, -8.0F, 6.0F, 4.0F, 37.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.2F, 0.0F, 0.0F, 0.0432F, -0.0432F, -0.7863F));
 
-		PartDefinition cube_r8 = Reacteur.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(94, 92).addBox(-1.0F, -4.0F, -12.0F, 6.0F, 4.0F, 41.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.2F, -7.0F, 0.0F, -0.0432F, -0.0432F, 0.7863F));
+		PartDefinition cube_r8 = Reacteur.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(94, 92).addBox(-1.0F, -4.0F, -12.0F, 6.0F, 4.0F, 41.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.2F, -6.9F, 0.0F, -0.0432F, -0.0432F, 0.7863F));
 
-		PartDefinition cube_r9 = Reacteur.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(94, 92).mirror().addBox(-5.0F, -4.0F, -12.0F, 6.0F, 4.0F, 41.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -7.0F, 0.0F, -0.0432F, 0.0432F, -0.7863F));
+		PartDefinition cube_r9 = Reacteur.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(94, 92).mirror().addBox(-5.0F, -4.0F, -12.0F, 6.0F, 4.0F, 41.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -6.9F, 0.0F, -0.0432F, 0.0432F, -0.7863F));
 
 		PartDefinition cube_r10 = Reacteur.addOrReplaceChild("cube_r10", CubeListBuilder.create().texOffs(115, 19).addBox(6.0F, 2.0F, -8.0F, 5.0F, 6.0F, 37.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.6F, -8.5F, 0.0F, 0.0F, -0.0611F, 0.0F));
 
@@ -66,21 +66,21 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 
 		PartDefinition Aileron = Aero.addOrReplaceChild("Aileron", CubeListBuilder.create(), PartPose.offsetAndRotation(-6.75F, -12.2057F, 39.3622F, -0.1745F, 0.0F, 0.0F));
 
-		PartDefinition cube_r11 = Aileron.addOrReplaceChild("cube_r11", CubeListBuilder.create().texOffs(56, 65).addBox(-6.5F, -0.5F, -7.5F, 10.0F, 1.0F, 7.0F, new CubeDeformation(0.0F))
-				.texOffs(114, 70).addBox(-6.5F, -0.5F, -3.5F, 22.0F, 1.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 2.3057F, 3.6378F, 0.0F, 0.0F, -1.5708F));
+		PartDefinition cube_r11 = Aileron.addOrReplaceChild("cube_r11", CubeListBuilder.create().texOffs(59, 68).addBox(-6.5F, -0.5F, -7.5F, 10.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(114, 69).addBox(-6.5F, -0.5F, -3.5F, 22.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 2.3057F, 3.6378F, 0.0F, 0.0F, -1.5708F));
 
 		PartDefinition cube_r12 = Aileron.addOrReplaceChild("cube_r12", CubeListBuilder.create().texOffs(108, 62).addBox(-9.5F, -0.5F, -3.5F, 26.0F, 1.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 2.6057F, -5.9622F, 0.0F, -0.5672F, -1.5708F));
 
-		PartDefinition Ailes = Aero.addOrReplaceChild("Ailes", CubeListBuilder.create().texOffs(0, 19).addBox(1.0F, -4.0F, 20.7F, 40.0F, 4.0F, 17.0F, new CubeDeformation(0.0F))
-				.texOffs(53, 92).addBox(41.0F, -3.0F, 10.7F, 2.0F, 2.0F, 30.0F, new CubeDeformation(0.0F))
-				.texOffs(53, 92).mirror().addBox(-57.0F, -3.0F, 10.7F, 2.0F, 2.0F, 30.0F, new CubeDeformation(0.0F)).mirror(false)
-				.texOffs(0, 19).mirror().addBox(-55.0F, -4.0F, 20.7F, 40.0F, 4.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition Ailes = Aero.addOrReplaceChild("Ailes", CubeListBuilder.create().texOffs(-2, 19).addBox(-1.0F, -4.0F, 20.7F, 42.0F, 4.0F, 17.0F, new CubeDeformation(0.0F))
+				.texOffs(41, 59).addBox(41.0F, -3.6F, 10.7F, 2.0F, 3.0F, 30.0F, new CubeDeformation(0.0F))
+				.texOffs(41, 59).mirror().addBox(-57.0F, -3.6F, 10.7F, 2.0F, 3.0F, 30.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(0, 19).mirror().addBox(-55.0F, -4.0F, 20.7F, 41.0F, 4.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition cube_r13 = Ailes.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(5, 5).mirror().addBox(-54.0F, -4.0F, -8.0F, 58.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.75F, 1.0F, -4.5F, 0.0F, 0.6109F, 0.0F));
 
-		PartDefinition cube_r14 = Ailes.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(147, 100).mirror().addBox(-29.0F, -4.0F, -13.0F, 26.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.75F, 1.0F, 15.9F, 0.0F, 0.6109F, 0.0F));
+		PartDefinition cube_r14 = Ailes.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(147, 100).mirror().addBox(-29.0F, -4.0F, -13.0F, 26.0F, 3.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.75F, 0.5F, 15.9F, 0.0F, 0.6109F, 0.0F));
 
-		PartDefinition cube_r15 = Ailes.addOrReplaceChild("cube_r15", CubeListBuilder.create().texOffs(147, 100).addBox(3.0F, -4.0F, -13.0F, 26.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 1.0F, 15.9F, 0.0F, -0.6109F, 0.0F));
+		PartDefinition cube_r15 = Ailes.addOrReplaceChild("cube_r15", CubeListBuilder.create().texOffs(147, 100).addBox(3.0F, -4.0F, -13.0F, 26.0F, 3.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 0.5F, 15.9F, 0.0F, -0.6109F, 0.0F));
 
 		PartDefinition cube_r16 = Ailes.addOrReplaceChild("cube_r16", CubeListBuilder.create().texOffs(5, 5).addBox(-4.0F, -4.0F, -8.0F, 58.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.25F, 1.0F, -4.5F, 0.0F, -0.6109F, 0.0F));
 
@@ -110,11 +110,10 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 				.texOffs(24, 40).addBox(-1.0F, -9.7F, 8.0F, 4.0F, 10.0F, 5.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 9).addBox(-1.0F, -9.7F, 5.0F, 4.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, 6.7F, -23.0F));
 
-		PartDefinition cube_r19 = Nez.addOrReplaceChild("cube_r19", CubeListBuilder.create().texOffs(53, 92).addBox(-1.0F, -5.0F, -5.0F, 4.0F, 5.0F, 6.0F, new CubeDeformation(0.0F))
-				.texOffs(53, 92).mirror().addBox(-5.0F, -5.0F, -5.0F, 4.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.3054F, 0.0F, 0.0F));
+		PartDefinition cube_r19 = Nez.addOrReplaceChild("cube_r19", CubeListBuilder.create().texOffs(49, 92).addBox(-5.0F, -5.0F, -5.0F, 7.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 0.0F, 0.0F, -0.3054F, 0.0F, 0.0F));
 
-		PartDefinition cube_r20 = Nez.addOrReplaceChild("cube_r20", CubeListBuilder.create().texOffs(17, 68).addBox(-1.0F, -5.0F, -8.0F, 4.0F, 5.0F, 9.0F, new CubeDeformation(0.0F))
-				.texOffs(17, 68).mirror().addBox(-5.0F, -5.0F, -8.0F, 4.0F, 5.0F, 9.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -4.6F, 6.0F, 0.3752F, 0.0F, 0.0F));
+		PartDefinition cube_r20 = Nez.addOrReplaceChild("cube_r20", CubeListBuilder.create().texOffs(17, 68).addBox(-2.0F, -5.0F, -8.0F, 4.0F, 5.0F, 9.0F, new CubeDeformation(0.0F))
+				.texOffs(17, 68).mirror().addBox(-5.6F, -5.0F, -8.0F, 4.0F, 5.0F, 9.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.8F, -4.6F, 6.0F, 0.3752F, 0.0F, 0.0F));
 
 		PartDefinition cube_r21 = Nez.addOrReplaceChild("cube_r21", CubeListBuilder.create().texOffs(137, 143).addBox(-1.0F, -4.0F, -24.0F, 3.0F, 4.0F, 35.0F, new CubeDeformation(0.0F))
 				.texOffs(138, 143).mirror().addBox(-4.0F, -4.0F, -24.0F, 3.0F, 4.0F, 35.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 2.3F, 26.0F, -0.0873F, 0.0F, 0.0F));
@@ -152,13 +151,13 @@ public class RafaleModel<T extends Entity> extends EntityModel<T> {
 		PartDefinition cube_r26 = ArmatureVitre.addOrReplaceChild("cube_r26", CubeListBuilder.create().texOffs(11, 19).addBox(-0.5F, -4.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -9.0F, 0.0F, -1.5708F, -1.5708F));
 
 		PartDefinition cube_r27 = ArmatureVitre.addOrReplaceChild("cube_r27", CubeListBuilder.create().texOffs(40, 55).addBox(-0.5F, -8.0F, -0.5F, 1.0F, 10.0F, 1.0F, new CubeDeformation(0.0F))
-				.texOffs(40, 55).mirror().addBox(-7.5F, -8.0F, -0.5F, 1.0F, 10.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, 0.0F, -7.5F, -1.5708F, 0.0F, 0.0F));
+				.texOffs(40, 55).mirror().addBox(-7.3F, -8.0F, -0.5F, 1.0F, 10.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.6F, 0.0F, -7.5F, -1.5708F, 0.0F, 0.0F));
 
 		PartDefinition cube_r28 = ArmatureVitre.addOrReplaceChild("cube_r28", CubeListBuilder.create().texOffs(12, 40).addBox(-0.5F, -7.0F, -0.5F, 1.0F, 13.0F, 1.0F, new CubeDeformation(0.0F))
-				.texOffs(12, 40).mirror().addBox(-7.5F, -7.0F, -0.5F, 1.0F, 13.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, 2.55F, 6.5F, 1.1781F, 0.0F, 0.0F));
+				.texOffs(12, 40).mirror().addBox(-7.3F, -7.0F, -0.5F, 1.0F, 13.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.6F, 2.55F, 6.5F, 1.1781F, 0.0F, 0.0F));
 
 		PartDefinition cube_r29 = ArmatureVitre.addOrReplaceChild("cube_r29", CubeListBuilder.create().texOffs(40, 66).addBox(-0.5F, -6.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
-				.texOffs(40, 66).mirror().addBox(-7.5F, -6.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, 2.9F, -14.4F, -1.0472F, 0.0F, 0.0F));
+				.texOffs(40, 66).mirror().addBox(-7.3F, -6.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.6F, 2.9F, -14.4F, -1.0472F, 0.0F, 0.0F));
 
 		PartDefinition cube_r30 = ArmatureVitre.addOrReplaceChild("cube_r30", CubeListBuilder.create().texOffs(0, 19).mirror().addBox(-0.5F, -4.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-8.0F, 0.0F, 0.0F, 0.0F, 1.5708F, 1.5708F));
 
