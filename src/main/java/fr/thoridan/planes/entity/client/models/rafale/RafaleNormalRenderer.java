@@ -38,7 +38,7 @@ public class RafaleNormalRenderer extends PlaneRenderer<NormalRafale> {
     @Override
     protected void renderSettings(PoseStack poseStack) {
         poseStack.scale(2.5F, 2.5F, 2.5F);
-        poseStack.translate(0.0D, 1.5D, 0.0D);
+        poseStack.translate(0.0D, 0.6D, 0.0D);
     }
 
     /**

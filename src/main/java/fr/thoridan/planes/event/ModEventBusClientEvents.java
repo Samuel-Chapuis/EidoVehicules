@@ -118,7 +118,7 @@ public class ModEventBusClientEvents {
                 double posZ = 0.0D; // Translation along Z-axis
 
                 // Invoke custom rendering method with transformation parameters
-                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, plane.yRiderOffset);
+                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, plane.yRiderOffset, plane.yPlaneOffset);
             }
         }
     }
@@ -177,7 +177,7 @@ public class ModEventBusClientEvents {
                 double posZ = 0.0D; // Translation along Z-axis
 
                 // Invoke custom rendering method with transformation parameters
-                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, 0);
+                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, 0,0);
             }
         }
     }
@@ -199,11 +199,11 @@ public class ModEventBusClientEvents {
      * @param posX      Translation along the X-axis.
      * @param posY      Translation along the Y-axis.
      * @param posZ      Translation along the Z-axis.
-     * @param Yoffset   Additional Y-axis offset for rendering.
+     * @param playeroffsetY   Additional Y-axis offset for rendering.
      */
     public static void doCustomPlayerRender(Player player, RenderLivingEvent.Pre<?, ?> event,
                                             float rotX, float rotY, float rotZ,
-                                            double posX, double posY, double posZ, double Yoffset) {
+                                            double posX, double posY, double posZ, double playeroffsetY, double planeoffsetY) {
 
         // Retrieve necessary rendering information from the event
         PoseStack poseStack = event.getPoseStack();
@@ -229,19 +229,17 @@ public class ModEventBusClientEvents {
         poseStack.translate(posX, posY, posZ); // Translate model to desired position
 
         // === Adjusting the Pivot Point ===
-
-        // Define a custom pivot point relative to the player's origin
-        double pivotX = 0.0D; // Adjust these values as needed
-        double pivotY = 0.4D + Yoffset; // Adjust Y-offset as needed (e.g., 0.7 for Rafale)
+        double pivotX = 0.0D; // Modify as needed
+        double pivotY = 0.4D + playeroffsetY; // Modify as needed (e.g., adjust for Rafale)
         double pivotZ = 0.0D;
 
-        // Translate to the pivot point
-        poseStack.translate(pivotX, pivotY, pivotZ);
+        // Translate to the desired pivot point
+        poseStack.translate(pivotX, pivotY + planeoffsetY, pivotZ);
 
         // Apply rotation transformations around the new pivot point
-        poseStack.mulPose(Axis.YP.rotationDegrees(-rotY)); // Rotate around Y-axis (yaw)
-        poseStack.mulPose(Axis.ZP.rotationDegrees(-rotZ)); // Rotate around Z-axis (roll)
-        poseStack.mulPose(Axis.XP.rotationDegrees(rotX));  // Rotate around X-axis (pitch)
+        poseStack.mulPose(Axis.YP.rotationDegrees(-rotY)); // Yaw
+        poseStack.mulPose(Axis.ZP.rotationDegrees(-rotZ)); // Roll
+        poseStack.mulPose(Axis.XP.rotationDegrees(rotX));  // Pitch
 
         // Translate back from the pivot point
         poseStack.translate(-pivotX, -pivotY, -pivotZ);

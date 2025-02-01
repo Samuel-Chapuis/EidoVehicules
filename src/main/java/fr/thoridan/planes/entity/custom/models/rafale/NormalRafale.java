@@ -37,7 +37,7 @@ public class NormalRafale extends PlaneStructure {
         this.yRiderOffset = 0.8f;           // Vertical offset for rider positioning
         this.cameraOffset = 0.8f;           // Camera offset for the rider's view
         this.invisibleRider = true;         // Makes the rider invisible when inside the Rafale
-        this.cameraDistance = 64D;          // Distance of the camera from the Rafale
+        this.cameraDistance = 16D;          // Distance of the camera from the Rafale
     }
 
     /* --------------------- */
