@@ -1,9 +1,12 @@
-package fr.thoridan.planes.entity.custom.models;
+package fr.thoridan.planes.entity.custom.models.tourist;
 
 import fr.thoridan.planes.entity.custom.PlaneStructure;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+
+import static fr.thoridan.planes.item.ModItems.NORMAL_RAFALE_SPAWN_ITEM;
+import static fr.thoridan.planes.item.ModItems.YELLOW_PLANE_SPAWN_ITEM;
 
 /**
  * Represents the YellowPlane entity, a specific type of PlaneStructure within the ForPlanes mod.
@@ -29,12 +32,13 @@ public class YellowPlane extends PlaneStructure {
      */
     public YellowPlane(EntityType<? extends PlaneStructure> type, Level world) {
         super(type, world);
+        this.drop = YELLOW_PLANE_SPAWN_ITEM.get(); // Sets the item dropped when the plane is destroyed
         this.health = 1f;                 // Initializes the plane's health
         this.yRiderOffset = 0.2F;         // Sets the Y-axis offset for the passenger's position
         this.cameraOffset = 0.0F;         // Sets the camera offset for the passenger's view
         this.maxSpeed = 1.5f;              // Sets the maximum speed the plane can achieve
-        this.acceleration = 0.07f;          // Sets the acceleration rate of the plane
-        this.deceleration = 0.05f;          // Sets the deceleration (braking) rate of the plane
+        this.acceleration = 0.02f;          // Sets the acceleration rate of the plane
+        this.deceleration = 0.02f;          // Sets the deceleration (braking) rate of the plane
         this.invertSubtlety = 0.3f;        // Sets the subtlety factor influencing plane inversions
         this.cameraDistance = 6D;          // Sets the camera's distance from the plane
     }

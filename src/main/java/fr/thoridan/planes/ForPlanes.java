@@ -1,12 +1,9 @@
 package fr.thoridan.planes;
 
-import com.mojang.logging.LogUtils;
-
 import fr.thoridan.planes.block.ModBlocks;
 import fr.thoridan.planes.entity.ModEntities;
-import fr.thoridan.planes.entity.client.models.YellowPlaneRenderer;
+import fr.thoridan.planes.entity.client.models.tourist.YellowPlaneRenderer;
 import fr.thoridan.planes.entity.client.models.rafale.RafaleNormalRenderer;
-import fr.thoridan.planes.event.KeyInputHandler;
 import fr.thoridan.planes.item.ModCreativeModTabs;
 import fr.thoridan.planes.item.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -21,8 +18,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
-
 
 
 // The value here should match an entry in the META-INF/mods.toml file

@@ -4,6 +4,9 @@ import fr.thoridan.planes.entity.custom.PlaneStructure;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
+import static fr.thoridan.planes.item.ModItems.NORMAL_RAFALE_SPAWN_ITEM;
+import static fr.thoridan.planes.item.ModItems.YELLOW_PLANE_SPAWN_ITEM;
+
 /**
  * Represents the NormalRafale entity, a high-performance aircraft in the ForPlanes mod.
  * Extends the {@link PlaneStructure} class to inherit base functionalities for planes,
@@ -25,10 +28,11 @@ public class NormalRafale extends PlaneStructure {
         super(type, world);
 
         // Setting default attributes for the NormalRafale
+        this.drop = NORMAL_RAFALE_SPAWN_ITEM.get(); // Item dropped when the Rafale is destroyed
         this.health = 1f;                 // Health of the Rafale, representing durability
         this.maxSpeed = 4f;                 // Maximum speed achievable by the Rafale
-        this.acceleration = 0.09f;          // Sets the acceleration rate of the plane
-        this.deceleration = 0.07f;          // Sets the deceleration (braking) rate of the planeafale
+        this.acceleration = 0.03f;          // Sets the acceleration rate of the plane
+        this.deceleration = 0.02f;          // Sets the deceleration (braking) rate of the planeafale
         this.invertSubtlety = 0.3f;         // Subtlety factor influencing control inversions
         this.yRiderOffset = 0.8f;           // Vertical offset for rider positioning
         this.cameraOffset = 0.8f;           // Camera offset for the rider's view

@@ -2,7 +2,7 @@ package fr.thoridan.planes.entity;
 
 import fr.thoridan.planes.ForPlanes;
 import fr.thoridan.planes.entity.custom.models.rafale.NormalRafale;
-import fr.thoridan.planes.entity.custom.models.YellowPlane;
+import fr.thoridan.planes.entity.custom.models.tourist.YellowPlane;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -29,10 +29,10 @@ public class ModEntities {
 	 * RegistryObject representing the YellowPlane entity type.
 	 * This entity is categorized under MobCategory.MISC and has defined dimensions.
 	 */
-	public static final RegistryObject<EntityType<YellowPlane>> YELLOW_PLANE = ENTITY_TYPES.register("yellow_plane",
+	public static final RegistryObject<EntityType<YellowPlane>> YELLOW_PLANE = ENTITY_TYPES.register("tourist_plane",
 			() -> EntityType.Builder.<YellowPlane>of(YellowPlane::new, MobCategory.MISC)
 					.sized(1.5F, 1.5F) // Dimensions of the YellowPlane (width, height)
-					.build(new ResourceLocation(ForPlanes.MOD_ID, "yellow_plane").toString()));
+					.build(new ResourceLocation(ForPlanes.MOD_ID, "tourist_plane").toString()));
 
 	/**
 	 * RegistryObject representing the NormalRafale entity type.

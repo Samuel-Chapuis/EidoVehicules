@@ -2,7 +2,7 @@ package fr.thoridan.planes.event;
 
 import fr.thoridan.planes.ForPlanes;
 import fr.thoridan.planes.entity.client.ModModelLayers;
-import fr.thoridan.planes.entity.client.models.YellowPlaneModel;
+import fr.thoridan.planes.entity.client.models.tourist.YellowPlaneModel;
 import fr.thoridan.planes.entity.client.models.rafale.RafaleModel;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

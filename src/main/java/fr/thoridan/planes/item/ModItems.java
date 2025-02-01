@@ -55,7 +55,7 @@ public class ModItems {
 	);
 
 	public static final RegistryObject<Item> YELLOW_PLANE_SPAWN_ITEM = ITEMS.register(
-			"yellow_plane_spawn_item",
+			"tourist_plane_spawn_item",
 			() -> new PlaneSpawnItem<>(
 					ModEntities.YELLOW_PLANE, // Pass the RegistryObject *itself*, not .get()
 					new Item.Properties()

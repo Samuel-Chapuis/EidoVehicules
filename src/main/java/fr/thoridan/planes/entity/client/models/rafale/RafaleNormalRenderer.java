@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 public class RafaleNormalRenderer extends PlaneRenderer<NormalRafale> {
     private static final ResourceLocation NORMAL_RAFALE_TEXTURE = new ResourceLocation(ForPlanes.MOD_ID, "textures/entity/rafale_texture.png");
     // This texture will be tinted with a custom color
-    private static final ResourceLocation COLORABLE_TEXTURE = new ResourceLocation(ForPlanes.MOD_ID, "textures/entity/rafale_colorable_texture.png");
+    private static final ResourceLocation NORMAL_RAFALE_COLORABLE_TEXTURE = new ResourceLocation(ForPlanes.MOD_ID, "textures/entity/rafale_colorable_texture.png");
     private final RafaleModel<NormalRafale> model;
 
     public RafaleNormalRenderer(EntityRendererProvider.Context context) {
@@ -54,7 +54,7 @@ public class RafaleNormalRenderer extends PlaneRenderer<NormalRafale> {
         float alpha = plane.getAlpha();
 
         // Use a RenderType that supports tinting (for example, entityCutoutNoCull).
-        VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(COLORABLE_TEXTURE));
+        VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NORMAL_RAFALE_COLORABLE_TEXTURE));
 
         // Render the model a second time with the tinted texture.
         // Note: renderToBuffer() usually takes the pose, vertexConsumer, light, overlay, and RGBA values.

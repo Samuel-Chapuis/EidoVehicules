@@ -2,6 +2,8 @@
 	"item.forplanes.titanium": "Titanium",
 	"item.forplanes.raw_titanium": "Raw Titanium",
 	"item.forplanes.debug_tool_4plane": "Debug Tool",
+	"item.forplanes.normal_rafale_spawn_item": "Normal Rafale Spawn Item",
+	"item.forplanes.tourist_plane_spawn_item": "Tourist Plane Spawn Item",
 
 	"block.forplanes.titanium_block": "Titanium Block",
 	"block.forplanes.titanium_ore": "Titanium Ore",
@@ -11,5 +13,6 @@
 	"key.forplanes.j_key": "Toggle J Key",
 	"key.forplanes.k_key": "Toggle K Key",
 	"key.forplanes.l_key": "Toggle L Key",
+
 	"category.forplanes.custom_keys": "Your Mod Custom Keys"
 }

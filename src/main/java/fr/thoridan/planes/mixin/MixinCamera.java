@@ -1,9 +1,11 @@
 package fr.thoridan.planes.mixin;
 
 import fr.thoridan.planes.entity.custom.PlaneStructure;
-import fr.thoridan.planes.entity.custom.models.YellowPlane;
+import net.minecraft.client.Camera;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,7 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * Mixin for the Minecraft Camera class to adjust camera behavior when the player is in a PlaneStructure vehicle.
  */
-@Mixin(net.minecraft.client.Camera.class)
+@OnlyIn(Dist.CLIENT)
+@Mixin(Camera.class)
 public abstract class MixinCamera {
 
 	/**

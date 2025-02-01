@@ -2,12 +2,12 @@
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-package fr.thoridan.planes.entity.client.models;
+package fr.thoridan.planes.entity.client.models.tourist;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import fr.thoridan.planes.entity.custom.models.YellowPlane;
+import fr.thoridan.planes.entity.custom.models.tourist.YellowPlane;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;

@@ -1,15 +1,13 @@
 package fr.thoridan.planes.event;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import fr.thoridan.planes.Globals;
 import fr.thoridan.planes.entity.client.ModModelLayers;
-import fr.thoridan.planes.entity.client.models.YellowPlaneModel;
+import fr.thoridan.planes.entity.client.models.tourist.YellowPlaneModel;
 import fr.thoridan.planes.entity.custom.PlaneStructure;
-import fr.thoridan.planes.entity.custom.models.YellowPlane;
+import fr.thoridan.planes.entity.custom.models.tourist.YellowPlane;
 import fr.thoridan.planes.item.ModItems;
-import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -17,24 +15,15 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraft.world.entity.player.Player;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 /**
  * Handles client-side events for the ForPlanes mod.

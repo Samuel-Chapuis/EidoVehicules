@@ -17,6 +17,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -58,7 +59,7 @@ public abstract class PlaneStructure extends Entity {
 
     public float cameraOffset = 0;                 // Camera offset for the passenger's position
     protected boolean invisibleRider = false;      // Flag to determine if the passenger is invisible
-    protected Block drop = Blocks.DIRT;            // Block/item to drop upon plane destruction
+    protected Item drop = Blocks.DIRT.asItem();    // Item dropped by the plane upon destruction
     protected Level level;                         // Reference to the current game level
     protected float red = 1.0F;                    // Red tint value for colorable texture
     protected float green = 1.0F;                  // Green tint value for colorable texture
