@@ -34,7 +34,7 @@ public class NormalRafale extends PlaneStructure {
         this.acceleration = 0.03f;          // Sets the acceleration rate of the plane
         this.deceleration = 0.02f;          // Sets the deceleration (braking) rate of the planeafale
         this.invertSubtlety = 0.3f;         // Subtlety factor influencing control inversions
-        this.yRiderOffset = 0.8f;           // Vertical offset for rider positioning
+        this.yRiderOffset = 0.0f;           // Vertical offset for rider positioning 0.8f
         this.cameraOffset = 0.8f;           // Camera offset for the rider's view
         this.invisibleRider = true;         // Makes the rider invisible when inside the Rafale
         this.cameraDistance = 16D;          // Distance of the camera from the Rafale

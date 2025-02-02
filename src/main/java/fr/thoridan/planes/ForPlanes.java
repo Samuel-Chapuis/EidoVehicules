@@ -1,5 +1,6 @@
 package fr.thoridan.planes;
 
+import com.mojang.logging.LogUtils;
 import fr.thoridan.planes.block.ModBlocks;
 import fr.thoridan.planes.entity.ModEntities;
 import fr.thoridan.planes.entity.client.models.tourist.YellowPlaneRenderer;
@@ -7,6 +8,8 @@ import fr.thoridan.planes.entity.client.models.rafale.RafaleNormalRenderer;
 import fr.thoridan.planes.item.ModCreativeModTabs;
 import fr.thoridan.planes.item.ModItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,12 +21,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.server.ServerLifecycleHooks;
+import org.slf4j.Logger;
 
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ForPlanes.MOD_ID)
 public class ForPlanes {
     public static final String MOD_ID = "forplanes";
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     public ForPlanes() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -57,6 +63,24 @@ public class ForPlanes {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
 
+    }
+
+    public static void broadcastServerMessage(String message, boolean actionBar) {
+        // Forge's way to get the current MinecraftServer instance
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        // Broadcast a "system" message. By default, it shows as
+        // <Server> message
+        // in chat if 'actionBar' is false.
+
+
+        if (server == null) {
+            LOGGER.warn("Tried to broadcast a server message, but the server is null!");
+            return;
+        }
+        server.getPlayerList().broadcastSystemMessage(
+                Component.literal(message),
+                actionBar
+        );
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

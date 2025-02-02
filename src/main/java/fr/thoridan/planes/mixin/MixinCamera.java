@@ -1,8 +1,10 @@
 package fr.thoridan.planes.mixin;
 
+import fr.thoridan.planes.ForPlanes;
 import fr.thoridan.planes.entity.custom.PlaneStructure;
 import net.minecraft.client.Camera;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -37,8 +39,14 @@ public abstract class MixinCamera {
 				// Adjust the camera distance for third-person view based on the vehicle's camera settings
 				move(-getMaxZoom(vehicle.getCameraDistance()), 0.0, 0.0);
 			} else {
-				// Adjust the camera height for first-person view based on the vehicle's rider offset
-				move(0.0D, vehicle.cameraOffset, 0.0D);
+				// Compute the rotation in radians
+				double offsetX = Math.abs(vehicle.getInterpolate_roll()%180)/(vehicle.cameraOffset*100);
+				double offsetZ = vehicle.getInterpolate_roll()%180/(vehicle.cameraOffset*100);
+				double offsetY = vehicle.yRiderOffset + vehicle.cameraOffset-Math.abs(vehicle.getRoll()%180)/80;
+
+				ForPlanes.broadcastServerMessage("offsetX: "+offsetX+" offsetY: "+offsetY+" offsetZ: "+offsetZ, true);
+
+				move(offsetX, offsetY, offsetZ);
 			}
 
 			// Optional: Integrate Cartridge functionality if applicable

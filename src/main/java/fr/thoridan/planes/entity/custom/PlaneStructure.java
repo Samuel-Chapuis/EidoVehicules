@@ -53,10 +53,9 @@ public abstract class PlaneStructure extends Entity {
     protected float acceleration;                  // Acceleration rate of the plane
     protected float deceleration;                  // Deceleration (braking) rate of the plane
     protected float invertSubtlety;                // Factor influencing subtle inversions in movement
-    protected float xRiderOffset = 0;              // X-axis offset for the passenger's position
+    public float xRiderOffset = 0;              // X-axis offset for the passenger's position
     public float yRiderOffset = 0;                 // Y-axis offset for the passenger's position
-    protected float zRiderOffset = 0;              // Z-axis offset for the passenger's position
-    public float yPlaneOffset = 0;                 // Camera offset for the passenger's position
+    public float zRiderOffset = 0;              // Z-axis offset for the passenger's position
     public float cameraOffset = 0;                 // Camera offset for the passenger's position
     protected boolean invisibleRider = false;      // Flag to determine if the passenger is invisible
     protected Item drop = Blocks.DIRT.asItem();    // Item dropped by the plane upon destruction
@@ -183,7 +182,7 @@ public abstract class PlaneStructure extends Entity {
                 );
             }
             // this.stabilizeRoll(); // Uncomment if roll stabilization is needed upon passenger removal
-            System.out.println("Le joueur a quitté l'avion."); // Debug message indicating passenger exit
+//            System.out.println("Le joueur a quitté l'avion."); // Debug message indicating passenger exit
         }
     }
 
@@ -289,7 +288,7 @@ public abstract class PlaneStructure extends Entity {
         /* If the passenger is a player and the plane has no driver yet */
         if (passenger instanceof Player && this.getPassengers().isEmpty()) {
             super.addPassenger(passenger);
-            System.out.println("Un joueur a été ajouté comme conducteur."); // Debug message indicating passenger addition
+//            System.out.println("Un joueur a été ajouté comme conducteur."); // Debug message indicating passenger addition
             this.positionRider(passenger); // Position the passenger within the plane
             passenger.setInvisible(invisibleRider); // Set passenger visibility based on the plane's settings
         }
@@ -318,7 +317,7 @@ public abstract class PlaneStructure extends Entity {
     @Override
     public double getPassengersRidingOffset() {
         /* Adjust the height at which the player is sitting */
-        return 0.6D;
+        return 0.8D;
     }
 
     /**
@@ -346,11 +345,11 @@ public abstract class PlaneStructure extends Entity {
 
         if (!this.getCommandSenderWorld().isClientSide) {
             if (this.getPassengers().isEmpty()) {
-                System.out.println("Le joueur tente de monter dans l'avion."); // Debug message indicating mounting attempt
+//                System.out.println("Le joueur tente de monter dans l'avion."); // Debug message indicating mounting attempt
                 player.startRiding(this); // Player mounts the plane
                 return InteractionResult.SUCCESS;
             } else {
-                System.out.println("L'avion a déjà un conducteur."); // Debug message indicating the plane already has a driver
+//                System.out.println("L'avion a déjà un conducteur."); // Debug message indicating the plane already has a driver
             }
         }
 

@@ -105,7 +105,6 @@ public class ModEventBusClientEvents {
                 // Interpolate yaw and pitch angles based on previous and current rotations
                 float interpolatedYaw = interpolateAngle(plane.yRotO, plane.getYRot(), partialTicks);
                 float interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
-                System.out.println("Interpolated Pitch: " + interpolatedPitch);
 
                 // Define rotation angles for the player model
                 float rotX = interpolatedPitch; // Rotation around X-axis (pitch)
@@ -118,7 +117,7 @@ public class ModEventBusClientEvents {
                 double posZ = 0.0D; // Translation along Z-axis
 
                 // Invoke custom rendering method with transformation parameters
-                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, plane.yRiderOffset, plane.yPlaneOffset);
+                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, plane.yRiderOffset);
             }
         }
     }
@@ -177,7 +176,7 @@ public class ModEventBusClientEvents {
                 double posZ = 0.0D; // Translation along Z-axis
 
                 // Invoke custom rendering method with transformation parameters
-                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, 0,0);
+                doCustomPlayerRender(player, event, rotX, rotY, rotZ, posX, posY, posZ, 0);
             }
         }
     }
@@ -205,7 +204,7 @@ public class ModEventBusClientEvents {
     public static void doCustomPlayerRender(Player player, RenderLivingEvent.Pre<?, ?> event,
                                             float rotX, float rotY, float rotZ,
                                             double posX, double posY, double posZ,
-                                            double riderYOffset, double planeYOffset) {
+                                            double riderYOffset) {
         rotX = (rotX + 180) % 360;
         PoseStack poseStack = event.getPoseStack();
         MultiBufferSource buffer = event.getMultiBufferSource();
@@ -226,7 +225,7 @@ public class ModEventBusClientEvents {
         poseStack.translate(posX, posY, posZ);
 
         // Combine the rider's offset and the plane's offset into one effective Y offset.
-        double effectiveYOffset = riderYOffset + planeYOffset;
+        double effectiveYOffset = riderYOffset;
 
         // --- Adjusting the Pivot Point for Rotations ---
         // You can choose a base pivot (here 0.4) that suits your model’s natural center.
