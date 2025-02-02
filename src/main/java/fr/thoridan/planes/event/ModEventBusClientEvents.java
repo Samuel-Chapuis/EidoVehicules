@@ -198,83 +198,78 @@ public class ModEventBusClientEvents {
      * @param rotZ      Rotation around the Z-axis (roll).
      * @param posX      Translation along the X-axis.
      * @param posY      Translation along the Y-axis.
-     * @param posZ      Translation along the Z-axis.
-     * @param playeroffsetY   Additional Y-axis offset for rendering.
+     * @param posZ      Translation along the Z-axis..
+     *
+     *
      */
     public static void doCustomPlayerRender(Player player, RenderLivingEvent.Pre<?, ?> event,
                                             float rotX, float rotY, float rotZ,
-                                            double posX, double posY, double posZ, double playeroffsetY, double planeoffsetY) {
-
-        // Retrieve necessary rendering information from the event
+                                            double posX, double posY, double posZ,
+                                            double riderYOffset, double planeYOffset) {
+        rotX = (rotX + 180) % 360;
         PoseStack poseStack = event.getPoseStack();
         MultiBufferSource buffer = event.getMultiBufferSource();
         int packedLight = event.getPackedLight();
         float partialTicks = event.getPartialTick();
 
-        // Adjust rotation around the X-axis
-        rotX = (rotX + 180) % 360;
-
         // Create or retrieve a PlayerModel instance for rendering
         ModelPart playerModelRoot = Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.PLAYER);
-        PlayerModel<Player> playerModel = new PlayerModel<>(playerModelRoot, false); // 'false' for normal arms
+        PlayerModel<Player> playerModel = new PlayerModel<>(playerModelRoot, false); // false for normal arms
 
-        // Push a new matrix stack to isolate transformations
         poseStack.pushPose();
 
-        // Apply scaling to the player model's body
-        float bodyScale = 0.8F; // Adjust this value as needed for the body size
+        // Apply overall scaling
+        float bodyScale = 0.8F;
         poseStack.scale(bodyScale, bodyScale, bodyScale);
 
-        // Apply positional transformations to place the player model correctly
-        poseStack.translate(posX, posY, posZ); // Translate model to desired position
+        // Initial translation to position the model relative to the plane's origin
+        poseStack.translate(posX, posY, posZ);
 
-        // === Adjusting the Pivot Point ===
-        double pivotX = 0.0D; // Modify as needed
-        double pivotY = 0.4D + playeroffsetY; // Modify as needed (e.g., adjust for Rafale)
+        // Combine the rider's offset and the plane's offset into one effective Y offset.
+        double effectiveYOffset = riderYOffset + planeYOffset;
+
+        // --- Adjusting the Pivot Point for Rotations ---
+        // You can choose a base pivot (here 0.4) that suits your model’s natural center.
+        double pivotX = 0.0D;
+        double basePivotY = 0.4D;
+        double pivotY = basePivotY + effectiveYOffset;
         double pivotZ = 0.0D;
 
-        // Translate to the desired pivot point
-        poseStack.translate(pivotX, pivotY + planeoffsetY, pivotZ);
+        // Move to the pivot point that now includes your Y offset.
+        poseStack.translate(pivotX, pivotY, pivotZ);
 
-        // Apply rotation transformations around the new pivot point
-        poseStack.mulPose(Axis.YP.rotationDegrees(-rotY)); // Yaw
-        poseStack.mulPose(Axis.ZP.rotationDegrees(-rotZ)); // Roll
-        poseStack.mulPose(Axis.XP.rotationDegrees(rotX));  // Pitch
+        // Apply rotations (yaw, roll, pitch) around the new pivot.
+        poseStack.mulPose(Axis.YP.rotationDegrees(-rotY));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(-rotZ));
+        poseStack.mulPose(Axis.XP.rotationDegrees(rotX));
 
-        // Translate back from the pivot point
+        // Move back from the pivot point.
         poseStack.translate(-pivotX, -pivotY, -pivotZ);
+        // --- End Pivot Adjustment ---
 
-        // === End of Pivot Point Adjustment ===
-
-        // Set up the player model's sitting pose and animations
+        // Set up the sitting pose and animations for the player model.
         setupSittingPose(playerModel, player, partialTicks);
 
-        // Render the player's body parts (excluding the head)
-        // Render the torso
+        // Render body parts
         playerModel.body.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
-
-        // Render the legs
         playerModel.leftLeg.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
         playerModel.rightLeg.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
 
-        // Apply scaling to the arms and render them
-        float armScale = 0.8F; // Adjust this value as needed for the arms
+        // Render arms (with additional scaling)
+        float armScale = 0.8F;
         poseStack.pushPose();
         poseStack.scale(armScale, armScale, armScale);
         playerModel.leftArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
         playerModel.rightArm.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
 
-        // Render the head with adjusted scaling
-        poseStack.pushPose(); // Push a new matrix for the head
-        float headScale = 0.9F; // Define head scaling factor (less than 1 to make it smaller)
-        poseStack.scale(headScale, headScale, headScale); // Apply scaling to the head
-        // Optional: Adjust the head's position if it appears offset after scaling
-        // poseStack.translate(0.0D, 0.1D, 0.0D); // Modify values as needed
+        // Render head (with adjusted scaling)
+        poseStack.pushPose();
+        float headScale = 0.9F;
+        poseStack.scale(headScale, headScale, headScale);
         playerModel.head.render(poseStack, buffer.getBuffer(playerModel.renderType(getPlayerTexture(player))), packedLight, OverlayTexture.NO_OVERLAY);
-        poseStack.popPose(); // Pop the head's transformation matrix
+        poseStack.popPose();
 
-        // Pop the main matrix stack to revert to previous transformations
         poseStack.popPose();
     }
 
