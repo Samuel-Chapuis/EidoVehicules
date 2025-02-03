@@ -183,7 +183,6 @@ dependencies {
 }
 
 mixin {
-    // MixinGradle Settings
     add sourceSets.main, 'mixins.planes.refmap.json'
     config 'mixins.planes.json'
 }

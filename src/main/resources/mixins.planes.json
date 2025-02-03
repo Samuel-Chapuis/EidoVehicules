@@ -2,11 +2,10 @@
 	"required": true,
 	"package": "fr.thoridan.planes.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"refmap": "modid.refmap.json",
+	"refmap": "mixins.planes.refmap.json",
 	"mixins": [
 		"MixinCamera"
 	],
-	"client": [
-	],
+	"client": [],
 	"minVersion": "0.8"
 }
