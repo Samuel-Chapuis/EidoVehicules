@@ -35,8 +35,8 @@ public class ModBlocks {
 			() -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
 	// Titanium Ore: A block that drops experience when mined, similar to Cobblestone
-	public static final RegistryObject<Block> TITANIUM_ORE = registerBlock("titanium_ore",
-			() -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE)));
+//	public static final RegistryObject<Block> TITANIUM_ORE = registerBlock("titanium_ore",
+//			() -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE)));
 
 	/* --------------------- */
 	/* --- Helper Methods --- */
