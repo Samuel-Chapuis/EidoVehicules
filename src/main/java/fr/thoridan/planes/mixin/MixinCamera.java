@@ -45,16 +45,13 @@ public abstract class MixinCamera {
 				double offsetY;
 
 				if(vehicle.cameraOffset == 0){
-					offsetX = 0;
-					offsetZ = 0;
-					offsetY = vehicle.yRiderOffset;
+					move(0.0D, vehicle.cameraOffset, 0.0D);
 				}else {
 					offsetX = Math.abs(vehicle.getInterpolate_roll() % 180) / (vehicle.cameraOffset * 100);
 					offsetZ = vehicle.getInterpolate_roll() % 180 / (vehicle.cameraOffset * 100);
 					offsetY = vehicle.yRiderOffset + vehicle.cameraOffset - Math.abs(vehicle.getRoll() % 180) / 80;
+					move(offsetX, offsetY, offsetZ);
 				}
-
-				move(offsetX, offsetY, offsetZ);
 			}
 
 			// Optional: Integrate Cartridge functionality if applicable
