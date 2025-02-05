@@ -406,6 +406,7 @@ public abstract class PlaneStructure extends Entity {
         if (this.onGround()) {
             /* If the plane is on the ground, the minimum speed is 0 to allow clear landing */
             minSpeed = 0.0f;
+
         } else {
             /* To add a realistic effect, the plane must maintain a minimum speed in flight */
             minSpeed = invertSubtlety;
@@ -458,23 +459,29 @@ public abstract class PlaneStructure extends Entity {
                 }
             } else if (isPlayerMovingBackward(player)) {
                 /* Player is decelerating the plane */
-                this.currentSpeed -= this.acceleration * 0.4;
-                if (this.currentSpeed < this.minSpeed) {
-                    this.currentSpeed = this.minSpeed; // Prevent the plane from moving backward beyond minSpeed
+
+                if (this.onGround()){
+                    this.currentSpeed -= this.acceleration * 7;
+                }
+                else{
+                    this.currentSpeed -= this.deceleration * 0.7;
+                }
+                if (this.currentSpeed < minSpeed) {
+                    this.currentSpeed = minSpeed; // Prevent the plane from moving backward beyond minSpeed
                 }
             } else {
                 /* If the player is not providing input, gradually decelerate the plane */
-                this.currentSpeed -= this.deceleration * 0.1;
-                if (this.currentSpeed < this.minSpeed) {
-                    this.currentSpeed = this.minSpeed; // Maintain minimum speed to prevent reversing
+                this.currentSpeed -= this.deceleration * 0.2;
+                if (this.currentSpeed < minSpeed) {
+                    this.currentSpeed = minSpeed; // Maintain minimum speed to prevent reversing
                 }
             }
 
         } else {
             /* If there is no controlling passenger, gradually decelerate and stabilize the plane's roll */
             this.currentSpeed -= this.deceleration;
-            if (this.currentSpeed < this.minSpeed) {
-                this.currentSpeed = this.minSpeed;
+            if (this.currentSpeed < minSpeed) {
+                this.currentSpeed = minSpeed;
             }
             this.stabilizeRoll();
         }

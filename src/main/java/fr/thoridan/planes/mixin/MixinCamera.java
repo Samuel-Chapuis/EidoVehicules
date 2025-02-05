@@ -40,11 +40,19 @@ public abstract class MixinCamera {
 				move(-getMaxZoom(vehicle.getCameraDistance()), 0.0, 0.0);
 			} else {
 				// Compute the rotation in radians
-				double offsetX = Math.abs(vehicle.getInterpolate_roll()%180)/(vehicle.cameraOffset*100);
-				double offsetZ = vehicle.getInterpolate_roll()%180/(vehicle.cameraOffset*100);
-				double offsetY = vehicle.yRiderOffset + vehicle.cameraOffset-Math.abs(vehicle.getRoll()%180)/80;
+				double offsetX;
+				double offsetZ;
+				double offsetY;
 
-				ForPlanes.broadcastServerMessage("offsetX: "+offsetX+" offsetY: "+offsetY+" offsetZ: "+offsetZ, true);
+				if(vehicle.cameraOffset == 0){
+					offsetX = 0;
+					offsetZ = 0;
+					offsetY = vehicle.yRiderOffset;
+				}else {
+					offsetX = Math.abs(vehicle.getInterpolate_roll() % 180) / (vehicle.cameraOffset * 100);
+					offsetZ = vehicle.getInterpolate_roll() % 180 / (vehicle.cameraOffset * 100);
+					offsetY = vehicle.yRiderOffset + vehicle.cameraOffset - Math.abs(vehicle.getRoll() % 180) / 80;
+				}
 
 				move(offsetX, offsetY, offsetZ);
 			}

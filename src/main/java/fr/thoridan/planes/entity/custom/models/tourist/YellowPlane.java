@@ -34,13 +34,28 @@ public class YellowPlane extends PlaneStructure {
         super(type, world);
         this.drop = YELLOW_PLANE_SPAWN_ITEM.get(); // Sets the item dropped when the plane is destroyed
         this.health = 1f;                 // Initializes the plane's health
-        this.yRiderOffset = 0.2F;         // Sets the Y-axis offset for the passenger's position
-        this.cameraOffset = 0.0F;         // Sets the camera offset for the passenger's view
         this.maxSpeed = 1.5f;              // Sets the maximum speed the plane can achieve
+
         this.acceleration = 0.02f;          // Sets the acceleration rate of the plane
         this.deceleration = 0.02f;          // Sets the deceleration (braking) rate of the plane
+
+        this.yRiderOffset = 0.2F;         // Sets the Y-axis offset for the passenger's position
+        this.cameraOffset = 0.0F;         // Sets the camera offset for the passenger's view
+
+        this.invisibleRider = true;       // Makes the rider invisible when inside the plane
         this.invertSubtlety = 0.3f;        // Sets the subtlety factor influencing plane inversions
-        this.cameraDistance = 6D;          // Sets the camera's distance from the plane
+        this.cameraDistance = 16D;          // Sets the camera's distance from the plane
+
+//        this.drop = NORMAL_RAFALE_SPAWN_ITEM.get(); // Item dropped when the Rafale is destroyed
+//        this.health = 1f;                 // Health of the Rafale, representing durability
+//        this.maxSpeed = 4f;                 // Maximum speed achievable by the Rafale
+//        this.acceleration = 0.03f;          // Sets the acceleration rate of the plane
+//        this.deceleration = 0.02f;          // Sets the deceleration (braking) rate of the planeafale
+//        this.invertSubtlety = 0.3f;         // Subtlety factor influencing control inversions
+//        this.yRiderOffset = 0.0f;           // Vertical offset for rider positioning 0.8f
+//        this.cameraOffset = 0.8f;           // Camera offset for the rider's view
+//        this.invisibleRider = true;         // Makes the rider invisible when inside the Rafale
+//        this.cameraDistance = 24D;          // Distance of the camera from the Rafale
     }
 
     /* --------------------- */
