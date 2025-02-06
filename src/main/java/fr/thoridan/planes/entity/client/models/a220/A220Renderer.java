@@ -3,6 +3,7 @@ package fr.thoridan.planes.entity.client.models.a220;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.thoridan.planes.ForPlanes;
+import fr.thoridan.planes.Globals;
 import fr.thoridan.planes.entity.client.ModModelLayers;
 import fr.thoridan.planes.entity.client.PlaneRenderer;
 import fr.thoridan.planes.entity.client.models.rafale.RafaleModel;
@@ -40,7 +41,7 @@ public class A220Renderer extends PlaneRenderer<A220> {
     @Override
     protected void renderSettings(PoseStack poseStack) {
         poseStack.scale(1.5F, 1.5F, 1.5F);
-        poseStack.translate(0.0D, 0.6D, 0.0D);
+        poseStack.translate(0.0D, 0.2f, 0.0D);
     }
 
     /**

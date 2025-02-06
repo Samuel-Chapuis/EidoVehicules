@@ -295,6 +295,49 @@ public abstract class PlaneStructure extends Entity {
         }
     }
 
+//    @Override
+//    protected void positionRider(Entity passenger, MoveFunction moveFunction) {
+//        // If we're only dealing with one rider
+//        if (!this.hasPassenger(passenger)) return;
+//
+//        // Convert degrees to radians for math
+//        float yawRad = (float) Math.toRadians(this.getYRot());
+//        float pitchRad = (float) Math.toRadians(this.getXRot());
+//
+//        // Example seat offsets (the seat is behind the plane’s origin by 1.2 blocks,
+//        // up 0.3 blocks, etc). You can tweak these to your liking.
+//        // Usually you read them from your entity fields or from a seat array if multiple seats.
+//        double localX = this.xRiderOffset;
+//        double localY = this.yRiderOffset;
+//        double localZ = this.zRiderOffset;
+//
+//        // If your plane can roll, you may need more advanced rotation logic,
+//        // but often yaw + pitch is enough. Or build a small rotation matrix
+//        // that includes roll as well if your plane is truly 3D in motion.
+//
+//        // The simplest version: rotate around yaw, then pitch.
+//        // (Ignoring roll for demonstration, but you can incorporate it if you like.)
+//        // 1) Apply yaw
+//        double seatPosX = localX * Math.cos(yawRad) - localZ * Math.sin(yawRad);
+//        double seatPosZ = localX * Math.sin(yawRad) + localZ * Math.cos(yawRad);
+//        double seatPosY = localY; // If you want pitch to affect seat Y, do more trig.
+//
+//        // Optionally incorporate pitch
+//        // seatPosY += -seatPosZ * Math.sin(pitchRad);
+//        // seatPosZ *= Math.cos(pitchRad);
+//
+//        // Now translate the result by the plane’s absolute world position
+//        double finalX = this.getX() + seatPosX;
+//        double finalY = this.getY() + seatPosY;
+//        double finalZ = this.getZ() + seatPosZ;
+//
+//        passenger.setPos(finalX, finalY, finalZ);
+//        // If you want the passenger to face the same yaw as the plane:
+//        passenger.setYRot(this.getYRot());
+//        passenger.setXRot(this.getXRot());
+//    }
+
+
     /**
      * Determines if a passenger can be added to the plane.
      * Currently limits the plane to one passenger (the driver).
