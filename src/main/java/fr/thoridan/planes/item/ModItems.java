@@ -63,6 +63,15 @@ public class ModItems {
 			)
 	);
 
+	public static final RegistryObject<Item> A220_SPAWN_ITEM = ITEMS.register(
+			"a220_spawn_item",
+			() -> new PlaneSpawnItem<>(
+					ModEntities.A220LAYER, // Pass the RegistryObject *itself*, not .get()
+					new Item.Properties()
+							.stacksTo(1)
+			)
+	);
+
 	/**
 	 * Registers all items with the provided event bus.
 	 * Must be called during the mod's initialization phase.

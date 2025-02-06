@@ -3,6 +3,7 @@ package fr.thoridan.planes;
 import com.mojang.logging.LogUtils;
 import fr.thoridan.planes.block.ModBlocks;
 import fr.thoridan.planes.entity.ModEntities;
+import fr.thoridan.planes.entity.client.models.a220.A220Renderer;
 import fr.thoridan.planes.entity.client.models.tourist.YellowPlaneRenderer;
 import fr.thoridan.planes.entity.client.models.rafale.RafaleNormalRenderer;
 import fr.thoridan.planes.item.ModCreativeModTabs;
@@ -90,6 +91,7 @@ public class ForPlanes {
         public static void onClientSetup(FMLClientSetupEvent event) {
 			EntityRenderers.register(ModEntities.YELLOW_PLANE.get(), YellowPlaneRenderer::new);
             EntityRenderers.register(ModEntities.NORMAL_RAFALE.get(), RafaleNormalRenderer::new);
+            EntityRenderers.register(ModEntities.A220LAYER.get(), A220Renderer::new);
         }
     }
 }

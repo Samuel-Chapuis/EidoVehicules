@@ -10,9 +10,12 @@
 
 	"creativetab.forplanes_tab": "Forplanes",
 
-	"key.forplanes.j_key": "Toggle J Key",
-	"key.forplanes.k_key": "Toggle K Key",
-	"key.forplanes.l_key": "Toggle L Key",
+	"key.forplanes.j_key": "- Test 1",
+	"key.forplanes.k_key": "- Test 2",
+	"key.forplanes.l_key": "- Test 3",
 
-	"category.forplanes.custom_keys": "Your Mod Custom Keys"
+	"category.forplanes.custom_keys": "Your Mod Custom Keys",
+	"key.forplanes.u_key": "+ Test 1",
+	"key.forplanes.i_key": "+ Test 2",
+	"key.forplanes.o_key": "+ Test 3"
 }

@@ -77,6 +77,8 @@ public class ModEventBusClientEvents {
         // Register layer definitions for Rafale plane variants
         event.registerLayerDefinition(ModModelLayers.NORMAL_RAFALE, YellowPlaneModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.RAFALE_GREEN, YellowPlaneModel::createBodyLayer);
+
+        event.registerLayerDefinition(ModModelLayers.A220LAYER, YellowPlaneModel::createBodyLayer);
     }
 
     /**
@@ -104,7 +106,7 @@ public class ModEventBusClientEvents {
                 interpolatedRoll = Math.max(-180.0F, Math.min(180.0F, interpolatedRoll));
                 // Interpolate yaw and pitch angles based on previous and current rotations
                 float interpolatedYaw = interpolateAngle(plane.yRotO, plane.getYRot(), partialTicks);
-                float interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
+                float interpolatedPitch = plane.getInterpolate_pitch();
 
                 // Define rotation angles for the player model
                 float rotX = interpolatedPitch; // Rotation around X-axis (pitch)

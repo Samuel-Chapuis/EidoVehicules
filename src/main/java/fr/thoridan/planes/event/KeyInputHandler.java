@@ -44,14 +44,31 @@ public class KeyInputHandler {
             "category.forplanes.custom_keys" // Category in the controls menu
     );
 
-    /**
-     * Defines the key binding for the 'L' key.
-     * This key is used to modify the third global variable (Globals.global3).
-     */
     public static final KeyMapping L_KEY_BINDING = new KeyMapping(
             "key.forplanes.l_key", // Translation key for localization
             InputConstants.Type.KEYSYM, // Type of input (keyboard key)
             GLFW.GLFW_KEY_L, // The GLFW key code for 'L'
+            "category.forplanes.custom_keys" // Category in the controls menu
+    );
+
+    public static final KeyMapping U_KEY_BINDING = new KeyMapping(
+            "key.forplanes.u_key", // Translation key for localization
+            InputConstants.Type.KEYSYM, // Type of input (keyboard key)
+            GLFW.GLFW_KEY_U, // The GLFW key code for 'U'
+            "category.forplanes.custom_keys" // Category in the controls menu
+    );
+
+    public static final KeyMapping I_KEY_BINDING = new KeyMapping(
+            "key.forplanes.i_key", // Translation key for localization
+            InputConstants.Type.KEYSYM, // Type of input (keyboard key)
+            GLFW.GLFW_KEY_I, // The GLFW key code for 'I'
+            "category.forplanes.custom_keys" // Category in the controls menu
+    );
+
+    public static final KeyMapping O_KEY_BINDING = new KeyMapping(
+            "key.forplanes.o_key", // Translation key for localization
+            InputConstants.Type.KEYSYM, // Type of input (keyboard key)
+            GLFW.GLFW_KEY_O, // The GLFW key code for 'O'
             "category.forplanes.custom_keys" // Category in the controls menu
     );
 
@@ -69,7 +86,8 @@ public class KeyInputHandler {
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(J_KEY_BINDING);
         event.register(K_KEY_BINDING);
-        event.register(L_KEY_BINDING);
+        event.register(U_KEY_BINDING);
+        event.register(I_KEY_BINDING);
     }
 
     /* -------------------------------- */
@@ -94,7 +112,7 @@ public class KeyInputHandler {
             // Handle 'J' key events
             if (J_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
                 if (event.getAction() == GLFW.GLFW_PRESS) {
-                    Globals.global1 += 0.2f; // Increment global1 by 0.2
+                    Globals.global1 -= 0.2f; // Increment global1 by 0.2
                     System.out.println("J key pressed: " + Globals.global1);
                 }
                 if (event.getAction() == GLFW.GLFW_RELEASE) {
@@ -105,24 +123,55 @@ public class KeyInputHandler {
             // Handle 'K' key events
             if (K_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
                 if (event.getAction() == GLFW.GLFW_PRESS) {
-                    Globals.global2 += 0.2f; // Increment global2 by 0.2
+                    Globals.global2 -= 0.2f; // Increment global2 by 0.2
                     System.out.println("K key pressed: " + Globals.global2);
                 }
                 if (event.getAction() == GLFW.GLFW_RELEASE) {
                     System.out.println("K key released");
                 }
-            }
+            } // 3.6000004
 
-            // Handle 'L' key events
             if (L_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
                 if (event.getAction() == GLFW.GLFW_PRESS) {
-                    Globals.global3 += 0.2f; // Increment global3 by 0.2
+                    Globals.global3 -= 0.2f; // Increment global2 by 0.2
                     System.out.println("L key pressed: " + Globals.global3);
                 }
                 if (event.getAction() == GLFW.GLFW_RELEASE) {
                     System.out.println("L key released");
                 }
             }
+
+            if(U_KEY_BINDING.matches(event.getKey(), event.getScanCode())){
+                if(event.getAction() == GLFW.GLFW_PRESS){
+                    Globals.global1 += 0.2f;
+                    System.out.println("U key pressed: " + Globals.global1);
+                }
+                if(event.getAction() == GLFW.GLFW_RELEASE){
+                    System.out.println("U key released");
+                }
+            }
+
+
+            if(I_KEY_BINDING.matches(event.getKey(), event.getScanCode())){
+                if(event.getAction() == GLFW.GLFW_PRESS){
+                    Globals.global2 += 0.2f;
+                    System.out.println("I key pressed: " + Globals.global2);
+                }
+                if(event.getAction() == GLFW.GLFW_RELEASE){
+                    System.out.println("I key released");
+                }
+            }
+
+            if (O_KEY_BINDING.matches(event.getKey(), event.getScanCode())) {
+                if (event.getAction() == GLFW.GLFW_PRESS) {
+                    Globals.global3 += 0.2f; // Increment global2 by 0.2
+                    System.out.println("O key pressed: " + Globals.global3);
+                }
+                if (event.getAction() == GLFW.GLFW_RELEASE) {
+                    System.out.println("O key released");
+                }
+            }
+
         }
     }
 }

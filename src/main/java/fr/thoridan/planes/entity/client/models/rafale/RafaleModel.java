@@ -13,8 +13,6 @@ import net.minecraft.world.entity.Entity;
 
 
 public class RafaleModel<T extends Entity> extends EntityModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "rafale"), "main");
 	private final ModelPart F15;
 	private final ModelPart TurboOn;
 	private final ModelPart Roues;

@@ -2,6 +2,7 @@ package fr.thoridan.planes.event;
 
 import fr.thoridan.planes.ForPlanes;
 import fr.thoridan.planes.entity.client.ModModelLayers;
+import fr.thoridan.planes.entity.client.models.a220.A220Model;
 import fr.thoridan.planes.entity.client.models.tourist.YellowPlaneModel;
 import fr.thoridan.planes.entity.client.models.rafale.RafaleModel;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -27,5 +28,6 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(ModModelLayers.YELLOW_PLANE, YellowPlaneModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.NORMAL_RAFALE, RafaleModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.RAFALE_GREEN, RafaleModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.A220LAYER, A220Model::createBodyLayer);
     }
 }

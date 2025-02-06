@@ -1,6 +1,7 @@
 package fr.thoridan.planes.entity;
 
 import fr.thoridan.planes.ForPlanes;
+import fr.thoridan.planes.entity.custom.models.a220.A220;
 import fr.thoridan.planes.entity.custom.models.rafale.NormalRafale;
 import fr.thoridan.planes.entity.custom.models.tourist.YellowPlane;
 import net.minecraft.resources.ResourceLocation;
@@ -43,6 +44,11 @@ public class ModEntities {
 					.sized(4F, 3F) // Dimensions of the NormalRafale (width, height)
 					.build(new ResourceLocation(ForPlanes.MOD_ID, "normal_rafale").toString()));
 
+
+	public static final RegistryObject<EntityType<A220>> A220LAYER = ENTITY_TYPES.register("a220",
+			() -> EntityType.Builder.<A220>of(A220::new, MobCategory.MISC)
+					.sized(4F, 3F) // Dimensions of the NormalRafale (width, height)
+					.build(new ResourceLocation(ForPlanes.MOD_ID, "a220").toString()));
 	/**
 	 * Registers all custom entity types with the provided event bus.
 	 * This method should be called during the mod's initialization phase to ensure

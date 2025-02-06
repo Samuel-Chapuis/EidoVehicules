@@ -47,6 +47,7 @@ public abstract class PlaneStructure extends Entity {
     private float previousRoll = 0.0f;             // Previous roll angle of the plane
     private float roll = 0.0f;                     // Current roll angle of the plane
     private float interpolate_roll = 0.0f;         // Interpolated roll angle for smooth transitions
+    private float interpolate_pitch = 0.0f;        // Interpolated pitch angle for smooth transitions
     protected float health;                        // Health of the plane
     protected float maxSpeed;                      // Maximum speed the plane can achieve
     protected double cameraDistance;               // Distance of the camera from the plane
@@ -618,5 +619,13 @@ public abstract class PlaneStructure extends Entity {
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
+    }
+
+    public void setInterpolate_pitch(float interpolate_pitch) {
+        this.interpolate_pitch = interpolate_pitch;
+    }
+
+    public float getInterpolate_pitch() {
+        return this.interpolate_pitch;
     }
 }

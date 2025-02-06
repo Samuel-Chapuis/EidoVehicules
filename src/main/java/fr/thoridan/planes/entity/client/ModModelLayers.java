@@ -28,4 +28,8 @@ public class ModModelLayers {
 			new ResourceLocation(ForPlanes.MOD_ID, "rafale_green"), // Namespace and path for the model
 			"main"
 	);
+
+	public static final ModelLayerLocation A220LAYER =
+			new ModelLayerLocation(new ResourceLocation(ForPlanes.MOD_ID, "a220"), "main");
+
 }

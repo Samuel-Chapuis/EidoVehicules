@@ -46,6 +46,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DEBUG_TOOL_4PLANE.get());  // Debug Tool for Plane
                         pOutput.accept(ModItems.NORMAL_RAFALE_SPAWN_ITEM.get());  // Normal Rafale Spawn Item
                         pOutput.accept(ModItems.YELLOW_PLANE_SPAWN_ITEM.get());    // Blue Rafale Spawn Item
+                        pOutput.accept(ModItems.A220_SPAWN_ITEM.get());    // A220 Spawn Item
                     })
 
                     // Builds and returns the CreativeModeTab instance.

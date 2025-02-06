@@ -99,6 +99,7 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
         double minSpeedSquared = 0.03; // Threshold for movement
         if (speedSquared > minSpeedSquared) {
             float interpolatedPitch = interpolateAngle(plane.xRotO, plane.getXRot(), partialTicks);
+            plane.setInterpolate_pitch(interpolatedPitch); // Update interpolated pitch in the plane entity
             poseStack.mulPose(Axis.XP.rotationDegrees(interpolatedPitch));
         }
 
