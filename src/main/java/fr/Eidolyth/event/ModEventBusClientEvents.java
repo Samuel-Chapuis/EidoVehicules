@@ -16,7 +16,7 @@ import static fr.Eidolyth.event.vehicule.VehiculeLogicUtility.doCustomPlayerRend
  * This class listens to various Forge events to manage custom rendering and camera adjustments
  * when players interact with plane entities.
  */
-@Mod.EventBusSubscriber(modid = "eidomod", bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = "eidovehicules", bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ModEventBusClientEvents {
 
 

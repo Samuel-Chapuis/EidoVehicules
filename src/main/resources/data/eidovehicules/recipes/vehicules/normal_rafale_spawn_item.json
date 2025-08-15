@@ -1,16 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " B ",
-    "PPP",
-    "PBP"
+    "RB ",
+    "BPB",
+    " BF"
   ],
   "key": {
     "B": { "item": "minecraft:iron_block" },
+    "R": { "item": "minecraft:redstone_block" },
+    "F": { "item": "minecraft:firework_rocket" },
     "P": { "item": "minecraft:paper" }
   },
   "result": {
-    "item": "a220_spawn_item",
+    "item": "eidovehicules:normal_rafale_spawn_item",
     "count": 1
   }
 }

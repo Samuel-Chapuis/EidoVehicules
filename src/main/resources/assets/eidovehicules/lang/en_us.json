@@ -1,0 +1,21 @@
+{
+    "item.eidovehicules.debug_tool_4plane": "Debug Tool for Planes",
+    "item.eidovehicules.normal_rafale_spawn_item": "Normal Rafale Spawn Item",
+    "item.eidovehicules.tourist_plane_spawn_item": "Tourist Plane Spawn Item",
+    "item.eidovehicules.a220_spawn_item": "A220 Spawn Item",
+
+    "entity.eidovehicules.normal_rafale": "Normal Rafale",
+    "entity.eidovehicules.tourist_plane": "Tourist Plane",
+    "entity.eidovehicules.a220": "A220",
+
+    "key.eidovehicules.j_key": "- Test 1",
+    "key.eidovehicules.k_key": "- Test 2",
+    "key.eidovehicules.l_key": "- Test 3",
+    "key.eidovehicules.u_key": "+ Test 1",
+    "key.eidovehicules.i_key": "+ Test 2",
+    "key.eidovehicules.o_key": "+ Test 3",
+
+    "category.eidovehicules.custom_keys": "EidoVehicles Custom Keys",
+
+    "creativetab.vehicles_eidovehicules": "EidoVehicles"
+}

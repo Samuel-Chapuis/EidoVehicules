@@ -168,7 +168,7 @@ public abstract class PlaneRenderer<T extends PlaneStructure> extends EntityRend
      * @return A {@link ResourceLocation} pointing to the default plane texture.
      */
     public ResourceLocation getResourceLocation() {
-        return new ResourceLocation("eidomod", "textures/entity/yellow_plane.png");
+        return new ResourceLocation("eidovehicules", "textures/entity/yellow_plane.png");
     }
 
     abstract protected void render_addition(PoseStack poseStack, MultiBufferSource buffer, int packedLight, PlaneStructure planeStructure);

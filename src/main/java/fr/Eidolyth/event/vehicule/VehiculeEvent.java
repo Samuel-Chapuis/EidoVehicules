@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import static fr.Eidolyth.event.vehicule.VehiculeLogicUtility.doCustomPlayerRender;
 import static fr.Eidolyth.event.vehicule.VehiculeLogicUtility.interpolateAngle;
 
-@Mod.EventBusSubscriber(modid = "eidomod", bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = "eidovehicules", bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class VehiculeEvent {
 
 

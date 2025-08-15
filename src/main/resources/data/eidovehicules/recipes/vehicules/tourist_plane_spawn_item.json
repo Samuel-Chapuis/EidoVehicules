@@ -10,7 +10,7 @@
     "P": { "item": "minecraft:paper" }
   },
   "result": {
-    "item": "eidomod:tourist_plane_spawn_item",
+    "item": "eidovehicules:tourist_plane_spawn_item",
     "count": 1
   }
 }

@@ -29,10 +29,10 @@ public class ModCreativeModTabs {
      * This tab will contain all vehicle-related items, making them easily accessible
      * within the creative inventory.
      */
-    public static final RegistryObject<CreativeModeTab> VEHICLES_TAB = CREATIVE_MODE_TABS.register("vehicles_eidomod",
+    public static final RegistryObject<CreativeModeTab> VEHICLES_TAB = CREATIVE_MODE_TABS.register("vehicles_eidovehicules",
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(ModItems.NORMAL_RAFALE_SPAWN_ITEM.get()))
-                    .title(Component.translatable("creativetab.vehicles_eidomod"))
+                    .title(Component.translatable("creativetab.vehicles_eidovehicules"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModItems.DEBUG_TOOL_4PLANE.get());             // Debug Tool for Planes
                         pOutput.accept(ModItems.NORMAL_RAFALE_SPAWN_ITEM.get());      // Normal Rafale Spawn Item

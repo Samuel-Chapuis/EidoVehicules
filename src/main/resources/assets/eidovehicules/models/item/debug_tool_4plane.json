@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "eidomod:item/debug_tool"
+		"layer0": "eidovehicules:item/debug_tool"
 	}
 }

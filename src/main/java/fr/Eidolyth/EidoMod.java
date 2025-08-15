@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(EidoMod.MODID)
 public class EidoMod {
-    public static final String MODID = "eidomod";
+    public static final String MODID = "eidovehicules";
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public EidoMod() {
