@@ -2,7 +2,7 @@ package fr.Eidolyth.entity.vehicule.plane.render.models.rafale;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.Eidolyth.EidoMod;
+import fr.Eidolyth.EidoVehicules;
 import fr.Eidolyth.entity.ModModelLayers;
 import fr.Eidolyth.entity.vehicule.plane.PlaneStructure;
 import fr.Eidolyth.entity.vehicule.plane.declaration.models.rafale.NormalRafale;
@@ -15,9 +15,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class RafaleNormalRenderer extends PlaneRenderer<NormalRafale> {
-    private static final ResourceLocation NORMAL_RAFALE_TEXTURE = new ResourceLocation(EidoMod.MODID, "textures/entity/rafale_texture.png");
+    private static final ResourceLocation NORMAL_RAFALE_TEXTURE = new ResourceLocation(EidoVehicules.MODID, "textures/entity/rafale_texture.png");
     // This texture will be tinted with a custom color
-    private static final ResourceLocation NORMAL_RAFALE_COLORABLE_TEXTURE = new ResourceLocation(EidoMod.MODID, "textures/entity/rafale_colorable_texture.png");
+    private static final ResourceLocation NORMAL_RAFALE_COLORABLE_TEXTURE = new ResourceLocation(EidoVehicules.MODID, "textures/entity/rafale_colorable_texture.png");
     private final RafaleModel<NormalRafale> model;
 
     public RafaleNormalRenderer(EntityRendererProvider.Context context) {

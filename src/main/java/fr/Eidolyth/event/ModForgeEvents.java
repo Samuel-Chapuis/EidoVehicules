@@ -1,6 +1,6 @@
 package fr.Eidolyth.event;
 
-import fr.Eidolyth.EidoMod;
+import fr.Eidolyth.EidoVehicules;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.Mod;
  * - Appends " (UNWEARABLE)" to Elytra item display names in player inventories
  *   and renamed Elytra item entities when they spawn in the world.
  */
-@Mod.EventBusSubscriber(modid = EidoMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = EidoVehicules.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModForgeEvents {
 
     @SubscribeEvent

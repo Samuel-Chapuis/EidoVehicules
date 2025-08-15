@@ -2,7 +2,7 @@ package fr.Eidolyth.entity.vehicule.plane.render.models.a220;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.Eidolyth.EidoMod;
+import fr.Eidolyth.EidoVehicules;
 import fr.Eidolyth.entity.ModModelLayers;
 import fr.Eidolyth.entity.vehicule.plane.PlaneStructure;
 import fr.Eidolyth.entity.vehicule.plane.PlaneRenderer;
@@ -15,9 +15,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class A220Renderer extends PlaneRenderer<A220> {
-    private static final ResourceLocation A220_TEXTURE = new ResourceLocation(EidoMod.MODID, "textures/entity/a220_texture.png");
+    private static final ResourceLocation A220_TEXTURE = new ResourceLocation(EidoVehicules.MODID, "textures/entity/a220_texture.png");
     // This texture will be tinted with a custom color
-    private static final ResourceLocation A220_COLORABLE_TEXTURE = new ResourceLocation(EidoMod.MODID, "textures/entity/a220_colorable_texture.png");
+    private static final ResourceLocation A220_COLORABLE_TEXTURE = new ResourceLocation(EidoVehicules.MODID, "textures/entity/a220_colorable_texture.png");
     private final A220Model<A220> model;
 
     public A220Renderer(EntityRendererProvider.Context context) {

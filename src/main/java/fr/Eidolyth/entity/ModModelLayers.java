@@ -1,6 +1,6 @@
 package fr.Eidolyth.entity;
 
-import fr.Eidolyth.EidoMod;
+import fr.Eidolyth.EidoVehicules;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 
@@ -13,27 +13,27 @@ public class ModModelLayers {
 
 	// Model layer for the Yellow Plane
 	public static final ModelLayerLocation YELLOW_PLANE = new ModelLayerLocation(
-			new ResourceLocation(EidoMod.MODID, "yellow_plane"), // Namespace and path for the model
+			new ResourceLocation(EidoVehicules.MODID, "yellow_plane"), // Namespace and path for the model
 			"main"
 	);
 
 	// Model layer for the Normal Rafale
 	public static final ModelLayerLocation NORMAL_RAFALE = new ModelLayerLocation(
-			new ResourceLocation(EidoMod.MODID, "normal_rafale"), // Namespace and path for the model
+			new ResourceLocation(EidoVehicules.MODID, "normal_rafale"), // Namespace and path for the model
 			"main"
 	);
 
 	// Model layer for the Green Rafale
 	public static final ModelLayerLocation RAFALE_GREEN = new ModelLayerLocation(
-			new ResourceLocation(EidoMod.MODID, "rafale_green"), // Namespace and path for the model
+			new ResourceLocation(EidoVehicules.MODID, "rafale_green"), // Namespace and path for the model
 			"main"
 	);
 
 	public static final ModelLayerLocation A220LAYER =
-			new ModelLayerLocation(new ResourceLocation(EidoMod.MODID, "a220"), "main");
+			new ModelLayerLocation(new ResourceLocation(EidoVehicules.MODID, "a220"), "main");
 
 	public static final ModelLayerLocation TEST_ENTITY = new ModelLayerLocation(
-			new ResourceLocation(EidoMod.MODID, "test_entity"), // Namespace and path for the model
+			new ResourceLocation(EidoVehicules.MODID, "test_entity"), // Namespace and path for the model
 			"main"
 	);
 

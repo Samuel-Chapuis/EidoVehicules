@@ -2,8 +2,8 @@ package fr.Eidolyth.entity.vehicule.plane.render.models.tourist;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.Eidolyth.EidoVehicules;
 import fr.Eidolyth.entity.vehicule.plane.PlaneStructure;
-import fr.Eidolyth.EidoMod;
 import fr.Eidolyth.entity.vehicule.plane.declaration.models.tourist.ToursiticPlane;
 import fr.Eidolyth.entity.vehicule.plane.PlaneRenderer;
 import fr.Eidolyth.entity.ModModelLayers;
@@ -15,8 +15,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class ToursiticPlaneRenderer extends PlaneRenderer<ToursiticPlane> {
-    private static final ResourceLocation YELLOW_PLANE_TEXTURE = new ResourceLocation(EidoMod.MODID, "textures/entity/touristic_plane_texture.png");
-    private static final ResourceLocation YELLOW_PLANE_COLORABLE_TEXTURE = new ResourceLocation(EidoMod.MODID, "textures/entity/touristic_plane_colorable_texture.png");
+    private static final ResourceLocation YELLOW_PLANE_TEXTURE = new ResourceLocation(EidoVehicules.MODID, "textures/entity/touristic_plane_texture.png");
+    private static final ResourceLocation YELLOW_PLANE_COLORABLE_TEXTURE = new ResourceLocation(EidoVehicules.MODID, "textures/entity/touristic_plane_colorable_texture.png");
     private final ToursiticPlaneModel<ToursiticPlane> model;
 
     public ToursiticPlaneRenderer(EntityRendererProvider.Context context) {

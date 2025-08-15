@@ -1,6 +1,6 @@
 package fr.Eidolyth.item;
 
-import fr.Eidolyth.EidoMod;
+import fr.Eidolyth.EidoVehicules;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -22,7 +22,7 @@ public class ModCreativeModTabs {
      * Associates the tabs with the mod's unique identifier.
      */
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, EidoMod.MODID);
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, EidoVehicules.MODID);
 
     /**
      * RegistryObject representing the custom creative mode tab for Vehicles.

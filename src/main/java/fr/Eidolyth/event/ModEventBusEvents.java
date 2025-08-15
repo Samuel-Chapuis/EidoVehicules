@@ -1,6 +1,6 @@
 package fr.Eidolyth.event;
 
-import fr.Eidolyth.EidoMod;
+import fr.Eidolyth.EidoVehicules;
 import fr.Eidolyth.entity.vehicule.plane.render.models.a220.A220Model;
 import fr.Eidolyth.entity.ModModelLayers;
 import fr.Eidolyth.entity.vehicule.plane.render.models.tourist.ToursiticPlaneModel;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
  * This class subscribes to the mod event bus and registers model layer definitions
  * for custom entities used within the mod.
  */
-@Mod.EventBusSubscriber(modid = EidoMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = EidoVehicules.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventBusEvents {
     /**
      * Registers layer definitions for custom entity models.

@@ -1,7 +1,7 @@
 package fr.Eidolyth.entity;
 
+import fr.Eidolyth.EidoVehicules;
 import fr.Eidolyth.entity.vehicule.plane.declaration.models.rafale.NormalRafale;
-import fr.Eidolyth.EidoMod;
 import fr.Eidolyth.entity.vehicule.plane.declaration.models.a220.A220;
 import fr.Eidolyth.entity.vehicule.plane.declaration.models.tourist.ToursiticPlane;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +24,7 @@ public class ModEntities {
 	 * Associates the entity types with the mod's unique identifier.
 	 */
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
-			DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, EidoMod.MODID);
+			DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, EidoVehicules.MODID);
 
 	/**
 	 * RegistryObject representing the YellowPlane entity type.
@@ -33,7 +33,7 @@ public class ModEntities {
 	public static final RegistryObject<EntityType<ToursiticPlane>> YELLOW_PLANE = ENTITY_TYPES.register("tourist_plane",
 			() -> EntityType.Builder.<ToursiticPlane>of(ToursiticPlane::new, MobCategory.MISC)
 					.sized(1.5F, 1.5F) // Dimensions of the YellowPlane (width, height)
-					.build(new ResourceLocation(EidoMod.MODID, "tourist_plane").toString()));
+					.build(new ResourceLocation(EidoVehicules.MODID, "tourist_plane").toString()));
 
 	/**
 	 * RegistryObject representing the NormalRafale entity type.
@@ -42,13 +42,13 @@ public class ModEntities {
 	public static final RegistryObject<EntityType<NormalRafale>> NORMAL_RAFALE = ENTITY_TYPES.register("normal_rafale",
 			() -> EntityType.Builder.<NormalRafale>of(NormalRafale::new, MobCategory.MISC)
 					.sized(4F, 3F) // Dimensions of the NormalRafale (width, height)
-					.build(new ResourceLocation(EidoMod.MODID, "normal_rafale").toString()));
+					.build(new ResourceLocation(EidoVehicules.MODID, "normal_rafale").toString()));
 
 
 	public static final RegistryObject<EntityType<A220>> A220LAYER = ENTITY_TYPES.register("a220",
 			() -> EntityType.Builder.<A220>of(A220::new, MobCategory.MISC)
 					.sized(4F, 3F) // Dimensions of the A220 (width, height)
-					.build(new ResourceLocation(EidoMod.MODID, "a220").toString()));
+					.build(new ResourceLocation(EidoVehicules.MODID, "a220").toString()));
 
 	/**
 	 * Registers all custom entity types with the provided event bus.

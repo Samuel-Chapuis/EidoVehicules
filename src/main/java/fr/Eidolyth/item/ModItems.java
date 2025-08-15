@@ -1,6 +1,6 @@
 package fr.Eidolyth.item;
 
-import fr.Eidolyth.EidoMod;
+import fr.Eidolyth.EidoVehicules;
 import fr.Eidolyth.entity.ModEntities;
 import fr.Eidolyth.item.custom.DebugTool4Plane;
 import fr.Eidolyth.item.custom.PlaneSpawnItem;
@@ -21,7 +21,7 @@ public class ModItems {
 	 * Associates the items with the mod's unique identifier.
 	 */
 	public static final DeferredRegister<Item> ITEMS =
-		DeferredRegister.create(ForgeRegistries.ITEMS, EidoMod.MODID); // This is a long list of items
+		DeferredRegister.create(ForgeRegistries.ITEMS, EidoVehicules.MODID); // This is a long list of items
 
 	/**
 	 *
