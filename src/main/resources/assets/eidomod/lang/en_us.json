@@ -1,0 +1,21 @@
+{
+    "item.eidomod.debug_tool_4plane": "Debug Tool for Planes",
+    "item.eidomod.normal_rafale_spawn_item": "Normal Rafale Spawn Item",
+    "item.eidomod.tourist_plane_spawn_item": "Tourist Plane Spawn Item",
+    "item.eidomod.a220_spawn_item": "A220 Spawn Item",
+
+    "entity.eidomod.normal_rafale": "Normal Rafale",
+    "entity.eidomod.tourist_plane": "Tourist Plane",
+    "entity.eidomod.a220": "A220",
+
+    "key.eidomod.j_key": "- Test 1",
+    "key.eidomod.k_key": "- Test 2",
+    "key.eidomod.l_key": "- Test 3",
+    "key.eidomod.u_key": "+ Test 1",
+    "key.eidomod.i_key": "+ Test 2",
+    "key.eidomod.o_key": "+ Test 3",
+
+    "category.eidomod.custom_keys": "EidoVehicles Custom Keys",
+
+    "creativetab.vehicles_eidomod": "EidoVehicles"
+}
